@@ -53,7 +53,7 @@ Before beginning, we need to understand a few aspects of the Xanadu server. When
 
  ![](images/short_read_assembly-1.png)   
 
-#### 2.1  Quality Control using sickle  
+### 2.1  Quality Control using sickle  
 **working directory**  
 ```
 Genome_Assembly/
@@ -65,15 +65,19 @@ Sickle takes raw reads and outputs data with the 3’ and 5’ ends trimmed to a
 ```bash
 module load sickle/1.33
 
+module load sickle/1.33
+
 sickle pe \
-     -f /UCHC/PublicShare/Tutorials/Assembly_Tutorial/Sample_R1.fastq \
-     -r /UCHC/PublicShare/Tutorials/Assembly_Tutorial/Sample_R2.fastq \
-     -t sanger \
-     -o Sample_1.fastq \
-     -p Sample_2.fastq \
-     -s Sample_s.fastq \
-     -q 30 \
-     -l 45
+	-f ../01_raw_reads/Sample_R1.fastq \
+	-r ../01_raw_reads/Sample_R2.fastq \
+	-t sanger \
+	-o trim_Sample_R1.fastq \
+	-p trim_Sample_R2.fastq \
+	-s sinlges.fastq \
+	-q 30 \
+	-l 45 
+
+module unload sickle/1.33
 ```  
 The useage information on the sickle program:  
 ```
@@ -100,18 +104,25 @@ Global options:
 -l, --length-threshold, Threshold to keep a read based on length after trimming. Default 20
 -q, --qual-threshold, Threshold for trimming based on average quality in a window. Default 20
 ```  
-The full slurm script is called [SR_quality_control.sh](short_read_assembly/02_quality_control/sr_quality_control.sh) which can be found in the *02_quality_control/* folder.
+The full slurm script is called [sr_quality_control.sh](short_read_assembly/02_quality_control/sr_quality_control.sh) which can be found in the *02_quality_control/* folder.
 Once you run the batch script using *sbatch* command, you will end up with the following files:   
 ```
 02_quality_control/
-├── Sample_1.fastq
-├── Sample_2.fastq
-├── Sample_s.fastq
+├── trim_Sample_R1.fastq
+├── trim_Sample_R2.fastq
+└── sinlges.fastq
 ```  
 
-#### 2.2  Assembly  
+### 2.2  Assembly  
 #### 2.2a  Assembly with SOAPdenovo   
-This is a de novo assembler, this assembler, like MaSuRCA which we will be encountering later, requires a config file to run through the data. The configuration file can be found [here]().  
+[SOAP-denovo](https://www.animalgenome.org/bioinfo/resources/manuals/SOAP.html) is a short read de novo assembler. When you do deep sequencing, and have multiple libraries, they will produce multiple sequencing files. A configuration file will let the assembler know, where to find these files. In here we will provide you with a configuration file.    
+
+The configuration file will have global information, and then multiple library sections. For global information, right now only *max_rd_len* is included. A read which is longer than this length will be cut to this length.  
+
+Then the library information is 
+
+
+this assembler, like MaSuRCA which we will be encountering later, requires a config file to run through the data. The configuration file can be found [here]().  
 
 ```bash
 #maximal read length
