@@ -100,7 +100,7 @@ Global options:
 -l, --length-threshold, Threshold to keep a read based on length after trimming. Default 20
 -q, --qual-threshold, Threshold for trimming based on average quality in a window. Default 20
 ```  
-The full slurm script is called [SR_quality_control.sh](Genome_Assembly/short_read_assembly/02_quality_control/SR_quality_control.sh) which can be found in the *02_quality_control/* folder.
+The full slurm script is called [SR_quality_control.sh](short_read_assembly/02_quality_control/sr_quality_control.sh) which can be found in the *02_quality_control/* folder.
 Once you run the batch script using *sbatch* command, you will end up with the following files:   
 ```
 02_quality_control/
