@@ -178,21 +178,51 @@ q=../../02_quality_control/sinlges.fastq
 
 The configuration file we created for this job is named as [config_file](short_read_assembly/03_assembly/config_file) and can be found in the **SOAP/** folder.   
 
+Once the configuration file is ready, you can run the assembly job using the following command:   
 
-
-
-Once the configuration file is ready, and keeping it in the working directory, you can run the SOAPdenovo using following script:  
 ```bash
 module load SOAP-denovo/2.04
 
-cd /UCHC/PublicShare/Tutorials/Assembly_Tutorial/Assembly/SOAP
+SOAPdenovo-63mer all \
+	-s config_file \
+	-K 31 \
+	-p 8 \
+	-R \
+	-o graph_Sample_31 1>ass31.log 2>ass31.err 
 
+SOAPdenovo-63mer all \
+	-s config_file \
+	-K 35 \
+	-p 8 \
+	-R \
+	-o graph_Sample_35 1>ass35.log 2>ass35.err 
 
-SOAPdenovo-63mer all -s /UCHC/PublicShare/Tutorials/Assembly_Tutorial/Assembly/Sample.config -K 31 -R -o graph_Sample_31 1>ass31.log 2>ass31.err
-SOAPdenovo-63mer all -s /UCHC/PublicShare/Tutorials/Assembly_Tutorial/Assembly/Sample.config -K 35 -R -o graph_Sample_35 1>ass35.log 2>ass35.err
-SOAPdenovo-63mer all -s /UCHC/PublicShare/Tutorials/Assembly_Tutorial/Assembly/Sample.config -K 41 -R -o graph_Sample_41 1>ass41.log 2>ass41.err
-
-module unload SOAP-denovo/2.04
+SOAPdenovo-63mer all \
+	-s config_file \
+	-K 41 \
+	-p 8\
+	-R \
+	-o graph_Sample_41 1>ass41.log 2>ass41.err 
 ```
+
+SOAPdenovo assembly options:   
+```
+ Usage: SOAPdenovo <command> [option]
+
+all             do pregraph-contig-map-scaff in turn
+
+  -s <string>    configFile: the config file
+  -K <int>       kmer(min 13, max 63): kmer size
+  -p <int>       n_cpu: number of cpu for use
+  -R (optional)  resolve repeats by reads
+  -o <string>    outputGraph: prefix of output graph file name     
+ ```
+
+> NOTE
+> A k-mer is a set of nucleotides, k is the number of nucleotides in that set. It is a crucial parameter in most de Brujin Graph assemblers and assemblers work with the highest accuracy if the k-mer size estimation is accurate.
+
+The above script is called [SOAPdenovo.sh](/short_read_assembly/03_assembly/SOAPdenovo.sh) and can be found in the SOAP/ directory. The script can be run using the `sbatch` command.  
+
+
 
 
