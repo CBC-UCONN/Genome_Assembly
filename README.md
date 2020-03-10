@@ -176,8 +176,8 @@ q2=../../02_quality_control/trim_Sample_R2.fastq
 q=../../02_quality_control/sinlges.fastq
 ```
 
+The configuration file we created for this job is named as [config_file](short_read_assembly/03_assembly/config_file) and can be found in the **SOAP/** folder.   
 
-this assembler, like MaSuRCA which we will be encountering later, requires a config file to run through the data. The configuration file can be found [here]().  
 
 
 
