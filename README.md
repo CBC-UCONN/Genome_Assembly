@@ -212,6 +212,7 @@ SOAPdenovo assembly options:
 all             do pregraph-contig-map-scaff in turn
 
   -s <string>    configFile: the config file
+  
   -K <int>       kmer(min 13, max 63): kmer size
   -p <int>       n_cpu: number of cpu for use
   -R (optional)  resolve repeats by reads
@@ -226,9 +227,12 @@ The above script is called [SOAPdenovo.sh](/short_read_assembly/03_assembly/SOAP
 It will produce bunch of files, and we are interested in the each k-mer scafold sequences produced, at the end of each run. These are the files which we will be used to asses the quality of our assembly.   
 
 ```
-SOAP/
-├── graph_Sample_31.scafSeq
-├── graph_Sample_35.scafSeq
-└── graph_Sample_41.scafSeq
+short_read_assembly/
+└── 03_assembly/
+    └── SOAP/
+        ├── graph_Sample_31.scafSeq
+        ├── graph_Sample_35.scafSeq
+        └── graph_Sample_41.scafSeq
 ```   
+
 
