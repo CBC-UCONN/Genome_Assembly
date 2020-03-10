@@ -223,6 +223,12 @@ all             do pregraph-contig-map-scaff in turn
 
 The above script is called [SOAPdenovo.sh](/short_read_assembly/03_assembly/SOAPdenovo.sh) and can be found in the SOAP/ directory. The script can be run using the `sbatch` command.  
 
+It will produce bunch of files, and we are interested in the each k-mer scafold sequences produced, at the end of each run. These are the files which we will be used to asses the quality of our assembly.   
 
-
+```
+SOAP/
+├── graph_Sample_31.scafSeq
+├── graph_Sample_35.scafSeq
+└── graph_Sample_41.scafSeq
+```   
 
