@@ -119,20 +119,48 @@ Once you run the batch script using *sbatch* command, you will end up with the f
 
 The configuration file will have global information, and then multiple library sections. For global information, right now only *max_rd_len* is included. A read which is longer than this length will be cut to this length.  
 
-Then the library information is 
+Followed by the global information, the library information of sequencing data should be organized under [LIB] tag.   
 
+Each libaray section will start with [LIB] tag: following are the items which it will include.   
 
-this assembler, like MaSuRCA which we will be encountering later, requires a config file to run through the data. The configuration file can be found [here]().  
+*   **avg_ins** : average insert size of this library or the peak value position in the insert size distribution.   
+*   **reverse_seq** : This option will take value 0 or 1. It tells the assembler if the read sequences need to be complementarily reversed. Illumima GA produces two types of paired-end libraries:   
+    *   forward-reverse, generated from fragmented DNA ends with typical insert size less than 500 bp;
+	*   forward-forward, generated from circularizing libraries with typical insert size greater than 2 Kb;   
+	The parameter "reverse_seq" should be set to indicate this:   
+	0, forward-reverse; 1, forward-forward.   
+
+*   **asm_flags=3** : This indicator decides in which part(s) the reads are used. It takes value:    
+    *    1 : only contig assembly 
+	*    2 : only scaffold assembly   
+	*    3 : both contig and scaffold assembly   
+	*    4 : only gap closure    
+
+*    **rd_len_cutoff** : The assembler will cut the reads from the current library to this length.   
+*    **rank** : it takes integer values and decides in which order the reads are used for scaffold assembly. Libraries with the same "rank" are used at the same time during scaffold assembly.    
+*    **pair_num_cutoff** : This parameter is the cutoff value of pair number for a reliable connection between two contigs or pre-scaffolds.   
+*    **map_len** : This takes effect in the "map" step and is the minimun alignment length between a read and a contig required for a reliable read location.   
+
+After the above tags the reads can be added in the following fashion:  
+*   It will accept two formats: FASTA or FASTQ   
+	*   single end files are indicated in **f=/path-to-file/** or **q=/path-to-file/** : FASTA / FASTQ   
+	*   paired reads in two FASTA sequence files are indicated by: **f1=/path-to-file/**  and **f2=/path-to-file/**   
+	*   paired reads in two fastq sequences files are indicated by: **q1=/path-to-file/** and **q2=/path-to-file/**   
+	*   paired reads in a single fasta sequence file is indicated by **"p="**   
+
+following is the configuration file we are using for our run:   
 
 ```bash
+#Global
 #maximal read length
 max_rd_len=250
+#Library
 [LIB]
 #average insert size
 avg_ins=550
-#if sequence needs to be reversed
+#if sequence needs to be reversed in our case its; forward-reverse
 reverse_seq=0
-#in which part(s) the reads are used
+#both contig and scaffold assembly parts of the reads are used
 asm_flags=3
 #use only first 250 bps of each read
 rd_len_cutoff=250
@@ -142,11 +170,16 @@ rank=1
 pair_num_cutoff=3
 #minimum aligned length to contigs for a reliable read location (at least 32 for short insert size)
 map_len=32
-# path to genes
-q1=/UCHC/PublicShare/Tutorials/Assembly_Tutorial/Quality_Control/Sample_1.fastq
-q2=/UCHC/PublicShare/Tutorials/Assembly_Tutorial/Quality_Control/Sample_2.fastq
-q=/UCHC/PublicShare/Tutorials/Assembly_Tutorial/Quality_Control/Sample_s.fastq
+#PATH to FASTQ reads 
+q1=../../02_quality_control/trim_Sample_R1.fastq
+q2=../../02_quality_control/trim_Sample_R2.fastq
+q=../../02_quality_control/sinlges.fastq
 ```
+
+
+this assembler, like MaSuRCA which we will be encountering later, requires a config file to run through the data. The configuration file can be found [here]().  
+
+
 
 Once the configuration file is ready, and keeping it in the working directory, you can run the SOAPdenovo using following script:  
 ```bash
