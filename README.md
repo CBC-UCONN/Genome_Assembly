@@ -236,3 +236,6 @@ short_read_assembly/
 ```   
 
 
+#### 2.2b  Assembly with SPAdes   
+
+SPAdes - St. Petersburg genome assembler is a toolkit containing assembly pipelines.  
