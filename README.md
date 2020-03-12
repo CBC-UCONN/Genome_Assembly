@@ -290,7 +290,7 @@ Once the assembly script is ran, it will produce bunch of files together with th
 
 This assembler is a combination of a De Bruijn graph and an Overlap-Layout-Consensus model. The Overlap-Layout-Consensus model consists of three steps, Overlap, which is the process of overlapping matching sequences in the data, this forms a long branched line. Layout, which is the process of picking the least branched line in from the overlap sequence created earlier, the final product here is called a contig. Consensus is the process of lining up all the contigs and picking out the most similar nucleotide line up in this set of sequences (OIRC).   
 
-When running MaSuRCA, there are few things you should keep in mind. This assembler, **DOES NOT** require a preprocessing step, such as trimming, cleaning or error correction step; you will directly feed the raw reads.   
+When running [MaSuRCA](http://www.genome.umd.edu/masurca.html), there are few things you should keep in mind. This assembler, **DOES NOT** require a preprocessing step, such as trimming, cleaning or error correction step; you will directly feed the raw reads.   
 
 The first step is to create a configuration file. A sample file can be copied from the MaSuRCA instalation directory. The following command will copy it to your working folder.  
 ```bash
@@ -311,4 +311,62 @@ DATA
 PE= pe 180 20  ../../01_raw_reads/Sample_R1.fastq ../../01_raw_reads/Sample_R2.fastq 
 END
 ```   
+
+In the PARAMETERS section:  
+```bash
+PARAMETERS
+#PLEASE READ all comments to essential parameters below, and set the parameters according to your project
+#set this to 1 if your Illumina jumping library reads are shorter than 100bp
+EXTEND_JUMP_READS=0
+#this is k-mer size for deBruijn graph values between 25 and 127 are supported, auto will compute the optimal size based on the read data and GC content
+GRAPH_KMER_SIZE = auto
+#set this to 1 for all Illumina-only assemblies
+#set this to 0 if you have more than 15x coverage by long reads (Pacbio or Nanopore) or any other long reads/mate pairs (Illumina MP, Sanger, 454, etc)
+USE_LINKING_MATES = 0
+#specifies whether to run the assembly on the grid
+USE_GRID=0
+#specifies grid engine to use SGE or SLURM
+GRID_ENGINE=SGE
+#specifies queue (for SGE) or partition (for SLURM) to use when running on the grid MANDATORY
+GRID_QUEUE=all.q
+#batch size in the amount of long read sequence for each batch on the grid
+GRID_BATCH_SIZE=500000000
+#use at most this much coverage by the longest Pacbio or Nanopore reads, discard the rest of the reads
+#can increase this to 30 or 35 if your reads are short (N50<7000bp)
+LHE_COVERAGE=25
+#set to 0 (default) to do two passes of mega-reads for slower, but higher quality assembly, otherwise set to 1
+MEGA_READS_ONE_PASS=0
+#this parameter is useful if you have too many Illumina jumping library mates. Typically set it to 60 for bacteria and 300 for the other organisms 
+LIMIT_JUMP_COVERAGE = 300
+#these are the additional parameters to Celera Assembler.  do not worry about performance, number or processors or batch sizes -- these are computed automatically. 
+#CABOG ASSEMBLY ONLY: set cgwErrorRate=0.25 for bacteria and 0.1<=cgwErrorRate<=0.15 for other organisms.
+CA_PARAMETERS =  cgwErrorRate=0.15
+#CABOG ASSEMBLY ONLY: whether to attempt to close gaps in scaffolds with Illumina  or long read data
+CLOSE_GAPS=1
+#auto-detected number of cpus to use, set this to the number of CPUs/threads per node you will be using
+NUM_THREADS = 16
+#this is mandatory jellyfish hash size -- a safe value is estimated_genome_size*20
+JF_SIZE = 200000000
+#ILLUMINA ONLY. Set this to 1 to use SOAPdenovo contigging/scaffolding module.  Assembly will be worse but will run faster. Useful for very large (>=8Gbp) genomes from Illumina-only data
+SOAP_ASSEMBLY=0
+#Hybrid Illumina paired end + Nanopore/PacBio assembly ONLY.  Set this to 1 to use Flye assembler for final assembly of corrected mega-reads.  A lot faster than CABOG, at the expense of some contiguity. Works well even when MEGA_READS_ONE_PASS is set to 1.  DO NOT use if you have less than 15x coverage by long reads.
+FLYE_ASSEMBLY=0
+END
+```
+
+Once the configuration file is set up you can run MaSuRCA using:
+```bash
+module load MaSuRCA/3.3.4 
+
+masurca config_file
+
+bash assemble.sh
+
+module unload MaSuRCA/3.3.4
+```
+
+The full script for running MaSuRCA is called [MASuRCA.sh](short_read_assembly/03_assembly/MaSuRCA/MASuRCA.sh) and can be found in the 03_assembly/MaSuRCA/ folder.  
+
+
+
 
