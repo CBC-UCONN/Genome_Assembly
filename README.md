@@ -115,6 +115,13 @@ Once you run the batch script using *sbatch* command, you will end up with the f
 
 ### 2.2  Assembly  
 #### 2.2a  Assembly with SOAPdenovo   
+Working directory:  
+```
+short_read_assembly/
+├── 03_assembly/
+│   ├── SOAP/
+```
+
 [SOAP-denovo](https://www.animalgenome.org/bioinfo/resources/manuals/SOAP.html) is a short read de novo assembler. When you do deep sequencing, and have multiple libraries, they will produce multiple sequencing files. A configuration file will let the assembler know, where to find these files. In here we will provide you with a configuration file.    
 
 The configuration file will have global information, and then multiple library sections. For global information, right now only *max_rd_len* is included. A read which is longer than this length will be cut to this length.  
@@ -237,6 +244,12 @@ short_read_assembly/
 
 
 #### 2.2b  Assembly with SPAdes   
+Workding directory:
+```
+short_read_assembly/
+└── 03_assembly/
+    └── SPAdes/  
+```
 
 [SPAdes](http://cab.spbu.ru/software/spades/) - St. Petersburg genome assembler is a toolkit containing assembly pipelines. When SPAdes was initally designed it was for for small genonmes, like bacterial, fungal and other small genomes. SPAdes is not intened for larger genomes.SPAdes has different pipe-lines present and if you want to check them out please visit the [SPAdes web site](http://cab.spbu.ru/software/spades/) or its [git-hub site](https://github.com/ablab/spades/blob/spades_3.14.0/README.md).  
 
@@ -280,15 +293,22 @@ The full script for our SPAdes run is called [SPAdes.sh](/short_read_assembly/03
 
 Once the assembly script is ran, it will produce bunch of files together with the final scafold file which is called, scaffolds.fasta. We will be using this final scaffold file to analyze the SPAdes assembly run. 
 ```
-03_assembly/
-└── SPAdes/
-    └── scaffolds.fasta
+short_read_assembly/
+└── 03_assembly/
+│   └── SPAdes/
+│       ├── scaffolds.fasta
+ 
 ```
 
 
 #### 2.2c Assembly with MaSuRCA   
 
-This assembler is a combination of a De Bruijn graph and an Overlap-Layout-Consensus model. The Overlap-Layout-Consensus model consists of three steps, Overlap, which is the process of overlapping matching sequences in the data, this forms a long branched line. Layout, which is the process of picking the least branched line in from the overlap sequence created earlier, the final product here is called a contig. Consensus is the process of lining up all the contigs and picking out the most similar nucleotide line up in this set of sequences (OIRC).   
+Working directory will be:  
+```
+03_assembly/
+├── MaSuRCA/
+```
+[MaSuRCA](https://github.com/alekseyzimin/masurca) (**Ma**ryland **Su**per **R**ead **C**abog **A**ssembler) is a combination of a De Bruijn graph and an Overlap-Layout-Consensus model. The Overlap-Layout-Consensus model consists of three steps, Overlap, which is the process of overlapping matching sequences in the data, this forms a long branched line. Layout, which is the process of picking the least branched line in from the overlap sequence created earlier, the final product here is called a contig. Consensus is the process of lining up all the contigs and picking out the most similar nucleotide line up in this set of sequences (OIRC).   
 
 When running [MaSuRCA](http://www.genome.umd.edu/masurca.html), there are few things you should keep in mind. This assembler, **DOES NOT** require a preprocessing step, such as trimming, cleaning or error correction step; you will directly feed the raw reads.   
 
@@ -311,6 +331,13 @@ DATA
 PE= pe 180 20  ../../01_raw_reads/Sample_R1.fastq ../../01_raw_reads/Sample_R2.fastq 
 END
 ```   
+DATA section is where you should specify the input data for the assembler. Each library line should with the appropiate read type, `eg: PE, JUMP, OTHER`.  In the above DATA section we have specified Illumina paired end reads.  
+`PE = two_letter_prefix mean stdev /path-to-forward-read /path-to-reverse-read`   
+
+ `mean` = is the library insert average length  
+ `stdev` = is the stanard deviation. It this is not known set it as 15% of the `mean`. If the reverse read is not avaliable do not specify this.      
+If you are interested in other types of reads and how to include them in the DATA section, more information can be found in the [MaSuRCA git page](https://github.com/alekseyzimin/masurca).  
+
 
 In the PARAMETERS section:  
 ```bash
@@ -365,8 +392,14 @@ bash assemble.sh
 module unload MaSuRCA/3.3.4
 ```
 
-The full script for running MaSuRCA is called [MASuRCA.sh](short_read_assembly/03_assembly/MaSuRCA/MASuRCA.sh) and can be found in the 03_assembly/MaSuRCA/ folder.  
+The full script for running MaSuRCA is called [MASuRCA.sh](short_read_assembly/03_assembly/MaSuRCA/MASuRCA.sh) and can be found in the 03_assembly/MaSuRCA/ folder.   
 
-
-
+Final assembly scaffolds can be found under the **CA/** folder:  
+```
+short_read_assembly/
+└── 03_assembly/
+    ├── MaSuRCA/
+    │   ├── CA/
+    │   │   ├── final.genome.scf.fasta
+```
 
