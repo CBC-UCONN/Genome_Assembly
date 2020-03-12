@@ -231,15 +231,14 @@ all             do pregraph-contig-map-scaff in turn
 
 The above script is called [SOAPdenovo.sh](/short_read_assembly/03_assembly/SOAPdenovo.sh) and can be found in the SOAP/ directory. The script can be run using the `sbatch` command.  
 
-It will produce bunch of files, and we are interested in the each k-mer scafold sequences produced, at the end of each run. These are the files which we will be used to asses the quality of our assembly.   
+It will produce bunch of files, and we are interested in the each k-mer scafold sequences produced, at the end of each run. These are the files which we will be used to asses the quality of our assembly.  
+
 
 ```
-short_read_assembly/
-└── 03_assembly/
-    └── SOAP/
-        ├── graph_Sample_31.scafSeq
-        ├── graph_Sample_35.scafSeq
-        └── graph_Sample_41.scafSeq
+SOAP
+├── graph_Sample_31.scafSeq
+├── graph_Sample_35.scafSeq
+└── graph_Sample_41.scafSeq
 ```   
 
 
@@ -293,10 +292,8 @@ The full script for our SPAdes run is called [SPAdes.sh](/short_read_assembly/03
 
 Once the assembly script is ran, it will produce bunch of files together with the final scafold file which is called, scaffolds.fasta. We will be using this final scaffold file to analyze the SPAdes assembly run. 
 ```
-short_read_assembly/
-└── 03_assembly/
-│   └── SPAdes/
-│       ├── scaffolds.fasta
+SPAdes/
+├── scaffolds.fasta
  
 ```
 
@@ -396,10 +393,8 @@ The full script for running MaSuRCA is called [MASuRCA.sh](short_read_assembly/0
 
 Final assembly scaffolds can be found under the **CA/** folder:  
 ```
-short_read_assembly/
-└── 03_assembly/
-    ├── MaSuRCA/
-    │   ├── CA/
-    │   │   ├── final.genome.scf.fasta
+MaSuRCA/
+├── CA/
+│   ├── final.genome.scf.fasta
 ```
 
