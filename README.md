@@ -238,4 +238,51 @@ short_read_assembly/
 
 #### 2.2b  Assembly with SPAdes   
 
-SPAdes - St. Petersburg genome assembler is a toolkit containing assembly pipelines.  
+[SPAdes](http://cab.spbu.ru/software/spades/) - St. Petersburg genome assembler is a toolkit containing assembly pipelines. When SPAdes was initally designed it was for for small genonmes, like bacterial, fungal and other small genomes. SPAdes is not intened for larger genomes.SPAdes has different pipe-lines present and if you want to check them out please visit the [SPAdes web site](http://cab.spbu.ru/software/spades/) or its [git-hub site](https://github.com/ablab/spades/blob/spades_3.14.0/README.md).  
+
+Instead of manually selecting k-mers, SPAdes automatically selects k-mers based off the maximum read length data of your input. This is a called a de Bruijn graph based assembler, meaning that it assigns (k-1)-mers to nodes and every possible matching prefix and suffix of these nodes are connected with a line.  
+
+
+SPAdes takes as input paired-end reads, mate-pairs and single (unpaired) reads in FASTA and FASTQ. In here we are using paired-end reads and the left and right reads are held in two files and they will be taken into the assembler in the same order as in the files.  
+
+Command line options we used:   
+```bash
+module load SPAdes/3.13.0
+
+spades.py \
+	-1 ../../02_quality_control/trim_Sample_R1.fastq \
+	-2 ../../02_quality_control/trim_Sample_R2.fastq \
+	-s ../../02_quality_control/sinlges.fastq \
+	--careful \
+	--threads 8 \
+	--memory 30 \
+	-o .
+```
+
+Basic SPAdes command line would look like:  
+`spades.py [options] -o <output_dir>`   
+
+where the options we used:
+```
+Input
+-1	file with forward paired-end reads
+-2	file with reverse paired-end reads
+-s	file with unpaired reads
+
+--careful    tries to reduce number of mismatches and short indels
+--threads	 number of threads
+--memory	 RAM limit for SPAdes in Gb (terminates if exceeded) defaul is 250
+```  
+> **NOTE**  
+> its very important to make sure you match the number of theads and the memory asked in the options section is matched with the SLURM header part of your script.  
+
+The full script for our SPAdes run is called [SPAdes.sh](/short_read_assembly/03_assembly/SPAdes/SPAdes.sh) and it can be found in the **03_assembly/SPAdes/** directory.  
+
+Once the assembly script is ran, it will produce bunch of files together with the final scafold file which is called, scaffolds.fasta. We will be using this final scaffold file to analyze the SPAdes assembly run. 
+```
+03_assembly/
+└── SPAdes/
+    └── scaffolds.fasta
+```
+
+
