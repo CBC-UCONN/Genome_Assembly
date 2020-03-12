@@ -398,3 +398,9 @@ MaSuRCA/
 │   ├── final.genome.scf.fasta
 ```
 
+### 2.2  Quality Assesment  
+
+Overview: Once you have the contigs/scaffolds assembled, next step is to check the quality of these. In here we will use 4 methods to check, which will be depicted in the following:  
+
+![](/images/quality_assesment_overview-1.png)  
+
