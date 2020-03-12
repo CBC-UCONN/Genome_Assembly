@@ -378,7 +378,7 @@ FLYE_ASSEMBLY=0
 END
 ```
 
-The full configuration file in our run is called [config_file](03_assembly/MaSuRCA/config_file) and it can be found in the MaSuRCA/ directory. Once the configuration file is set up you can run MaSuRCA using:
+The full configuration file in our run is called [config_file](short_read_assembly/03_assembly/MaSuRCA/config_file) and it can be found in the MaSuRCA/ directory. Once the configuration file is set up you can run MaSuRCA using:
 ```bash
 module load MaSuRCA/3.3.4 
 
