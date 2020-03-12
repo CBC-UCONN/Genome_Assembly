@@ -188,21 +188,21 @@ SOAPdenovo-63mer all \
 	-K 31 \
 	-p 8 \
 	-R \
-	-o graph_Sample_31 1>ass31.log 2>ass31.err 
+	-o graph_Sample_31 1>kmer31.log 2>kmer31.err 
 
 SOAPdenovo-63mer all \
 	-s config_file \
 	-K 35 \
 	-p 8 \
 	-R \
-	-o graph_Sample_35 1>ass35.log 2>ass35.err 
+	-o graph_Sample_35 1>kmer35.log 2>kmer35.err 
 
 SOAPdenovo-63mer all \
 	-s config_file \
 	-K 41 \
 	-p 8\
 	-R \
-	-o graph_Sample_41 1>ass41.log 2>ass41.err 
+	-o graph_Sample_41 1>kmer41.log 2>kmer41.err 
 ```
 
 SOAPdenovo assembly options:   
@@ -285,4 +285,30 @@ Once the assembly script is ran, it will produce bunch of files together with th
     └── scaffolds.fasta
 ```
 
+
+#### 2.2c Assembly with MaSuRCA   
+
+This assembler is a combination of a De Bruijn graph and an Overlap-Layout-Consensus model. The Overlap-Layout-Consensus model consists of three steps, Overlap, which is the process of overlapping matching sequences in the data, this forms a long branched line. Layout, which is the process of picking the least branched line in from the overlap sequence created earlier, the final product here is called a contig. Consensus is the process of lining up all the contigs and picking out the most similar nucleotide line up in this set of sequences (OIRC).   
+
+When running MaSuRCA, there are few things you should keep in mind. This assembler, **DOES NOT** require a preprocessing step, such as trimming, cleaning or error correction step; you will directly feed the raw reads.   
+
+The first step is to create a configuration file. A sample file can be copied from the MaSuRCA instalation directory. The following command will copy it to your working folder.  
+```bash
+cp $MASURCA/sr_config_example.txt config_file
+```  
+The configuration file, will contain the location of the compiled assembler, the location of the data and some parameters. In most cases you only need to change the path to your read files.   
+
+Second step is to run the masurca script which will create a shell script called `assembly.sh` using the configuration file.  
+
+Then the final step is to run this `assembly.sh` script, which will create the scaffolds.   
+
+Lets look at the configuration file, which contain two sections, DATA and PARAMERTERS, and each section concludes with END section.  
+
+In the DATA section:
+```bash
+DATA
+#Illumina paired end reads supplied as <two-character prefix> <fragment mean> <fragment stdev> <forward_reads> <reverse_reads> 
+PE= pe 180 20  ../../01_raw_reads/Sample_R1.fastq ../../01_raw_reads/Sample_R2.fastq 
+END
+```   
 
