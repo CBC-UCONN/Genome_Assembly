@@ -400,7 +400,112 @@ MaSuRCA/
 
 ## 2.3  Quality Assesment  
 
-Overview: Once you have the contigs/scaffolds assembled, next step is to check the quality of these. In here we will use 4 methods to check, which will be depicted in the following:  
+Once we have the contigs/scaffolds assembled, next step is to check the quality of these. In here we will use 4 methods to check, which will be depicted in the following:  
 
 ![](/images/quality_assesment_overview-1.png)  
+
+
+### 2.3.a Assembly Statistics with QUAST   
+
+[QUAST](http://quast.sourceforge.net/quast) will be used to evaluate genome assemblies. We will be using the program QUAST which will give us the number of contigs, total length and N50 value; the data we are most interested in. A good assembly would have small number of contigs, a total length that makes sense for the specific species, and a large N50 value. N50 is a measure to describe the quality of assembled genomes fragmented in contigs of different length. The N50 is the minimum contig length needed to cover 50% of the genome.  
+
+Working directory:  
+```
+short_read_assembly/
+└── 04_quast
+```
+
+
+
+*   For SOAPdenovo scaffolds we will be using:  
+```
+module load quast/5.0.2
+
+quast.py ../03_assembly/SOAP/graph_Sample_31.scafSeq \
+	--threads 8 \
+	-o SOAP_31
+
+quast.py ../03_assembly/SOAP/graph_Sample_35.scafSeq \
+	--threads 8 \
+	-o SOAP_35
+
+quast.py ../03_assembly/SOAP/graph_Sample_41.scafSeq \
+	--threads 8 \
+	-o SOAP_41
+```
+The full script is called [quast_SOAP.sh](short_read_assembly/04_quast/quast_SOAP.sh) and can be found in the 04_quast directory.  
+
+*  For SPAdes; the command we use would be like:  
+```
+module load quast/5.0.2
+
+quast.py ../03_assembly/SPAdes/scaffolds.fasta \
+	--threads 8 \
+	-o SPAdes
+```  
+The full script is called [quast_SPAdes.sh](short_read_assembly/04_quast) and can be found in the 04_quast directory.  
+
+*   For MaSuRCA; the command we use would be like:  
+```
+module load quast/5.0.2
+
+quast.py ../03_assembly/MaSuRCA/CA/final.genome.scf.fasta \
+	--threads 8 \
+	-o MaSuRCA
+```   
+
+The full script is called [quast_MaSuRCA.sh](short_read_assembly/04_quast/quast_MaSuRCA.sh), and can be found in the 04_quast directory.   
+
+General command for executing quast would be like:  
+`quast.py [options] <files_with_contigs>`    
+
+Options:  
+```
+-o  --output-dir  Directory to store all result files
+-t  --threads     Maximum number of threads [default: 25% of CPUs]
+
+```  
+
+These are the minimum command that we used, there are many other options that you can use with the software and if you are interested please have a look in to the [QUAST manual](http://quast.sourceforge.net/docs/manual.html).
+
+Once executed these scripts using the `sbatch` command, you will end of with basic evaluation of the assemblies. These statics can be found in each new folder you created:
+```
+04_quast/
+├── MaSuRCA
+│   └── report.txt
+├── SOAP_31
+│   └── report.txt
+├── SOAP_35
+│   └── report.txt
+├── SOAP_41
+│   └── report.txt
+└── SPAdes
+    └── report.txt
+```
+
+ 
+|             |  SOAP-31     |  SOAP-35     |  SOAP-41     |  SPAdes   |   MaSuRCA      |    
+ ------------ |:---------: | :---------: | ---------: | --------- | ---------- |  
+ contigs (>= 0 bp)    | 1507  | 1905  |1486   |101   | 109 | 
+ contigs (>= 1000 bp) | 249   |  220  | 198   | 52   | 83 | 
+ contigs (>= 5000 bp) | 158   |  151  | 135   | 41   | 74 | 
+ contigs (>= 10000 bp) | 115  |  116  | 100   | 35   | 66 | 
+ contigs (>= 25000 bp) | 47   |  52   | 48    | 27   | 41 | 
+ contigs (>= 50000 bp) | 5    |  10   | 14    | 19   | 19 | 
+ Total length (>= 0 bp)| 3743924 |  3764218 | 3630629 |  2885853 | 2823460 | 
+ Total length (>= 1000 bp)| 3554783 | 3525490 | 3426820 | 2870111 | 2811306 | 
+ Total length (>= 5000 bp)| 3302110 | 3328521 | 3247325 | 2843776 | 2783930 | 
+ Total length (>= 10000 bp)| 2985682 | 3084724 | 2998473 | 2799884 | 2724327 | 
+ Total length (>= 25000 bp)| 1871285 |  2046075 | 2170495 | 2664507 | 2305141 | 
+ Total length (>= 50000 bp)| 371124 |  649800 | 929172 | 2373293 | 1536577 | 
+ **no. of contigs**     |  276  | 246 | 214 | 60  | 88 | 
+ Largest contig     | 103125 |  86844 | 99593 | 255651 | 220219 |
+ Total length       | 3574101 |  3543834 | 3438095 | 2875218 | 2814735 | 
+ GC (%)      | 32.44  |  32.46 | 32.46 | 32.65 | 32.68 | 
+ **N50**         | 26176  |  27766 | 36169 | **149694** | 53223 |
+ N75         | 14642  |  16356 | 16752 | 61620 | 31370 | 
+ L50         |  44  |  42 | 33 | 8 | 17 | 
+ L75         |  91  |  84 | 69 | 15 | 35 |  
+
+
 
