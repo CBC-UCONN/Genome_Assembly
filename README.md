@@ -509,3 +509,5 @@ Once executed these scripts using the `sbatch` command, you will end of with bas
 
 
 
+According to our requirements regarding n50 and contigs it would appear that the best assembly perfromed was via SPAdes.  
+
