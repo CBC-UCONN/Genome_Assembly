@@ -443,7 +443,7 @@ quast.py ../03_assembly/SPAdes/scaffolds.fasta \
 	--threads 8 \
 	-o SPAdes
 ```  
-The full script is called [quast_SPAdes.sh](short_read_assembly/04_quast) and can be found in the 04_quast directory.  
+The full script is called [quast_SPAdes.sh](short_read_assembly/04_quast/quast_SPAdes.sh) and can be found in the 04_quast directory.  
 
 *   For MaSuRCA; the command we use would be like:  
 ```
