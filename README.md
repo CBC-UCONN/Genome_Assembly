@@ -509,5 +509,127 @@ Once executed these scripts using the `sbatch` command, you will end of with bas
 
 
 
-According to our requirements regarding n50 and contigs it would appear that the best assembly perfromed was via SPAdes.  
+According to our requirements regarding n50 and contigs it would appear that the best assembly perfromed was via SPAdes.   
+
+
+### 2.3.b Read Alignment with Bowtie2   
+
+[Bowtie2](http://bowtie-bio.sourceforge.net/bowtie2/manual.shtml#the-bowtie2-aligner) is a tool you would use for comparitive genomics via alignment. Bowtie2 takes a Bowtie 2 index and a set of sequencing read files and outputs a set of alignments in a SAM file. Alignment is the process where we discover how and where the read sequences are similar to a reference sequence. An alignment is a way of lining up the characters in the read with some characters from the reference to reveal how they are similar.  
+
+Alignemnt is a method of doing a educated guess, as where the read originated with respect to the reference genome. It is not always possibe to determine this with clarity.   
+
+Bowtie2 in our case takes read sequences and aligns them with long reference sequences. Since this is de novo assembly you will take the data from the assemblies you have and align them back to the raw read data. You want to use unpaired data.  
+
+Our working directory will be:  
+```
+short_read_assembly/
+├── 05_bowtie2
+```  
+
+First step in aligning reads with bowtie2 is to make a index of the genome we assembled. This can be done with the `bowtie2-build` command.  
+
+```bash
+bowtie2-build [options] <reference-index> <index-base-name>  
+```  
+
+Once you build the index, next step would be to align the reads to the genome using the index you build.   
+
+```bash
+bowtie2 [options] -x <bt-index> -U <unpaired-reads> -S <SAM-output> \
+	--threads 8 2>output.err
+```   
+
+In here we will direct the error file output which will contain the alignment statistics.   
+
+Since we are using three de novo methods to construct genomes, we will now try to see how each of them are aligning its reads to the genome constructed.   
+
+*   SOAP   
+```bash
+mkdir -p SOAP_31_index SOAP_35_index SOAP_41_index  
+
+module load bowtie2/2.3.5.1  
+
+## SOAP_31
+bowtie2-build \
+	--threads 8 \
+	../03_assembly/SOAP/graph_Sample_31.scafSeq SOAP_31_index/SOAP_31_index
+
+bowtie2 -x SOAP_31_index/SOAP_31_index \
+	-U ../01_raw_reads/Sample_R1.fastq,../01_raw_reads/Sample_R2.fastq \
+	-S SOAP_31.bowtie2.sam \
+	--threads 8 2>SOAP_31.err 
+
+## SOAP_35 
+bowtie2-build \
+	--threads 8 \
+	../03_assembly/SOAP/graph_Sample_35.scafSeq SOAP_35_index/SOAP_35_index 
+
+bowtie2 -x SOAP_35_index/SOAP_35_index \
+	-U ../01_raw_reads/Sample_R1.fastq,../01_raw_reads/Sample_R2.fastq \
+	-S SOAP_35.bowtie2.sam \
+	--threads 8 2>SOAP_35.err 
+
+
+## SOAP_41
+bowtie2-build \
+	--threads 8 \
+	../03_assembly/SOAP/graph_Sample_41.scafSeq SOAP_41_index/SOAP_41_index
+
+bowtie2 -x SOAP_41_index/SOAP_41_index \
+	-U ../01_raw_reads/Sample_R1.fastq,../01_raw_reads/Sample_R2.fastq \
+	-S SOAP_41.bowtie2.sam \
+	--threads 8 2>SOAP_41.err
+
+```  
+
+The full slurm script is called [bowtie2_SOAP.sh](/short_read_assembly/05_bowtie2/bowtie2_SOAP.sh), and can be found in the 05_bowtie2 directory.  
+
+
+*   SPAdes  
+```bash
+mkdir -p SPAdes_index
+
+module load bowtie2/2.3.5.1
+bowtie2-build \
+	--threads 8 \
+	../03_assembly/SPAdes/scaffolds.fasta SPAdes_index/SPAdes_index
+
+bowtie2 -x SPAdes_index/SPAdes_index \
+	-U ../01_raw_reads/Sample_R1.fastq,../01_raw_reads/Sample_R2.fastq \
+	-S SPAdes.bowtie2.sam \
+	--threads 8 2>SPAdes.err
+```
+
+The full slurm script for running bowtie2 for genome created with SPAdes is called [bowtie2_SPAdes.sh](/short_read_assembly/05_bowtie2/bowtie2_SPAdes.sh), which can be found in **05_bowtie2/** directory.  
+
+*   MaSuRCA   
+```bash
+mkdir -p MaSuRCA_index
+
+module load bowtie2/2.3.5.1
+bowtie2-build \
+	--threads 8 \
+	../03_assembly/MaSuRCA/CA/final.genome.scf.fasta MaSuRCA_index/MaSuRCA_index 
+
+bowtie2 -x MaSuRCA_index/MaSuRCA_index \
+	-U ../01_raw_reads/Sample_R1.fastq,../01_raw_reads/Sample_R2.fastq \
+	-S MaSuRCA.bowtie2.sam \
+	--threads 8 2>MaSuRCA.err
+```  
+
+The full slurm script for running bowtie2 for genome created with MaSuRCA is called [bowtie2_MaSuRCA.sh](/short_read_assembly/05_bowtie2/bowtie2_MaSuRCA.sh), which can be found in 05_bowtie2/ directory.   
+
+As shown for the SOAP_31: it will create the following files and folders for each run:  
+```
+05_bowtie2/
+├── SOAP_31_index/
+│   ├── SOAP_31_index.1.bt2
+│   ├── SOAP_31_index.2.bt2
+│   ├── SOAP_31_index.3.bt2
+│   ├── SOAP_31_index.4.bt2
+│   ├── SOAP_31_index.rev.1.bt2
+│   └── SOAP_31_index.rev.2.bt2
+├── SOAP_31.bowtie2.sam
+└── SOAP_31.err
+``` 
 
