@@ -642,7 +642,10 @@ The alingment data will be in `*.err` files associated with each run.
 ├── SOAP_41.err
 ├── SPAdes.err
 └── MaSuRCA.err
-```  
+```    
+
+Following table summerizes the alignment results with bowtie2.  
+
 
 |             |  SOAP-31     |  SOAP-35     |  SOAP-41     |  SPAdes   |   MaSuRCA      |    
  ------------ |:---------: | :---------: | ---------: | --------- | ---------- |   
@@ -653,4 +656,6 @@ aligned exactly 1 time   |  44.59%   |  46.47%  |   50.26%  |  85.21%  |  79.14%
 aligned >1 times   |   0.00%   |   0.01%  |  0.02%  |  1.48%  |  3.35%  |  
 overall alignment rate   |  44.60%   |   46.48%  |  50.29%  |  86.69%  |   82.49%  |  
 
+
+Between de-novo assemblies it shows that, assembly done with SPAdes have a good overall alignment rate, and higher number of reads would match exactly 1 time to the reference genome.   
 
