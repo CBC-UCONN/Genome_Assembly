@@ -600,7 +600,7 @@ bowtie2 -x SPAdes_index/SPAdes_index \
 	--threads 8 2>SPAdes.err
 ```
 
-The full slurm script for running bowtie2 for genome created with SPAdes is called [bowtie2_SPAdes.sh](/short_read_assembly/05_bowtie2/bowtie2_SPAdes.sh), which can be found in **05_bowtie2/** directory.  
+The full slurm script for running bowtie2 for genome created with  is called [bowtie2_SPAdes.sh](/short_read_assembly/05_bowtie2/bowtie2_SPAdes.sh), which can be found in **05_bowtie2/** directory.  
 
 *   MaSuRCA   
 ```bash
@@ -619,7 +619,7 @@ bowtie2 -x MaSuRCA_index/MaSuRCA_index \
 
 The full slurm script for running bowtie2 for genome created with MaSuRCA is called [bowtie2_MaSuRCA.sh](/short_read_assembly/05_bowtie2/bowtie2_MaSuRCA.sh), which can be found in 05_bowtie2/ directory.   
 
-As shown for the SOAP_31: it will create the following files and folders for each run:  
+As shown for the SOAP_31: it will create the following files and folders for each above (SOAP_35, SOAP_45, SPAdes, MaSuRCA) runs:  
 ```
 05_bowtie2/
 ├── SOAP_31_index/
@@ -632,4 +632,25 @@ As shown for the SOAP_31: it will create the following files and folders for eac
 ├── SOAP_31.bowtie2.sam
 └── SOAP_31.err
 ``` 
+We have only shown the output directory and files for SOAP_31 case, as an example.   
+
+The alingment data will be in `*.err` files associated with each run.  
+```
+05_bowtie2/
+├── SOAP_31.err
+├── SOAP_35.err
+├── SOAP_41.err
+├── SPAdes.err
+└── MaSuRCA.err
+```  
+
+|             |  SOAP-31     |  SOAP-35     |  SOAP-41     |  SPAdes   |   MaSuRCA      |    
+ ------------ |:---------: | :---------: | ---------: | --------- | ---------- |   
+reads   |  1009902  |   1009902   |  1009902  |  1009902  |  1009902  |  
+unpaired   |  1009902   |   1009902   |  1009902  |  1009902  |  1009902  |  
+aligned 0 times  |  55.40%   |   53.52%  |  49.71%  |  13.31%  |  17.51%  |  
+aligned exactly 1 time   |  44.59%   |  46.47%  |   50.26%  |  85.21%  |  79.14%  |   
+aligned >1 times   |   0.00%   |   0.01%  |  0.02%  |  1.48%  |  3.35%  |  
+overall alignment rate   |  44.60%   |   46.48%  |  50.29%  |  86.69%  |   82.49%  |  
+
 
