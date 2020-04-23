@@ -509,7 +509,7 @@ Once executed these scripts using the `sbatch` command, you will end of with bas
 
 
 
-According to our requirements regarding n50 and contigs it would appear that the best assembly perfromed was via SPAdes.   
+According to our requirements regarding n50 and contigs it would appear that the best assembly perfromed was via SPAdes. (N50 value indicates that half the genome is assembled on contigs/scaffolds of length N50 or longer)
 
 
 ### 2.3.b Read Alignment with Bowtie2   
@@ -652,10 +652,17 @@ Following table summerizes the alignment results with bowtie2.
 reads   |  1009902  |   1009902   |  1009902  |  1009902  |  1009902  |  
 unpaired   |  1009902   |   1009902   |  1009902  |  1009902  |  1009902  |  
 aligned 0 times  |  55.40%   |   53.52%  |  49.71%  |  13.31%  |  17.51%  |  
-aligned exactly 1 time   |  44.59%   |  46.47%  |   50.26%  |  85.21%  |  79.14%  |   
+aligned exactly 1 time   |  44.59%   |  46.47%  |   50.26%  |  **85.21%**  |  79.14%  |   
 aligned >1 times   |   0.00%   |   0.01%  |  0.02%  |  1.48%  |  3.35%  |  
-overall alignment rate   |  44.60%   |   46.48%  |  50.29%  |  86.69%  |   82.49%  |  
+overall alignment rate   |  44.60%   |   46.48%  |  50.29%  |  **86.69%**  |   82.49%  |  
 
 
-Between de-novo assemblies it shows that, assembly done with SPAdes have a good overall alignment rate, and higher number of reads would match exactly 1 time to the reference genome.   
+Between de-novo assemblies it shows that, assembly done with SPAdes have a good overall alignment rate, and higher number of reads would match exactly 1 time to the reference genome.    
+
+
+### 2.3.c BUSCO evaluation: Assessing Genome Assembly and Annotation Completeness    
+
+Here, we describe the use of the BUSCO tool suite to assess the completeness of genomes, gene sets, and transcriptomes, using their gene content as a complementary method to common technical metrics.  
+
+[BUSCO](https://busco.ezlab.org/) stands for **B**enchmarking **U**niversal **S**ingle-**C**opy **O**rthologs. This program assists with checking assemblies, gene sets, annotations, and transcriptomes to see if they appear complete, using their gene content as a complementary method to common technical metrics. It does this by taking an orthologous gene set of your species of interest and comparing it back to the genome of interest, taking into consideration possibly evolutionary changes.   
 
