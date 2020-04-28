@@ -662,7 +662,149 @@ Between de-novo assemblies it shows that, assembly done with SPAdes have a good 
 
 ### 2.3.c BUSCO evaluation: Assessing Genome Assembly and Annotation Completeness    
 
-Here, we describe the use of the BUSCO tool suite to assess the completeness of genomes, gene sets, and transcriptomes, using their gene content as a complementary method to common technical metrics.  
+Here, we describe the use of the [BUSCO](https://busco.ezlab.org/) tool suite to assess the completeness of genomes, gene sets, and transcriptomes, using their gene content as a complementary method to common technical metrics.       
 
-[BUSCO](https://busco.ezlab.org/) stands for **B**enchmarking **U**niversal **S**ingle-**C**opy **O**rthologs. This program assists with checking assemblies, gene sets, annotations, and transcriptomes to see if they appear complete, using their gene content as a complementary method to common technical metrics. It does this by taking an orthologous gene set of your species of interest and comparing it back to the genome of interest, taking into consideration possibly evolutionary changes.   
+To access the quality and completeness of a assembly, different matrices can be used. Such as alignment ratios and contig/scaffold length distributions as N50 will reflect the assembly completeness. The above technics ignore the biological aspects regarding the gene content. This would be an important aspect where you have transcriptomic data. You can test comprehensiveness of the gene set by aligning the transcripts to the assembly to assess how much is aligned. However, aligning the spliced transcripts to genomic regions can be problematic and it depends on the tools and parameters used for mapping. This leads us to look for another alternative, and [BUSCO](https://busco.ezlab.org/): **B**enchmarking **U**niversal **S**ingle-**C**opy **O**rthologs provides a way of assessing genome assemblies.   
+
+BUSCO data set is made up of protein coding genes from the OrthoDB orthologus groups, that contain single copy genes in that group. The consensus sequences profiles are built from multiple alignment across the species group. As more species sequenced the BUSCO data set will be updated with more lineages. This program assists with checking assemblies, gene sets, annotations, and transcriptomes to see if they appear complete, using their gene content as a complementary method to common technical metrics. It does this by taking an orthologous gene set of your species of interest and comparing it back to the genome of interest, taking into consideration possibly evolutionary changes.    
+
+We will now try to evaluate our three assembled genomes using BUSCO. For this we will be using the BUSCO database which is downloaded in Xanadu cluster (`/isg/shared/databases/BUSCO/`). When you are using the BUSCO database make sure you are using the latest database by checking the BUSCO database page. In this tutorial we are using the current database version which is ‘**odb10**’, which is compatible with BUSCO software version 4.   
+
+Our working directory will be:    
+```
+short_read_assembly/
+└── 06_busco
+```  
+
+Following will be the commands which will be used for evaluating SOAP, SPAdes, MaSuRCA assemblies using BUSCO.   
+
+*   SOAP:  
+
+```bash  
+busco -i ../03_assembly/SOAP/graph_Sample_31.scafSeq \
+	-o SOAP_31 \
+	-l /isg/shared/databases/BUSCO/odb10/bacteria_odb10 \
+	-m genome 
+
+busco -i ../03_assembly/SOAP/graph_Sample_35.scafSeq \
+	-o SOAP_35 \
+	-l /isg/shared/databases/BUSCO/odb10/bacteria_odb10 \
+	-m genome
+
+busco -i ../03_assembly/SOAP/graph_Sample_41.scafSeq \
+	-o SOAP_41 \
+	-l /isg/shared/databases/BUSCO/odb10/bacteria_odb10 \
+	-m genome
+```   
+
+The full script for evaluating the three SOAP assemblies is called, [busco_SOAP.sh](short_read_assembly/06_busco/busco_SOAP.sh) which can be found in `short_read_assembly/06_busco` folder.   
+
+
+*   SPAdes:  
+
+```bash
+busco -i ../03_assembly/SPAdes/scaffolds.fasta \
+	-o SPAdes \
+	-l /isg/shared/databases/BUSCO/odb10/bacteria_odb10 \
+	-m genome
+```   
+
+The full script for evaluating the SPAdes assembly is called, [busco_SPAdes.sh](short_read_assembly/06_busco/busco_SPAdes.sh) which can be found in `short_read_assembly/06_busco` folder.  
+
+*   MaSuRCA:  
+```bash
+busco -i ../03_assembly/MaSuRCA/CA/final.genome.scf.fasta \
+	-o MaSuRCA \
+	-l /isg/shared/databases/BUSCO/odb10/bacteria_odb10 \
+	-m genome
+```   
+
+The full script for evaluating the MaSuRCA assembly is called, [busco_MaSuRCA.sh](short_read_assembly/06_busco/busco_MaSuRCA.sh) which can be found in `short_read_assembly/06_busco` folder.   
+
+So the general command for evaluating the assembly will be:  
+```
+usage: busco -i [SEQUENCE_FILE] -l [LINEAGE] -o [OUTPUT_NAME] -m [MODE] [OTHER OPTIONS]  
+```  
+
+The command options which we will be using:  
+```
+-i FASTA FILE   Input sequence file in FASTA format
+-l LINEAGE      Specify the name of the BUSCO lineage
+-o OUTPUT       Output folders and files will be labelled with this name
+-m MODE         BUSCO analysis mode
+					- geno or genome, for genome assemblies (DNA)
+					- tran or transcriptome, for transcriptome assemblies (DNA)
+					- prot or proteins, for annotated gene sets (protein)
+```  
+
+In our run we will be evaluating a genome assembly, which is nucleotide sequence in contigs or scaffolds. In the genome run we will be using the options specified above. In this example we are only selecting to scan over the bacterial database in BUSCO. Make sure to use the database which suites your assembly, to check the other databases in the BUSCO database please check the BUSCO website or to check the current databases simply use the following command after loading the module: `busco --list-datasets`. In Xanadu cluster, we have downloaded the BUSCO databases so you do not have to download by your self, to check the path associated to calling the lineages please check the [Xanadu database page](https://bioinformatics.uconn.edu/databases/).    
+
+Once you have executed the above commands the BUSCO output will contain a printed score to the standard output file and also a comprehensive output to the ‘short_summary.specific.bacteria_odb10.[OUTPUT_folder_name].txt’ file inside the output destination specified in your command. In our case:   
+
+```
+06_busco/
+├── SOAP_31/
+│   └── short_summary.specific.bacteria_odb10.SOAP_31.txt
+├── SOAP_35/
+│   └── short_summary.specific.bacteria_odb10.SOAP_35.txt
+├── SOAP_41/
+│   └── short_summary.specific.bacteria_odb10.SOAP_41.txt
+├── SPAdes/
+│   └── short_summary.specific.bacteria_odb10.SPAdes.txt
+└── MaSuRCA/
+    └── short_summary.specific.bacteria_odb10.MaSuRCA.txt
+```   
+
+The the above output will contain:  
+```
+SOAP_31
+C:45.2%[S:45.2%,D:0.0%],F:39.5%,M:15.3%,n:124
+
+SOAP_35
+C:47.6%[S:47.6%,D:0.0%],F:40.3%,M:12.1%,n:124 
+
+SOAP_41
+C:50.8%[S:50.8%,D:0.0%],F:35.5%,M:13.7%,n:124
+
+SPAdes
+C:100.0%[S:100.0%,D:0.0%],F:0.0%,M:0.0%,n:124
+
+MaSuRCA
+C:99.2%[S:99.2%,D:0.0%],F:0.0%,M:0.8%,n:124 
+```
+These BUSCO output will produce its output using a scoring scheme: 
+**C**:complete [**S**:single-copy, **D**:duplicated], **F**:fragmented, and **M**:missing and the total BUSCO genes are indicated in **n:**. To judge the score, you need to consider the type of sequence first. A model organism with a reference genome often will reach a score of 95% or above  as a complete score and a non-model organisms can reach a score from 50% to 95% complete. This alone will not give an idea on how good the assembly is, as you need to look at the assembly and the annotation results together to make a judgement.   
+
+In *full_table.tsv* file it will contain the detailed list of BUSCO genes and their predicted status in the genome. These files can be found in:   
+```
+06_busco/
+├── SOAP_31
+│   └── run_bacteria_odb10
+│       └── full_table.tsv
+├── SOAP_35
+│   └── run_bacteria_odb10
+│       └── full_table.tsv
+├── SOAP_41
+│   └── run_bacteria_odb10
+│       └── full_table.tsv
+├── SPAdes
+│   └── run_bacteria_odb10
+│       └── full_table.tsv
+└── MaSuRCA
+    └── run_bacteria_odb10
+        └── full_table.tsv
+```  
+
+If you look into these files you will find the above information. As an example we are showing few lines of the output of SPAdes *full_table.tsv* file.
+
+```
+# Busco id      Status         Sequence                          Gene Start      Gene End        Score   Length
+4421at2         Complete        NODE_19_length_52925_cov_29.157601_19   21444   25067   1718.7  1051    https://www.orthodb.org/v10?query=4421at2       DNA-directed RNA polyme
+9601at2         Complete        NODE_19_length_52925_cov_29.157601_20   25204   28755   1299.7  812     https://www.orthodb.org/v10?query=9601at2       DNA-directed RNA polyme
+26038at2        Complete        NODE_5_length_175403_cov_22.338455_89   93427   95616   332.5   404     https://www.orthodb.org/v10?query=26038at2      phosphoribosylf
+ 
+```  
+
+Other than the options we used there are many other options you can use depending on your data. More detailed view of the options are discribed in the BUSCO manual as well as in the paper: [PMID: 31020564](https://www.ncbi.nlm.nih.gov/pubmed/31020564).  
+
 
