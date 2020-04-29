@@ -5,7 +5,11 @@ This repository is a usable, publicly available tutorial. All steps have been pr
 **Contents**    
 
 1.   [Overview](#1-overview)  
-2.   [Short Read Genome Assembly](#2-short-read-genome-assembly)   
+2.   [Short Read Genome Assembly](#2-short-read-genome-assembly)
+      1.  [Quality Control](#21--quality-control-using-sickl)  
+	  2.  [Assembly](#22--assembly)   
+	  3.  [Quality Assesment](#23--quality-assesment)  
+3.   [Long Read Genome Assembly](#3-long-read-genome-assembly)  
 
 
 ## 1. Overview   
