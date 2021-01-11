@@ -818,3 +818,509 @@ Other than the options we used there are many other options you can use dependin
 
 ## 3. Long Read Genome Assembly   
 
+
+![](images/longread_pipeline.jpg)
+
+
+### 3.1 Introduction 
+Long read sequencing in general has the potential to overcome the limitations that short read sequencing methods process. Long read sequencing has few main advantages over the short read technologies today.  Notably, these long sequences are produced from single DNA molecules, and the sequencing happens in real time and both sequencing and library preparation does not need the PCR amplification, which reduces the PCR based errors. This reduce the downstream errors occurring from copy errors, sequences dependent biases. Since this keeps the DNA in its native state, this gives the opportunity to detect DNA modifications such as methylation modifications. Two of the most prominent long read sequencing methods are developed by [Pacific Biosciences (PacBio)](https://www.pacb.com/) and [Oxford Nanopore Technologies (ONT)](https://nanoporetech.com/). Both single  molecule real-time (SMRT) sequencing by PacBio and nanopore sequencing by ONT, use single molecule sequencing techniques.   
+
+In this tutorial we will focus on long reads produced by the **nanopore sequencer** (**ONT**). The basic concept of the method was developed, on the basis of understanding the change of potential patterns, when ions passes though a channel with a potential gradient. The method was developed, to identify the signal when a single DNA molecule is passed through a very narrow channel. In a sequencing run, when a DNA molecule is passed through the channel, the signal generated reflect the modulation of the ionic current in the pore. The signals produced, are stored in ‘FAST5’ format, a specialization of the HDF5 format.   
+
+During our workflow, we will take basecalled reads and assemble the long reads using three assemblers (Flye, Shasta). Then purge Haplotags will be used to assure that the contigs that are assembled are not being combined with the Haplotig of that sequence. After this, the assembly will be polished via Nanopolish. The quality of the genome assembled, will be assessed using QUAST.  
+
+
+
+
+
+### 3.2 Base Calling (Guppy)    
+
+Raw reads produced by the Oxford nanopore sequencer are stored in fast5 format. Sequencing information is stored in these files as electric signal, needs to be converted into nucleic acid (A, T, G and C) format, which we can understand. This process is done by a basecalling software, called Guppy and this process is done my the sequencing center once the sequencing is done. Once the base calling is done the reads will be filtered into two groups as passed and failed. Then the passed reads will be concatenated into a single file. Following is a guppy basecaller command which is used to basecall from the rawreads.
+
+```
+module load guppy/2.3.1
+
+guppy_basecaller \
+        -i ../01_raw_reads \
+        -s . \
+        --flowcell FLO-MIN106 \
+        --kit SQK-LSK109 \
+        --qscore_filtering \
+        --cpu_threads_per_caller 16
+```
+
+
+This raw fasta file is located in the following directory:
+
+```
+02_basecall_pass
+├── 5074_test_LSK109_30JAN19-reads-pass.fasta
+└── sequencing_summary.txt
+```
+
+This will be the fasta file we will be using to demonstrate the assembling of long reads.   
+
+### 3.3 Quality Report
+In here we use [nanoplot](https://github.com/wdecoster/NanoPlot) a tool developed to evaluate the statistics of long read data of Oxford Nanopore Technologies and Pacific Biosciences. 
+
+Working directory:
+```
+long_read_assembly/
+├── 03_qc
+```
+Full slrum script called [nanoplot.sh](long_read_assembly/03_qc/nanoplot.sh) is located in the `03_qc` directory.
+
+```
+NanoPlot --summary ../02_basecall_pass/sequencing_summary.txt \
+        --loglength \
+        -o summary-plots-log-transformed \
+        -t 10
+```
+
+This will create a summary files and figures which can be found in the output directory specified in the command along with a HTML report. 
+![](images/HistogramReadlength.png)  
+![](images/LengthvsQualityScatterPlot_dot.png)
+
+### 3.4 Assembly  
+In this step we will be using two asseblers Flye and Shasta on the base called ONT data.   
+
+Working directory: 
+```
+long_read_assembly/
+├── 04_assembly
+```
+
+### 3.4.1 Flye Assembly   
+Flye assembler takes data from Pacbio or Oxford Nanopore technologies sequencers and outputs polished contigs. It will repeat graph, that is similar in appearance to the De Bruijn graph. The manner in which this graph is assembled reveals the repeats in the genome allowing for the most accurate assembly.  
+
+Command for running flye assembly:
+```
+flye --nano-raw ../../02_basecall_pass/5074_test_LSK109_30JAN19-reads-pass.fasta \
+        --genome-size 1g \
+        --threads 32 \
+        --out-dir /UCHC/PublicShare/CBC_Tutorials/Genome_Assembly/long_read_assembly/03_assembly/flye_t
+```
+
+Useage information:  
+```
+usage: flye 
+
+--nano-raw     ONT raw reads 
+--genome-size  estimated genome size 
+--out-dir      Output directory
+--threads      number of parallel threads
+```  
+
+Full slurm script is called [flye.sh](long_read_assembly/04_assembly/flye/flye.sh) can be found in the `04_assembly/flye` directory. This will create he following files inside the flye_assembly folder, and the assembled fasta file is called scaffolds.fasta or assembly.fasta.
+
+```
+flye_t/
+├── 00-assembly
+├── 10-consensus
+├── 20-repeat
+├── 21-trestle
+├── 30-contigger
+├── 40-polishing
+├── assembly.fasta
+├── assembly.fasta.fai
+├── assembly.fasta.mmi
+├── assembly_graph.gfa
+├── assembly_graph.gv
+├── assembly_info.txt
+├── params.json
+└── scaffolds.fasta
+```
+
+
+### 3.4.2 Shasta Assembly  
+[Shasta](https://github.com/chanzuckerberg/shasta) assembler is developed keeping in mind to produce a rapid and accurate assembly and polishing. More information on the shastar assembler can be found over [here](https://www.nature.com/articles/s41587-020-0503-6). Here we are using the Shasta assembler for the ONT reads.  
+Working directory is:
+```
+long_read_assembly/
+├── 04_assembly/
+│   ├── shasta/
+```
+
+Command for running shasta assembly:  
+```
+shasta --input ../../02_basecall_pass/5074_test_LSK109_30JAN19-reads-pass.fasta \
+        --Reads.minReadLength 500 \
+        --memoryMode anonymous \
+        --memoryBacking 4K \
+        --threads 32
+```
+
+Useage information:
+```
+shasta [options]
+--input                Names of input files containing reads
+--Reads.minReadLength  Read length cutoff. Reads shorter than this number of bases are discarded  
+--memoryMode           Specify whether allocated memory is anonymous or backed by a filesystem   
+--memoryBacking        Specify the type of pages used to back memory
+--threads              Number of threads
+
+```
+
+Full slurm script is called [shasta.sh](long_read_assembly/04_assembly/shasta/shasta.sh) can be found in the `/long_read_assembly/04_assembly/shasta/` directory. After running the command it will create Assembly.fasta file with other files:  
+
+```
+shasta/
+├── ShastaRun
+│   ├── Assembly.fasta
+└── shasta.sh
+
+```
+
+### 3.5 Assembly Evaluation
+In this section we will be evaluating the initial assembly created from the above assemblers. 
+Working directory:
+```
+long_read_assembly/
+├── 05_initial_assembly_evaluation/
+```
+
+
+### 3.5.1 BUSCO
+In here we will evaluate the assemblies using BUSCO. 
+Working directory:
+```
+05_initial_assembly_evaluation/
+├── busco/
+```
+Following commands will be used to evaluate the flye and shasta initial assemblies.
+*   flye:
+```
+busco -i ../03_assembly/flye_t/assembly.fasta \
+        -o busco_flye -l /isg/shared/databases/BUSCO/odb10/viridiplantae_odb10 -m genome
+```
+Complete slurm script called [busco_flye.sh](long_read_assembly/05_initial_assembly_evaluation/busco/busco_flye.sh) can be found in the busco directory.  
+
+*   shasta:
+```
+busco -i ../03_assembly/shasta/ShastaRun/Assembly.fasta \
+        -o busco_shasta -l /isg/shared/databases/BUSCO/odb10/viridiplantae_odb10 -m genome
+```
+Complete slurm script called [busco_shasta.sh](long_read_assembly/05_initial_assembly_evaluation/busco/busco_shasta.sh) can be found in the busco directory.
+
+**NOTE:** When running busco you need to copy the augustus config directory to a location which you have the permision to write to and the path to the augustus config directory should be exported beforehand.  
+
+General useage of the command:
+```
+usage: busco -i [SEQUENCE_FILE] -l [LINEAGE] -o [OUTPUT_NAME] -m [MODE] [OTHER OPTIONS] 
+```
+
+The command options we will be using:
+```
+-i FASTA FILE   Input sequence file in FASTA format
+-l LINEAGE      Specify the name of the BUSCO lineage
+-o OUTPUT       Output folders and files will be labelled with this name
+-m MODE         BUSCO analysis mode
+					- geno or genome, for genome assemblies (DNA)
+					- tran or transcriptome, for transcriptome assemblies (DNA)
+					- prot or proteins, for annotated gene sets (protein)
+```
+
+
+
+
+
+### 3.5.2 QUAST  
+[QUAST](http://quast.sourceforge.net/quast) will be used to evaluate genome assemblies. We will be using the program QUAST which will give us the number of contigs, total length and N50 value; the data we are most interested in.
+
+Working directory:
+```
+05_initial_assembly_evaluation/
+├── quast/
+```
+
+*  flye assembly :  
+```
+quast.py ../03_assembly/flye_t/assembly.fasta \
+        --threads 8 \
+        -o quast_flye
+
+```
+Complete slurm script called [quast_flye.sh](long_read_assembly/05_initial_assembly_evaluation/quast/quast_flye.sh) can be found in the quast directory.
+
+*  shasta assembly :  
+```
+quast.py ../../03_assembly/shasta/ShastaRun/Assembly.fasta \
+        --threads 8 \
+        -o quast_shasta
+```
+Complete slurm script called [quast_shasta.sh](long_read_assembly/05_initial_assembly_evaluation/quast/quast_shasta.sh) can be found in the quast directory.
+
+
+## 3.6 Error correction   
+Polishing the assemblies using Medaka. By polishing it means calculates a better consensus sequence for a draft genome assembly, find base modifications, and call SNPs with respect to a reference genome.  
+
+Medaka command:   
+```
+medaka_consensus -i ${BASECALLS} -d ${DRAFT} -o ${OUTDIR}  -t 16
+```
+
+Command options used:
+```
+medaka_consensus [-h] -i <fastx>
+
+-i  fastx input basecalls (required)
+```
+
+
+*  #### Error correction of flye assembly:
+Working directory:
+```
+long_read_assembly/
+├── 06_error_correction
+│   ├── flye_assembly/
+```
+
+Complete slurm script is called [medaka.sh](long_read_assembly/06_error_correction/flye_assembly/medaka.sh) is located in the `flye_assembly` directory.
+
+This will produce the following files along with the error corrected *consensus.fasta* file:  
+```
+flye_assembly
+├── calls_to_draft.bam
+├── calls_to_draft.bam.bai
+├── consensus.fasta
+├── consensus_probs.hdf
+└── medaka.sh
+```
+
+*  #### Error correction of shasta assembly: 
+``` 
+long_read_assembly/
+├── 06_error_correction
+│   ├── flye_assembly/
+```
+Complete slurm script is called [medaka.sh](long_read_assembly/06_error_correction/shasta_assembly/medaka.sh) is located in the `shasta_assembly` directory.
+
+This will produce the following files along with the error corrected *consensus.fasta* file:  
+```
+shasta_assembly/
+├── calls_to_draft.bam
+├── calls_to_draft.bam.bai
+├── consensus.fasta
+├── consensus_probs.hdf
+└── medaka.sh
+```
+
+## 3.7 Identifying and removing duplicate regions  
+
+Current working directory:  
+```
+long_read_assembly/
+├── 07_purge
+```
+
+[Purge Haplotigs](https://bitbucket.org/mroachawri/purge_haplotigs/src/master/) is a pipeline to help with curating genome assemblies. It assures that there is not a combination of sequences between contigs and haplotigs. It uses a system that uses the mapped reads that you assembled and Minimap2 to assess which contigs should be kept in the assembly.
+
+We use this because some parts of a genome may have a very high degree of heterozygosity which causes contigs for both haplotypes of that part of the genome to be assembled as separate primary contigs, rather than as a contig with a haplotig which may cause an error in analysis.
+
+What the purge halpotigs algortihm does is identify pairs of contigs that are syntenic and group them as haplotig. The pipeline uses mapped read coverage and blast/lastz alignments to determine which contigs to keep for the assembly. Dotplots are produced for all flagged contig matches to help the user analyze any remaining ambiguous contigs.
+
+This part must be done in seperate steps as the parameters in each part depend on the results of the previous steps.  
+
+#### Running purge haplotigs: 
+When running purge haplotigs you must run the following command separately one after the other. A detailed tutorial on how to run the purge haplotigs can be found [here](https://bitbucket.org/mroachawri/purge_haplotigs/wiki/Tutorial).
+
+##### Pre processing step:
+First you need to map your reads to the assembly using minimap2, after that need to sort and index the bam file with samtools index.  
+
+```
+minimap2 -t 16 -ax map-ont ${ref} ${read_file}\
+       | samtools view -hF 256 - \
+	   | samtools sort -@ 16 -m 1G -o ${bam} -T ${tmp.ali} 
+```
+
+##### Step 1:
+Then using the following command generate a coverage histogram.
+
+```
+purge_haplotigs  readhist  -b aligned.bam  -g genome.fasta  [ -t threads ]
+
+REQUIRED:
+-b / -bam       BAM file of aligned and sorted reads/subreads to the reference
+-g / -genome    Reference FASTA for the BAM file.
+
+OPTIONAL:
+-t / -threads   Number of worker threads to use, DEFAULT = 4, MINIMUM = 2
+```
+This will produce histogram file in png format and a BEDTools ‘genomecov’ output file which we will be needing for the step2:
+
+##### Step 2:
+Using the above histogram the cutoff values for low read depth, high read depth cutoff need to be selected. Low read cutoff been selected as the midpoint between the haploid and diploid peaks.
+```
+purge_haplotigs  contigcov  -i aligned.bam.genecov  -l 30  -m 80  -h 145 
+
+REQUIRED:
+-i / -in        The bedtools genomecov output that was produced from 'purge_haplotigs readhist'
+-l / -low       The read depth low cutoff (use the histogram to eyeball these cutoffs)
+-h / -high      The read depth high cutoff
+-m / -mid       The low point between the haploid and diploid peaks
+
+OPTIONAL:
+-o / -out       Choose an output file name (CSV format, DEFAULT = coverage_stats.csv)
+-j / -junk      Auto-assign contig as "j" (junk) if this percentage or greater of the contig is 
+                low/high coverage (DEFAULT = 80, > 100 = don't junk anything)
+-s / -suspect   Auto-assign contig as "s" (suspected haplotig) if this percentage or less of the
+                contig is diploid level of coverage (DEFAULT = 80)
+```
+
+This will produce the following files: 
+```
+├── coverage_stats.csv
+```
+
+##### Step 3:
+The following command will run to purge the reads:
+```
+purge_haplotigs purge -b aligned.bam -g ${ref} -c coverage_stats.csv -d -a 60
+```
+
+Command options:
+```
+REQUIRED:
+-g / -genome        Genome assembly in fasta format. Needs to be indexed with samtools faidx.
+-c / -coverage      Contig by contig coverage stats csv file from the previous step.
+-d / -dotplots      Generate dotplots for manual inspection.
+-a / -align_cov     Percent cutoff for identifying a contig as a haplotig. DEFAULT = 70
+```
+
+*  ##### flye assembly purge:
+working directory:
+```
+07_purge/
+├── flye/
+```
+Complete slurm script called [purge_haplotigs.sh](long_read_assembly/07_purge/flye/purge_haplotigs.sh) can be found in the `flye` directory. It will result in a final curated fasta file called *curated.fasta*.
+
+
+*  ##### shasta assembly purge:   
+working directory:
+```
+07_purge/
+├── shasta/
+```
+Complete slurm script called [purge_haplotigs.sh](long_read_assembly/07_purge/shasta/purge_haplotigs.sh) can be found in the `flye` directory. It will result in a final curated fasta file called *curated.fasta*.  
+
+## 3.8 Final assembly evaluation   
+
+Working directory:
+```
+long_read_assembly/
+├── 08_final_assembly_evaluation/
+```
+
+### 3.8.1 BUSCO 
+*  ##### BUSCO evaluation for flye assembly
+```
+busco -i ../../07_purge/flye/curated.fasta \
+        -o flye_curated_busco -l /isg/shared/databases/BUSCO/odb10/viridiplantae_odb10 -m genome
+```
+complete slurm script called [busco_flye.sh](long_read_assembly/08_final_assembly_evaluation/busco/busco_flye.sh) can be found in the `busco` directory.
+
+The summary of the out will contain in:
+```
+flye_curated_busco/
+└── short_summary.specific.viridiplantae_odb10.flye_curated_busco.txt
+```
+
+This will contain the short summary of the evaluation which contains:
+```
+C:80.2%[S:72.0%,D:8.2%],F:10.6%,M:9.2%,n:425
+341     Complete BUSCOs (C)
+306     Complete and single-copy BUSCOs (S)
+35      Complete and duplicated BUSCOs (D)
+45      Fragmented BUSCOs (F)
+39      Missing BUSCOs (M)
+425     Total BUSCO groups searched
+```
+
+
+
+*  ##### BUSCO evaluation for shasta assembly  
+```
+busco -i ../../07_purge/shasta/curated.fasta \
+        -o shasta_curated_busco -l /isg/shared/databases/BUSCO/odb10/viridiplantae_odb10 -m genome
+```
+complete slurm script called [busco_shasta.sh](long_read_assembly/08_final_assembly_evaluation/busco/busco_shasta.sh) can be found in the `busco` directory.
+
+The summary of the out will contain in:
+```
+shasta_curated_busco/
+└── short_summary.specific.viridiplantae_odb10.shasta_curated_busco.txt
+```
+This will contain the short summary of the evaluation which contains:
+```
+C:66.9%[S:62.4%,D:4.5%],F:12.5%,M:20.6%,n:425
+284     Complete BUSCOs (C)
+265     Complete and single-copy BUSCOs (S)
+19      Complete and duplicated BUSCOs (D)
+53      Fragmented BUSCOs (F)
+88      Missing BUSCOs (M)
+425     Total BUSCO groups searched
+```
+
+### 3.8.2 QUAST  
+QUAST will be used to evaluate genome assemblies
+
+*  ##### QUAST evaluation for flye assembly  
+
+```
+quast.py ../../07_purge/flye/curated.fasta \
+        --threads 8 \
+        -o quast_flye
+```
+Complete slurm script called [quast_flye.sh](long_read_assembly/08_final_assembly_evaluation/quast/quast_flye.sh) can be found in the quast directory.
+
+Summary of the statistics can be found in:
+```
+quast_flye
+├── report.txt
+```
+
+*  ##### QUAST evaluation for shasta assembly 
+
+```
+quast.py ../../07_purge/shasta/curated.fasta \
+        --threads 8 \
+        -o quast_shasta
+```
+Complete slurm script called [quast_shasta.sh](long_read_assembly/08_final_assembly_evaluation/quast/quast_shasta.sh) can be found in the quast directory.
+
+Summary of the statistics can be found in:
+```
+quast_shasta/
+├── report.txt
+```
+
+Statistics summary of flye and shasta assemblies:
+
+|             |  flye     |  shasta     |      
+ ------------ |:---------: | :---------: |
+ contigs (>= 0 bp)    | 6549  | 8729  |
+ contigs (>= 1000 bp) | 6392   |  7791 | 
+ contigs (>= 5000 bp) | 5919   |  6087 |  
+ contigs (>= 10000 bp) | 5366  |  4695 |
+ contigs (>= 25000 bp) | 3971   |  2315  |
+ contigs (>= 50000 bp) | 2611    |  803 |
+ Total length (>= 0 bp)| 492754620 |  214959113 | 
+ Total length (>= 1000 bp)| 492661682 | 214572943 | 
+ Total length (>= 5000 bp)| 491351568 | 209629332|
+ Total length (>= 10000 bp)| 487138762| 199431576 |
+ Total length (>= 25000 bp)| 463778615 |  160528824 |
+ Total length (>= 50000 bp)| 414473760 |  107595270 |
+ **no. of contigs**     |  6501  | 8109 | 
+ Largest contig     | 6892258 |  4093867 |
+ Total length       | 492739170 |  214803030 |
+ GC (%)      | 38.43  |  44.85 | 
+ **N50**         | 160624  |  50100 | 
+ N75         | 72963  |  24761 |
+ L50         |  719 |  800|
+ L75         |  1872|  2339|
+
+
+### References
+*   NanoPack: visualizing and processing long-read sequencing data, Bioinformatics, Volume 34, Issue 15, 01 August 2018, Pages 2666–2669. 
+*   Shasta: Nanopore sequencing and the Shasta toolkit enable efficient de novo assembly of eleven human genomes, Nature Biotechnology volume 38, pages1044–1053(2020)
