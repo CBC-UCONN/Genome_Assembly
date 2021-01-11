@@ -406,7 +406,7 @@ MaSuRCA/
 
 Once we have the contigs/scaffolds assembled, next step is to check the quality of these. In here we will use 4 methods to check, which will be depicted in the following:  
 
-![](/images/quality_assesment_overview-1.png)  
+![](/images/short_read_qc.png)  
 
 
 ### 2.3.a Assembly Statistics with QUAST   
@@ -1202,7 +1202,7 @@ working directory:
 07_purge/
 ├── shasta/
 ```
-Complete slurm script called [purge_haplotigs.sh](long_read_assembly/07_purge/shasta/purge_haplotigs.sh) can be found in the `flye` directory. It will result in a final curated fasta file called *curated.fasta*.  
+Complete slurm script called [purge_haplotigs.sh](long_read_assembly/07_purge/shasta/purge_haplotigs.sh) can be found in the `shasta` directory. It will result in a final curated fasta file called *curated.fasta*.  
 
 ## 3.8 Final assembly evaluation   
 
