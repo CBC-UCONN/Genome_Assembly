@@ -406,7 +406,7 @@ MaSuRCA/
 
 Once we have the contigs/scaffolds assembled, next step is to check the quality of these. In here we will use 4 methods to check, which will be depicted in the following:  
 
-![](/images/short_read_qc.png)  
+![](/images/short_read_qc.jpg)  
 
 
 ### 2.3.a Assembly Statistics with QUAST   
