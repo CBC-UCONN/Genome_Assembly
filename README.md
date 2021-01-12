@@ -1321,6 +1321,31 @@ Statistics summary of flye and shasta assemblies:
  L75         |  1872|  2339|
 
 
+### 3.8.2 Minimap2  
+
+In here we will be aligning our reads to the assembed genome to see the alignment rate. Mapping of the reads will be done using the minimap2 and the generated SAM file then will be sorted into BAM format file. 
+```
+minimap2 -t 16 -ax map-ont ${ref} ${read_file} \
+        | samtools sort -@ 16 -m 2G -o ${aligned.bam} -T ${tmp.ali}
+
+bamtools stats -in  ${aligned.bam}
+
+```
+
+*  Complete slrum script for aligning the reads to the flye assembly is called [minimap2_flye.sh](long_read_assembly/08_final_assembly_evaluation/minimap2/minimap2_flye.sh) can be found in the minimap2 directory.  
+
+*  Complete slrum script for aligning the reads to the flye assembly is called [minimap2_shasta.sh](long_read_assembly/08_final_assembly_evaluation/minimap2/minimap2_shasta.sh) can be found in the minimap2 directory. 
+
+|             |  flye     |  shasta     |      
+ ------------ |:---------: | :---------: |
+ Total reads    | 25964212  | 32019753  |
+ Mapped reads | 22520313 (86.736%)   |  27387340 (85.5326%) | 
+ Forward strand | 14787262 (56.9525%)   |  18753862 (58.5697%) |  
+ Reverse strand | 11176950 (43.0475%)  |  13265891 (41.4303%) |
+
+
+## 3. Hybrid Genome Assembly
+
 ### References
 *   NanoPack: visualizing and processing long-read sequencing data, Bioinformatics, Volume 34, Issue 15, 01 August 2018, Pages 2666–2669. 
 *   Shasta: Nanopore sequencing and the Shasta toolkit enable efficient de novo assembly of eleven human genomes, Nature Biotechnology volume 38, pages1044–1053(2020)
