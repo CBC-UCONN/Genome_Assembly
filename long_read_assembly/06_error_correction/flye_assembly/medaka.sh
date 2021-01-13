@@ -7,7 +7,7 @@
 #SBATCH --partition=general
 #SBATCH --qos=general
 #SBATCH --mail-type=ALL
-#SBATCH --mail-user=neranjan.perera@uconn.edu
+#SBATCH --mail-user=first.last@uconn.edu
 #SBATCH -o %x_%A.out
 #SBATCH -e %x_%A.err
 
@@ -21,9 +21,9 @@ module load medaka/0.11.4
 module unload tabix/0.2.6
 
 NPROC=16
-BASECALLS=../../02_basecall_pass/5074_test_LSK109_30JAN19-reads-pass.fasta
+BASECALLS=../../03_centrifuge/physcomitrellopsis_africana_rmv_contam.fasta
 DRAFT=../../04_assembly/flye_t/assembly.fasta
-OUTDIR=/UCHC/PublicShare/CBC_Tutorials/Genome_Assembly/long_read_assembly/06_error_correction/flye_assembly
+OUTDIR=$HOME/Genome_Assembly/long_read_assembly/06_error_correction/flye_assembly
 
 
 medaka_consensus -i ${BASECALLS} -d ${DRAFT} -o ${OUTDIR}  -t 16
