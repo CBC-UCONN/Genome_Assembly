@@ -7,7 +7,7 @@
 #SBATCH --partition=xeon
 #SBATCH --qos=general
 #SBATCH --mail-type=ALL
-#SBATCH --mail-user=neranjan.perera@uconn.edu
+#SBATCH --mail-user=first.last@uconn.edu
 #SBATCH -o %x_%j.out
 #SBATCH -e %x_%j.err
 
@@ -21,13 +21,15 @@ date
 #module load samtools/1.9
 
 ref="../../04_error_correction/shasta_assembly/consensus.fasta"
-read_file="../../02_basecall_pass/5074_test_LSK109_30JAN19-reads-pass.fasta"
+read_file="../../03_centrifuge/physcomitrellopsis_africana_rmv_contam.fasta"
 
 minimap2 -t 8 -ax map-ont ${ref} ${read_file} \
        | samtools view -hF 256 - \
        | samtools sort -@ 8 -m 1G -o shasta_aligned.bam -T shasta_tmp.ali 
 
 
+module unload minimap2/2.15
+module unload samtools/1.9
 
 ##########################################
 ##      load purge haplotigs            ##

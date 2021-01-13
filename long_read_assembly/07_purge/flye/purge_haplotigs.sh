@@ -17,16 +17,22 @@ date
 ##########################################
 ##      minimap alignment               ##
 ##########################################
-#module load minimap2/2.15
-#module load samtools/1.9
+module load minimap2/2.15
+module load samtools/1.9
 
 ref="../../06_error_correction/flye_assembly/consensus.fasta"
-read_file="../../02_basecall_pass/5074_test_LSK109_30JAN19-reads-pass.fasta"
+read_file="../../03_centrifuge/physcomitrellopsis_africana_rmv_contam.fasta"
 
 minimap2 -t 16 -ax map-ont ${ref} ${read_file} \
        | samtools view -hF 256 - \
        | samtools sort -@ 16 -m 1G -o flye_aligned.bam -T flye_tmp.ali 
 
+module unload minimap2/2.15
+module unload samtools/1.9
+
+##########################################
+##      purge haplotigs                 ## 
+##########################################
 module load purge_haplotigs/1.0
 ## STEP-1
 ## purge_haplotigs  readhist  -b aligned.bam  -g genome.fasta  [ -t threads ]
