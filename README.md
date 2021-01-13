@@ -496,18 +496,18 @@ Once executed these scripts using the `sbatch` command, you will end of with bas
 04_quast/
 ├── MaSuRCA
 │   └── report.txt
-├── SOAP_31
+├── SOAP_131
 │   └── report.txt
-├── SOAP_35
+├── SOAP_135
 │   └── report.txt
-├── SOAP_41
+├── SOAP_141
 │   └── report.txt
 └── SPAdes
     └── report.txt
 ```
 
  
-|             |  SOAP-131     |  SOAP-135     |  SOAP-41     |  SPAdes   |   MaSuRCA      |    
+|             |  SOAP-131     |  SOAP-135     |  SOAP-141     |  SPAdes   |   MaSuRCA      |    
  ------------ |:---------: | :---------: | ---------: | --------- | ---------- |  
  contigs (>= 0 bp)    | 438  | 438  |438   |101   | 86 | 
  contigs (>= 1000 bp) | 239   |  239  | 239   | 52   | 77 | 
