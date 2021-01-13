@@ -507,28 +507,28 @@ Once executed these scripts using the `sbatch` command, you will end of with bas
 ```
 
  
-|             |  SOAP-31     |  SOAP-35     |  SOAP-41     |  SPAdes   |   MaSuRCA      |    
+|             |  SOAP-131     |  SOAP-135     |  SOAP-41     |  SPAdes   |   MaSuRCA      |    
  ------------ |:---------: | :---------: | ---------: | --------- | ---------- |  
- contigs (>= 0 bp)    | 1507  | 1905  |1486   |101   | 109 | 
- contigs (>= 1000 bp) | 249   |  220  | 198   | 52   | 83 | 
- contigs (>= 5000 bp) | 158   |  151  | 135   | 41   | 74 | 
- contigs (>= 10000 bp) | 115  |  116  | 100   | 35   | 66 | 
- contigs (>= 25000 bp) | 47   |  52   | 48    | 27   | 41 | 
- contigs (>= 50000 bp) | 5    |  10   | 14    | 19   | 19 | 
- Total length (>= 0 bp)| 3743924 |  3764218 | 3630629 |  2885853 | 2823460 | 
- Total length (>= 1000 bp)| 3554783 | 3525490 | 3426820 | 2870111 | 2811306 | 
- Total length (>= 5000 bp)| 3302110 | 3328521 | 3247325 | 2843776 | 2783930 | 
- Total length (>= 10000 bp)| 2985682 | 3084724 | 2998473 | 2799884 | 2724327 | 
- Total length (>= 25000 bp)| 1871285 |  2046075 | 2170495 | 2664507 | 2305141 | 
- Total length (>= 50000 bp)| 371124 |  649800 | 929172 | 2373293 | 1536577 | 
- **no. of contigs**     |  276  | 246 | 214 | 60  | 88 | 
- Largest contig     | 103125 |  86844 | 99593 | 255651 | 220219 |
- Total length       | 3574101 |  3543834 | 3438095 | 2875218 | 2814735 | 
- GC (%)      | 32.44  |  32.46 | 32.46 | 32.65 | 32.68 | 
- **N50**         | 26176  |  27766 | 36169 | **149694** | 53223 |
- N75         | 14642  |  16356 | 16752 | 61620 | 31370 | 
- L50         |  44  |  42 | 33 | 8 | 17 | 
- L75         |  91  |  84 | 69 | 15 | 35 |  
+ contigs (>= 0 bp)    | 438  | 438  |438   |101   | 86 | 
+ contigs (>= 1000 bp) | 239   |  239  | 239   | 52   | 77 | 
+ contigs (>= 5000 bp) | 148   |  148  | 148   | 41   | 69 | 
+ contigs (>= 10000 bp) | 101  |  101  | 101   | 35   | 62 | 
+ contigs (>= 25000 bp) | 25   |  25   | 25    | 27   | 40 | 
+ contigs (>= 50000 bp) | 7    |  7   | 7    | 19   | 18 | 
+ Total length (>= 0 bp)| 2906151 |  2906151 | 2906151 |  2885853 | 2825384 | 
+ Total length (>= 1000 bp)| 2845923 | 2845923 | 2845923 | 2870111 | 2817661 | 
+ Total length (>= 5000 bp)| 2606777 | 2606777 | 2606777 | 2843776 | 2796700 | 
+ Total length (>= 10000 bp)| 2271580 | 2271580 | 2271580 | 2799884 | 2745806 | 
+ Total length (>= 25000 bp)| 1064494 |  1064494 | 1064494 | 2664507 | 2388905 | 
+ Total length (>= 50000 bp)| 478675 |  478675 | 478675 | 2373293 | 1610768 | 
+ **no. of contigs**     |  269  | 269 | 269 | 60  | 86 | 
+ Largest contig     | 96217 |  96217 | 96217 | 255651 | 220219 |
+ Total length       | 2867099 |  2867099 | 2867099 | 2875218 | 2825384 | 
+ GC (%)      | 32.63  |  32.63 | 32.63 | 32.65 | 32.75 | 
+ **N50**         | 19693  |  19693 | 19693 | **149694** | 54020 |
+ N75         | 11525  |  11525 | 11525 | 61620 | 32399 | 
+ L50         |  42  |  42 | 42 | 8 | 15 | 
+ L75         |  90  |  90 | 90 | 15 | 31 |  
 
 
 
@@ -558,7 +558,7 @@ bowtie2-build [options] <reference-index> <index-base-name>
 Once you build the index, next step would be to align the reads to the genome using the index you build.   
 
 ```bash
-bowtie2 [options] -x <bt-index> -U <unpaired-reads> -S <SAM-output> \
+bowtie2 [options] -x <bt-index> -1 <paired-reads> -2 <paired-reads> -S <SAM-output> \
 	--threads 8 2>output.err
 ```   
 
@@ -568,40 +568,40 @@ Since we are using three de novo methods to construct genomes, we will now try t
 
 *   SOAP   
 ```bash
-mkdir -p SOAP_31_index SOAP_35_index SOAP_41_index  
+mkdir -p SOAP_131_index SOAP_135_index SOAP_141_index
 
-module load bowtie2/2.3.5.1  
+module load bowtie2/2.3.5.1
 
-## SOAP_31
+## SOAP_131
 bowtie2-build \
-	--threads 8 \
-	../03_assembly/SOAP/graph_Sample_31.scafSeq SOAP_31_index/SOAP_31_index
+        --threads 8 \
+        ../03_assembly/SOAP/graph_Sample_131.scafSeq SOAP_131_index/SOAP_131_index
 
-bowtie2 -x SOAP_31_index/SOAP_31_index \
-	-U ../01_raw_reads/Sample_R1.fastq,../01_raw_reads/Sample_R2.fastq \
-	-S SOAP_31.bowtie2.sam \
-	--threads 8 2>SOAP_31.err 
+bowtie2 -x SOAP_131_index/SOAP_131_index \
+        -1 ../01_raw_reads/Sample_R1.fastq -2 ../01_raw_reads/Sample_R2.fastq \
+        -S SOAP_131.bowtie2.sam \
+        --threads 8 2>SOAP_131.err
 
-## SOAP_35 
+## SOAP_135
 bowtie2-build \
-	--threads 8 \
-	../03_assembly/SOAP/graph_Sample_35.scafSeq SOAP_35_index/SOAP_35_index 
+        --threads 8 \
+        ../03_assembly/SOAP/graph_Sample_135.scafSeq SOAP_135_index/SOAP_135_index
 
-bowtie2 -x SOAP_35_index/SOAP_35_index \
-	-U ../01_raw_reads/Sample_R1.fastq,../01_raw_reads/Sample_R2.fastq \
-	-S SOAP_35.bowtie2.sam \
-	--threads 8 2>SOAP_35.err 
+bowtie2 -x SOAP_135_index/SOAP_135_index \
+        -1 ../01_raw_reads/Sample_R1.fastq -2 ../01_raw_reads/Sample_R2.fastq \
+        -S SOAP_135.bowtie2.sam \
+        --threads 8 2>SOAP_135.err 
 
 
-## SOAP_41
+## SOAP_141 
 bowtie2-build \
-	--threads 8 \
-	../03_assembly/SOAP/graph_Sample_41.scafSeq SOAP_41_index/SOAP_41_index
+        --threads 8 \
+        ../03_assembly/SOAP/graph_Sample_141.scafSeq SOAP_141_index/SOAP_141_index
 
-bowtie2 -x SOAP_41_index/SOAP_41_index \
-	-U ../01_raw_reads/Sample_R1.fastq,../01_raw_reads/Sample_R2.fastq \
-	-S SOAP_41.bowtie2.sam \
-	--threads 8 2>SOAP_41.err
+bowtie2 -x SOAP_141_index/SOAP_141_index \
+        -1 ../01_raw_reads/Sample_R1.fastq -2 ../01_raw_reads/Sample_R2.fastq \
+        -S SOAP_141.bowtie2.sam \
+        --threads 8 2>SOAP_141.err
 
 ```  
 
@@ -610,17 +610,19 @@ The full slurm script is called [bowtie2_SOAP.sh](/short_read_assembly/05_bowtie
 
 *   SPAdes  
 ```bash
+# SPAdes
 mkdir -p SPAdes_index
 
 module load bowtie2/2.3.5.1
+
 bowtie2-build \
-	--threads 8 \
-	../03_assembly/SPAdes/scaffolds.fasta SPAdes_index/SPAdes_index
+        --threads 8 \
+        ../03_assembly/SPAdes/scaffolds.fasta SPAdes_index/SPAdes_index
 
 bowtie2 -x SPAdes_index/SPAdes_index \
-	-U ../01_raw_reads/Sample_R1.fastq,../01_raw_reads/Sample_R2.fastq \
-	-S SPAdes.bowtie2.sam \
-	--threads 8 2>SPAdes.err
+        -1 ../01_raw_reads/Sample_R1.fastq -2 ../01_raw_reads/Sample_R2.fastq \
+        -S SPAdes.bowtie2.sam \
+        --threads 8 2>SPAdes.err
 ```
 
 The full slurm script for running bowtie2 for genome created with  is called [bowtie2_SPAdes.sh](/short_read_assembly/05_bowtie2/bowtie2_SPAdes.sh), which can be found in **05_bowtie2/** directory.  
@@ -630,14 +632,15 @@ The full slurm script for running bowtie2 for genome created with  is called [bo
 mkdir -p MaSuRCA_index
 
 module load bowtie2/2.3.5.1
+
 bowtie2-build \
-	--threads 8 \
-	../03_assembly/MaSuRCA/CA/final.genome.scf.fasta MaSuRCA_index/MaSuRCA_index 
+        --threads 8 \
+        ../03_assembly/MaSuRCA/CA/final.genome.scf.fasta MaSuRCA_index/MaSuRCA_index
 
 bowtie2 -x MaSuRCA_index/MaSuRCA_index \
-	-U ../01_raw_reads/Sample_R1.fastq,../01_raw_reads/Sample_R2.fastq \
-	-S MaSuRCA.bowtie2.sam \
-	--threads 8 2>MaSuRCA.err
+        -1 ../01_raw_reads/Sample_R1.fastq -2 ../01_raw_reads/Sample_R2.fastq \
+        -S MaSuRCA.bowtie2.sam \
+        --threads 8 2>MaSuRCA.err
 ```  
 
 The full slurm script for running bowtie2 for genome created with MaSuRCA is called [bowtie2_MaSuRCA.sh](/short_read_assembly/05_bowtie2/bowtie2_MaSuRCA.sh), which can be found in 05_bowtie2/ directory.   
@@ -646,23 +649,23 @@ As shown for the SOAP_31: it will create the following files and folders for eac
 ```
 05_bowtie2/
 ├── SOAP_31_index/
-│   ├── SOAP_31_index.1.bt2
-│   ├── SOAP_31_index.2.bt2
-│   ├── SOAP_31_index.3.bt2
-│   ├── SOAP_31_index.4.bt2
-│   ├── SOAP_31_index.rev.1.bt2
-│   └── SOAP_31_index.rev.2.bt2
-├── SOAP_31.bowtie2.sam
-└── SOAP_31.err
+│   ├── SOAP_131_index.1.bt2
+│   ├── SOAP_131_index.2.bt2
+│   ├── SOAP_131_index.3.bt2
+│   ├── SOAP_131_index.4.bt2
+│   ├── SOAP_131_index.rev.1.bt2
+│   └── SOAP_131_index.rev.2.bt2
+├── SOAP_131.bowtie2.sam
+└── SOAP_131.err
 ``` 
-We have only shown the output directory and files for SOAP_31 case, as an example.   
+We have only shown the output directory and files for SOAP_131 case, as an example.   
 
 The alingment data will be in `*.err` files associated with each run.  
 ```
 05_bowtie2/
-├── SOAP_31.err
-├── SOAP_35.err
-├── SOAP_41.err
+├── SOAP_131.err
+├── SOAP_135.err
+├── SOAP_141.err
 ├── SPAdes.err
 └── MaSuRCA.err
 ```    
@@ -670,14 +673,14 @@ The alingment data will be in `*.err` files associated with each run.
 Following table summerizes the alignment results with bowtie2.  
 
 
-|             |  SOAP-31     |  SOAP-35     |  SOAP-41     |  SPAdes   |   MaSuRCA      |    
+|             |  SOAP-131     |  SOAP-135     |  SOAP-41     |  SPAdes   |   MaSuRCA      |    
  ------------ |:---------: | :---------: | ---------: | --------- | ---------- |   
-reads   |  1009902  |   1009902   |  1009902  |  1009902  |  1009902  |  
-unpaired   |  1009902   |   1009902   |  1009902  |  1009902  |  1009902  |  
-aligned 0 times  |  55.40%   |   53.52%  |  49.71%  |  13.31%  |  17.51%  |  
-aligned exactly 1 time   |  44.59%   |  46.47%  |   50.26%  |  **85.21%**  |  79.14%  |   
-aligned >1 times   |   0.00%   |   0.01%  |  0.02%  |  1.48%  |  3.35%  |  
-overall alignment rate   |  44.60%   |   46.48%  |  50.29%  |  **86.69%**  |   82.49%  |  
+reads   |  504951  |   504951   |  504951  |  504951  |  1009902  |  
+paired   |  504951   |   504951   |  504951  |  504951  |  1009902  |  
+aligned concordantly 0 times  |  43.16%   |   43.16%  |  56.31% |  42.00%  |  17.51%  |  
+aligned concordantly exactly 1 time   |  56.31%   |  56.31%  |   56.31%  |  57.32%  |  79.14%  |   
+aligned concordantly >1 times   |   0.53%   |   0.53%  | 0.53% |  0.53%  |  3.35%  |  
+overall alignment rate   |  85.91%   |   85.91%  |  85.91% |  86.77%  |   82.49%  |  
 
 
 Between de-novo assemblies it shows that, assembly done with SPAdes have a good overall alignment rate, and higher number of reads would match exactly 1 time to the reference genome.    
@@ -704,20 +707,22 @@ Following will be the commands which will be used for evaluating SOAP, SPAdes, M
 *   SOAP:  
 
 ```bash  
-busco -i ../03_assembly/SOAP/graph_Sample_31.scafSeq \
-	-o SOAP_31 \
-	-l /isg/shared/databases/BUSCO/odb10/bacteria_odb10 \
-	-m genome 
+busco -i ../03_assembly/SOAP/graph_Sample_131.scafSeq \
+        -o SOAP_131 \
+		-l /isg/shared/databases/BUSCO/odb10/bacteria_odb10 \
+		-m genome
 
-busco -i ../03_assembly/SOAP/graph_Sample_35.scafSeq \
-	-o SOAP_35 \
-	-l /isg/shared/databases/BUSCO/odb10/bacteria_odb10 \
-	-m genome
 
-busco -i ../03_assembly/SOAP/graph_Sample_41.scafSeq \
-	-o SOAP_41 \
-	-l /isg/shared/databases/BUSCO/odb10/bacteria_odb10 \
-	-m genome
+busco -i ../03_assembly/SOAP/graph_Sample_135.scafSeq \
+        -o SOAP_135 \
+		-l /isg/shared/databases/BUSCO/odb10/bacteria_odb10 \
+		-m genome
+
+
+busco -i ../03_assembly/SOAP/graph_Sample_141.scafSeq \
+        -o SOAP_141 \
+		-l /isg/shared/databases/BUSCO/odb10/bacteria_odb10 \
+		-m genome
 ```   
 
 The full script for evaluating the three SOAP assemblies is called, [busco_SOAP.sh](short_read_assembly/06_busco/busco_SOAP.sh) which can be found in `short_read_assembly/06_busco` folder.   
@@ -767,11 +772,11 @@ Once you have executed the above commands the BUSCO output will contain a printe
 ```
 06_busco/
 ├── SOAP_31/
-│   └── short_summary.specific.bacteria_odb10.SOAP_31.txt
+│   └── short_summary.specific.bacteria_odb10.SOAP_131.txt
 ├── SOAP_35/
-│   └── short_summary.specific.bacteria_odb10.SOAP_35.txt
+│   └── short_summary.specific.bacteria_odb10.SOAP_135.txt
 ├── SOAP_41/
-│   └── short_summary.specific.bacteria_odb10.SOAP_41.txt
+│   └── short_summary.specific.bacteria_odb10.SOAP_141.txt
 ├── SPAdes/
 │   └── short_summary.specific.bacteria_odb10.SPAdes.txt
 └── MaSuRCA/
@@ -780,37 +785,37 @@ Once you have executed the above commands the BUSCO output will contain a printe
 
 The the above output will contain:  
 ```
-SOAP_31
-C:45.2%[S:45.2%,D:0.0%],F:39.5%,M:15.3%,n:124
+SOAP_131
+C:100.0%[S:100.0%,D:0.0%],F:0.0%,M:0.0%,n:124
 
-SOAP_35
-C:47.6%[S:47.6%,D:0.0%],F:40.3%,M:12.1%,n:124 
+SOAP_135
+C:100.0%[S:100.0%,D:0.0%],F:0.0%,M:0.0%,n:124 
 
-SOAP_41
-C:50.8%[S:50.8%,D:0.0%],F:35.5%,M:13.7%,n:124
+SOAP_141
+C:100.0%[S:100.0%,D:0.0%],F:0.0%,M:0.0%,n:124
 
 SPAdes
 C:100.0%[S:100.0%,D:0.0%],F:0.0%,M:0.0%,n:124
 
 MaSuRCA
-C:99.2%[S:99.2%,D:0.0%],F:0.0%,M:0.8%,n:124 
+C:100.0%[S:100.0%,D:0.0%],F:0.0%,M:0.0%,n:124 
 ```
 These BUSCO output will produce its output using a scoring scheme: 
 **C**:complete [**S**:single-copy, **D**:duplicated], **F**:fragmented, and **M**:missing and the total BUSCO genes are indicated in **n:**.   
-![](images/busco_assesment_results.png)  
+  
 
 To judge the score, you need to consider the type of sequence first. A model organism with a reference genome often will reach a score of 95% or above  as a complete score and a non-model organisms can reach a score from 50% to 95% complete. This alone will not give an idea on how good the assembly is, as you need to look at the assembly and the annotation results together to make a judgement.   
 
 In *full_table.tsv* file it will contain the detailed list of BUSCO genes and their predicted status in the genome. These files can be found in:   
 ```
 06_busco/
-├── SOAP_31
+├── SOAP_131
 │   └── run_bacteria_odb10
 │       └── full_table.tsv
-├── SOAP_35
+├── SOAP_135
 │   └── run_bacteria_odb10
 │       └── full_table.tsv
-├── SOAP_41
+├── SOAP_141
 │   └── run_bacteria_odb10
 │       └── full_table.tsv
 ├── SPAdes
@@ -1029,7 +1034,7 @@ usage: flye
 Full slurm script is called [flye.sh](long_read_assembly/04_assembly/flye/flye.sh) can be found in the `04_assembly/flye` directory. This will create he following files inside the flye_assembly folder, and the assembled fasta file is called scaffolds.fasta or assembly.fasta.
 
 ```
-flye_t/
+flye/
 ├── 00-assembly
 ├── 10-consensus
 ├── 20-repeat

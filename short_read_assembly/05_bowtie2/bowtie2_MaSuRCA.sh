@@ -27,9 +27,9 @@ bowtie2-build \
 	../03_assembly/MaSuRCA/CA/final.genome.scf.fasta MaSuRCA_index/MaSuRCA_index
 
 bowtie2 -x MaSuRCA_index/MaSuRCA_index \
-	-U ../01_raw_reads/Sample_R1.fastq,../01_raw_reads/Sample_R2.fastq \
-	-S MaSuRCA.bowtie2.sam \
-	--threads 8 2>MaSuRCA.err
+        -1 ../01_raw_reads/Sample_R1.fastq -2 ../01_raw_reads/Sample_R2.fastq \
+        -S MaSuRCA.bowtie2.sam \
+        --threads 8 2>MaSuRCA.err
 
 
 module unload bowtie2/2.3.5.1
