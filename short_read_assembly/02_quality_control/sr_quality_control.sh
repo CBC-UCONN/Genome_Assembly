@@ -34,3 +34,21 @@ sickle pe \
 module unload sickle/1.33
 echo "End Time: `date`"
 
+##########################################################
+## FASTQC Raw Reads                                     ##
+##########################################################
+module load fastqc/0.11.7
+mkdir -p RAWfastqc_OUT
+
+fastqc -o ./RAWfastqc_OUT ../01_raw_reads/Sample_R1.fastq ../01_raw_reads/Sample_R2.fastq
+
+
+##########################################################
+## FASTQC Trimmed Reads                                 ##
+##########################################################
+mkdir -p TRIMfastqc_OUT
+
+fastqc -o ./TRIMfastqc_OUT ./trim_Sample_R1.fastq ./trim_Sample_R2.fastq
+
+
+echo "End of FASTQC: `date`"
