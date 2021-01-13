@@ -908,6 +908,8 @@ Usage:  centrifuge [options]* -x <cf-idx>  -U <r>  [-S <filename>] [--report-fil
 ```
 The complete slurm script is called [centrifuge.sh](long_read_assembly/03_centrifuge/centrifuge.sh) can be found in the 03_centrifuge folder. This will produce a report and classification report based on the contaminants. We will use a python script to remove the contaminates from the fasta file. 
 
+Inital coverage =  112X
+Post centrifuge coverage = 64X
 
 
 ### 3.4 Assembly  
