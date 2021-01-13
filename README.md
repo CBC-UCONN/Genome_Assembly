@@ -912,7 +912,15 @@ Inital coverage =  112X
 
 Post centrifuge coverage = 64X
 
-### 3.3.2 Contaminant screening of short reads   
+### 3.3.2 Contaminant screening of short reads  
+
+Working directory:  
+```
+long_read_assembly/
+├── ILLUMINA_DATA/
+│   ├── 02_Kraken/
+
+```
 For this species we also had Illumina short reads. In order to check the contaminate in the reads we used Kraken software. Illumina short reads were initially trimmed using Trimmomatic and before running the contaminant screening using Kraken. 
 
 Kraken command:
@@ -930,7 +938,7 @@ kraken2 -db /isg/shared/databases/kraken2/Standard \
         --report kraken_report.txt \
         --use-mpa-style
 ```
-
+Complete slurm script is called [Kraken.sh](long_read_assembly/ILLUMINA_DATA/02_Kraken/Kraken.sh).
 This will create the sequence output, report and a summary report. 
 ```
 ├── classified_1.fastq
