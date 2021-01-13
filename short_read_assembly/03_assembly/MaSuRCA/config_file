@@ -1,7 +1,7 @@
 #MaSuRCA configuration file
 DATA
 #Illumina paired end reads supplied as <two-character prefix> <fragment mean> <fragment stdev> <forward_reads> <reverse_reads> 
-PE= pe 180 20  ../../01_raw_reads/Sample_R1.fastq ../../01_raw_reads/Sample_R2.fastq 
+PE= pe 480 20  ../../01_raw_reads/Sample_R1.fastq ../../01_raw_reads/Sample_R2.fastq 
 END
 
 PARAMETERS
@@ -33,7 +33,7 @@ CLOSE_GAPS=1
 #auto-detected number of cpus to use
 NUM_THREADS = 8
 #this is mandatory jellyfish hash size -- a safe value is estimated_genome_size*estimated_coverage
-JF_SIZE = 200000000
+JF_SIZE = 300000000
 #set this to 1 to use SOAPdenovo contigging/scaffolding module.  Assembly will be worse but will run faster. Useful for very large (>5Gbp) genomes from Illumina-only data
 SOAP_ASSEMBLY=0
 END

@@ -1461,11 +1461,12 @@ bamtools stats -in  ${aligned.bam}
 
 ## 4. Hybrid Genome Assembly
 
-### 4.1 Introduction
+### Introduction
 In this section we will be working with hybrid assemblers which will be compatible with long read PacBio Data and Short read Illumina data. Nanopore and PacBio are currently both the main long read sequencing technologies but the major differences in them are that PacBio reads a molecule multiple times to generate high-quality consensus data while Nanopore can only sequence a molecule twice. As a result, PacBio generates data with lower error rates compared to Oxford Nanopore.
 
 To perform a hybrid assembly it requires you have both short and long read data to complete the genome. Hybrid assembly uses short read data to resolve ambiguity in the long read data as it is assembled. For this tutorial we are using data from a boxelder (Acer_negundo) genome. 
 
+##### Pacbio Data
 First step is the conversion of RS-II pacbio data into fasta format, which is done using [pbh5tools](https://github.com/PacificBiosciences/pbh5tools/blob/master/doc/index.rst) provided by pacificbiosciences. `bash5tools.py` can extract read sequences and quality score values from raw and circular consensus sequencing reads to create fastq and fasta files.
 ```
 bash5tools.py --outFilePrefix [PREFIX] --outType fasta --readType [Type] input.bas.h5  
@@ -1476,8 +1477,24 @@ input.bas.h5          input .bas.h5 filename
 --outType OUTTYPE     output file type (fasta, fastq) [fasta]  
 ```
 
+Our Pacbio data is located in the `Pacbio_DATA` directory
+```
+Pacbio_DATA/
+└── acne_pb.fasta
+```
 
+##### Illumina Data
+The short reads that we are going to use in this assembly is located in the `ILLUMINA_DATA/` directory:
+```
+ILLUMINA_DATA/
+├── XUMNS_20180703_K00134_IL100105003_S37_L007_R1.fastq.gz
+├── XUMNS_20180703_K00134_IL100105003_S37_L007_R2.fastq.gz
+├── XUMNS_20180703_K00134_IL100105003_S37_L008_R1.fastq.gz
+└── XUMNS_20180703_K00134_IL100105003_S37_L008_R2.fastq.gz
+```
 
+### Assembly
+We will be using two different read types to do our assembly. 
 
 ### References
 *   NanoPack: visualizing and processing long-read sequencing data, Bioinformatics, Volume 34, Issue 15, 01 August 2018, Pages 2666–2669. 
