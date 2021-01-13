@@ -1019,14 +1019,14 @@ Working directory:
 Following commands will be used to evaluate the flye and shasta initial assemblies.
 *   flye:
 ```
-busco -i ../03_assembly/flye/assembly.fasta \
+busco -i ../04_assembly/flye/assembly.fasta \
         -o busco_flye -l /isg/shared/databases/BUSCO/odb10/viridiplantae_odb10 -m genome
 ```
 Complete slurm script called [busco_flye.sh](long_read_assembly/05_initial_assembly_evaluation/busco/busco_flye.sh) can be found in the busco directory.  
 
 *   shasta:
 ```
-busco -i ../03_assembly/shasta/ShastaRun/Assembly.fasta \
+busco -i ../04_assembly/shasta/ShastaRun/Assembly.fasta \
         -o busco_shasta -l /isg/shared/databases/BUSCO/odb10/viridiplantae_odb10 -m genome
 ```
 Complete slurm script called [busco_shasta.sh](long_read_assembly/05_initial_assembly_evaluation/busco/busco_shasta.sh) can be found in the busco directory.
@@ -1064,7 +1064,7 @@ Working directory:
 
 *  flye assembly :  
 ```
-quast.py ../03_assembly/flye_t/assembly.fasta \
+quast.py ../04_assembly/flye/assembly.fasta \
         --threads 8 \
         -o quast_flye
 
@@ -1073,7 +1073,7 @@ Complete slurm script called [quast_flye.sh](long_read_assembly/05_initial_assem
 
 *  shasta assembly :  
 ```
-quast.py ../../03_assembly/shasta/ShastaRun/Assembly.fasta \
+quast.py ../../04_assembly/shasta/ShastaRun/Assembly.fasta \
         --threads 8 \
         -o quast_shasta
 ```
