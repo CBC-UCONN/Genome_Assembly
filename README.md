@@ -115,7 +115,26 @@ Once you run the batch script using *sbatch* command, you will end up with the f
 ├── trim_Sample_R1.fastq
 ├── trim_Sample_R2.fastq
 └── sinlges.fastq
+```    
+
+#### Quality Check of Reads using FASTQC  
+In here we will use the FASTQC package to check the quality of the reads before and after trimming.   
+
+Quality check of raw reads:  
+```
+mkdir -p RAWfastqc_OUT
+fastqc -o ./RAWfastqc_OUT ../01_raw_reads/Sample_R1.fastq ../01_raw_reads/Sample_R2.fastq
 ```  
+
+Quality check of trimmed reads:  
+```
+mkdir -p TRIMfastqc_OUT
+fastqc -o ./TRIMfastqc_OUT ./trim_Sample_R1.fastq ./trim_Sample_R2.fastq
+```  
+
+FASTQC produces a HTML file with stats about your reads. You can download these HTML files to your local computer to view them using the `transfer.cam.uchc.edu` submit node, which facilitate file transfer.  
+
+
 
 ### 2.2  Assembly  
 #### 2.2a  Assembly with SOAPdenovo   
