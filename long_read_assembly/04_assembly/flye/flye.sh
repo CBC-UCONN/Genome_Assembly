@@ -20,7 +20,7 @@ date
 
 module load flye/2.4.2
 
-flye --nano-raw ../../02_basecall_pass/5074_test_LSK109_30JAN19-reads-pass.fasta \
+flye --nano-raw ../../03_centrifuge/physcomitrellopsis_africana_rmv_contam.fasta \
         --genome-size 1g \
         --threads 32 \
         --out-dir /UCHC/PublicShare/CBC_Tutorials/Genome_Assembly/long_read_assembly/03_assembly/flye_t

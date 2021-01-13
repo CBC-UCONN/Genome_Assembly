@@ -924,7 +924,7 @@ Flye assembler takes data from Pacbio or Oxford Nanopore technologies sequencers
 
 Command for running flye assembly:
 ```
-flye --nano-raw ../../02_basecall_pass/5074_test_LSK109_30JAN19-reads-pass.fasta \
+flye --nano-raw ../../03_centrifuge/physcomitrellopsis_africana_rmv_contam.fasta \
         --genome-size 1g \
         --threads 32 \
         --out-dir /UCHC/PublicShare/CBC_Tutorials/Genome_Assembly/long_read_assembly/03_assembly/flye_t
@@ -972,7 +972,7 @@ long_read_assembly/
 
 Command for running shasta assembly:  
 ```
-shasta --input ../../02_basecall_pass/5074_test_LSK109_30JAN19-reads-pass.fasta \
+shasta --input ../../03_centrifuge/physcomitrellopsis_africana_rmv_contam.fasta \
         --Reads.minReadLength 500 \
         --memoryMode anonymous \
         --memoryBacking 4K \
@@ -1019,7 +1019,7 @@ Working directory:
 Following commands will be used to evaluate the flye and shasta initial assemblies.
 *   flye:
 ```
-busco -i ../03_assembly/flye_t/assembly.fasta \
+busco -i ../03_assembly/flye/assembly.fasta \
         -o busco_flye -l /isg/shared/databases/BUSCO/odb10/viridiplantae_odb10 -m genome
 ```
 Complete slurm script called [busco_flye.sh](long_read_assembly/05_initial_assembly_evaluation/busco/busco_flye.sh) can be found in the busco directory.  

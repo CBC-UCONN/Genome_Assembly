@@ -20,7 +20,7 @@ date
 
 module load shasta/0.5.1
 
-shasta --input ../../02_basecall_pass/5074_test_LSK109_30JAN19-reads-pass.fasta \
+shasta --input ../../03_centrifuge/physcomitrellopsis_africana_rmv_contam.fasta \
         --Reads.minReadLength 500 \
         --memoryMode anonymous \
         --threads 32
