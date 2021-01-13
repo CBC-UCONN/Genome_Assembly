@@ -860,7 +860,7 @@ This raw fasta file is located in the following directory:
 
 This will be the fasta file we will be using to demonstrate the assembling of long reads.   
 
-### 3.3.1 Quality Report
+### 3.3 Quality Report
 In here we use [nanoplot](https://github.com/wdecoster/NanoPlot) a tool developed to evaluate the statistics of long read data of Oxford Nanopore Technologies and Pacific Biosciences. 
 
 Working directory:
@@ -882,7 +882,7 @@ This will create a summary files and figures which can be found in the output di
 ![](images/LengthvsQualityScatterPlot_dot.png)
 
 
-### 3.3.1 Contaminant screening
+### 3.3.1 Contaminant screening of long reads
 
 Here we will be using [Centrifuge](https://ccb.jhu.edu/software/centrifuge/) software to classify DNA sequences from microbial samples. It uses a novel indexing scheme which uses a relatively small index to perform a fast classification.
 
@@ -908,8 +908,65 @@ Usage:  centrifuge [options]* -x <cf-idx>  -U <r>  [-S <filename>] [--report-fil
 ```
 The complete slurm script is called [centrifuge.sh](long_read_assembly/03_centrifuge/centrifuge.sh) can be found in the 03_centrifuge folder. This will produce a report and classification report based on the contaminants. We will use a python script to remove the contaminates from the fasta file. 
 
-Inital coverage =  112X
+Inital coverage =  112X  
+
 Post centrifuge coverage = 64X
+
+### 3.3.2 Contaminant screening of short reads   
+For this species we also had Illumina short reads. In order to check the contaminate in the reads we used Kraken software. Illumina short reads were initially trimmed using Trimmomatic and before running the contaminant screening using Kraken. 
+
+Kraken command:
+```
+module load kraken/2.0.8-beta
+module load jellyfish/2.2.6
+
+kraken2 -db /isg/shared/databases/kraken2/Standard \
+        --paired cat_R1.fq cat_R2.fq \
+        --use-names \
+        --threads 16 \
+        --output kraken_general.out \
+        --unclassified-out unclassified#.fastq \
+        --classified-out classified#.fastq      \
+        --report kraken_report.txt \
+        --use-mpa-style
+```
+
+This will create the sequence output, report and a summary report. 
+```
+├── classified_1.fastq
+├── classified_2.fastq
+├── kraken_report.txt
+├── kraken_general.out
+├── unlassified_1.fastq
+└── unlassified_2.fastq
+```
+
+According to the Kraken2 report we can identify the following summay using:
+```
+grep -v "|" kraken_report.txt
+```
+
+which will give :
+```
+d__Bacteria	197855570
+d__Eukaryota	1270391
+d__Archaea	62343
+d__Viruses	15501
+s__unidentified	6
+```
+
+Also if you look at the *.err file it will show:
+```
+254808872 sequences (47531.49 Mbp) processed in 1266.999s (12066.7 Kseq/m, 2250.90 Mbp/m).
+  199246490 sequences classified (78.19%)
+  55562382 sequences unclassified (21.81%)
+```
+
+Initial coverage of Illumina data (post Trimmomatic) = 50X  
+After Kraken filtering = 11X  
+
+
+
 
 
 ### 3.4 Assembly  
