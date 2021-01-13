@@ -25,7 +25,7 @@ LHE_COVERAGE=30
 LIMIT_JUMP_COVERAGE = 300
 #these are the additional parameters to Celera Assembler.  do not worry about performance, number or processors or batch sizes -- these are computed automatically. 
 #set cgwErrorRate=0.25 for bacteria and 0.1<=cgwErrorRate<=0.15 for other organisms.
-CA_PARAMETERS =  cgwErrorRate=0.15
+CA_PARAMETERS =  cgwErrorRate=0.25
 #minimum count k-mers used in error correction 1 means all k-mers are used.  one can increase to 2 if Illumina coverage >100
 KMER_COUNT_THRESHOLD = 1
 #whether to attempt to close gaps in scaffolds with Illumina data
