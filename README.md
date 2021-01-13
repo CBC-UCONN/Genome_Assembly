@@ -860,7 +860,7 @@ This raw fasta file is located in the following directory:
 
 This will be the fasta file we will be using to demonstrate the assembling of long reads.   
 
-### 3.3 Quality Report
+### 3.3.1 Quality Report
 In here we use [nanoplot](https://github.com/wdecoster/NanoPlot) a tool developed to evaluate the statistics of long read data of Oxford Nanopore Technologies and Pacific Biosciences. 
 
 Working directory:
@@ -880,6 +880,35 @@ NanoPlot --summary ../02_basecall_pass/sequencing_summary.txt \
 This will create a summary files and figures which can be found in the output directory specified in the command along with a HTML report. 
 ![](images/HistogramReadlength.png)  
 ![](images/LengthvsQualityScatterPlot_dot.png)
+
+
+### 3.3.1 Contaminant screening
+
+Here we will be using [Centrifuge](https://ccb.jhu.edu/software/centrifuge/) software to classify DNA sequences from microbial samples. It uses a novel indexing scheme which uses a relatively small index to perform a fast classification.
+
+The command used:
+```
+centrifuge -f \
+	-x /isg/shared/databases/centrifuge/b+a+v+h/p_compressed+h+v \
+	--report-file report.tsv \
+	--quiet \
+	--min-hitlen 50 \
+	-U ../02_basecall_pass/5074_test_LSK109_30JAN19-reads-pass.fasta
+```
+
+Command options:
+```
+Usage:  centrifuge [options]* -x <cf-idx>  -U <r>  [-S <filename>] [--report-file <report>]
+
+<cf-idx>   Index filename prefix (minus trailing .X.cf)
+-U         can be comma-separated file lists
+--min-hitlen  minimum length of partial hits (default 22, must be greater than 15)
+-p/--threads  number of alignment threads
+--quiet       print nothing to stderr except serious errors
+```
+The complete slurm script is called [centrifuge.sh](long_read_assembly/03_centrifuge/centrifuge.sh) can be found in the 03_centrifuge folder. This will produce a report and classification report based on the contaminants. We will use a python script to remove the contaminates from the fasta file. 
+
+
 
 ### 3.4 Assembly  
 In this step we will be using two asseblers Flye and Shasta on the base called ONT data.   
@@ -1344,7 +1373,25 @@ bamtools stats -in  ${aligned.bam}
  Reverse strand | 11176950 (43.0475%)  |  13265891 (41.4303%) |
 
 
-## 3. Hybrid Genome Assembly
+## 4. Hybrid Genome Assembly
+
+### 4.1 Introduction
+In this section we will be working with hybrid assemblers which will be compatible with long read PacBio Data and Short read Illumina data. Nanopore and PacBio are currently both the main long read sequencing technologies but the major differences in them are that PacBio reads a molecule multiple times to generate high-quality consensus data while Nanopore can only sequence a molecule twice. As a result, PacBio generates data with lower error rates compared to Oxford Nanopore.
+
+To perform a hybrid assembly it requires you have both short and long read data to complete the genome. Hybrid assembly uses short read data to resolve ambiguity in the long read data as it is assembled. For this tutorial we are using data from a boxelder (Acer_negundo) genome. 
+
+First step is the conversion of RS-II pacbio data into fasta format, which is done using [pbh5tools](https://github.com/PacificBiosciences/pbh5tools/blob/master/doc/index.rst) provided by pacificbiosciences. `bash5tools.py` can extract read sequences and quality score values from raw and circular consensus sequencing reads to create fastq and fasta files.
+```
+bash5tools.py --outFilePrefix [PREFIX] --outType fasta --readType [Type] input.bas.h5  
+
+input.bas.h5          input .bas.h5 filename
+--outFilePrefix OUTFILEPREFIX
+--readType {ccs,subreads,unrolled}
+--outType OUTTYPE     output file type (fasta, fastq) [fasta]  
+```
+
+
+
 
 ### References
 *   NanoPack: visualizing and processing long-read sequencing data, Bioinformatics, Volume 34, Issue 15, 01 August 2018, Pages 2666–2669. 
