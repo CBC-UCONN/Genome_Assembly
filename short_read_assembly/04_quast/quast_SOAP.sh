@@ -20,17 +20,17 @@ date
 
 module load quast/5.0.2
 
-quast.py ../03_assembly/SOAP/graph_Sample_131.scafSeq \
+quast.py ../03_assembly/SOAP/graph_Sample_31.scafSeq \
         --threads 8 \
-        -o SOAP_131
+        -o SOAP_31
 
-quast.py ../03_assembly/SOAP/graph_Sample_135.scafSeq \
+quast.py ../03_assembly/SOAP/graph_Sample_71.scafSeq \
         --threads 8 \
-        -o SOAP_135
+        -o SOAP_71
 
-quast.py ../03_assembly/SOAP/graph_Sample_141.scafSeq \
+quast.py ../03_assembly/SOAP/graph_Sample_101.scafSeq \
         --threads 8 \
-        -o SOAP_141
+        -o SOAP_101
 
 
 
