@@ -235,6 +235,29 @@ SOAPdenovo-127mer all \
         -o graph_Sample_141 1>ass141.log 2>ass141.err
 ```
 
+```
+SOAPdenovo-127mer all \
+        -s config_file \
+        -K 131 \
+        -p 8 \
+        -R \
+        -o graph_Sample_131 1>ass131.log 2>ass131.err
+
+SOAPdenovo-127mer all \
+        -s config_file \
+        -K 135 \
+        -p 8 \
+        -R \
+        -o graph_Sample_135 1>ass135.log 2>ass135.err
+
+SOAPdenovo-127mer all \
+        -s config_file \
+        -K 141 \
+        -p 8\
+        -R \
+        -o graph_Sample_141 1>ass141.log 2>ass141.err
+```
+
 SOAPdenovo assembly options:   
 ```
  Usage: SOAPdenovo <command> [option]
