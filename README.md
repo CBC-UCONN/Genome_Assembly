@@ -206,7 +206,7 @@ q2=../../02_quality_control/trim_Sample_R2.fastq
 q=../../02_quality_control/sinlges.fastq
 ```
 
-The configuration file we created for this job is named as [config_file](short_read_assembly/03_assembly/config_file) and can be found in the **SOAP/** folder.   
+The configuration file we created for this job is named as [config_file](short_read_assembly/03_assembly/SOAP/config_file) and can be found in the **SOAP/** folder.   
 
 Once the configuration file is ready, you can run the assembly job using the following command:   
 
@@ -251,7 +251,7 @@ all             do pregraph-contig-map-scaff in turn
 > NOTE
 > A k-mer is a set of nucleotides, k is the number of nucleotides in that set. It is a crucial parameter in most de Brujin Graph assemblers and assemblers work with the highest accuracy if the k-mer size estimation is accurate.
 
-The above script is called [SOAPdenovo.sh](/short_read_assembly/03_assembly/SOAPdenovo.sh) and can be found in the SOAP/ directory. The script can be run using the `sbatch` command.  
+The above script is called [SOAPdenovo.sh](short_read_assembly/03_assembly/SOAP/SOAPdenovo.sh) and can be found in the SOAP/ directory. The script can be run using the `sbatch` command.  
 
 It will produce bunch of files, and we are interested in the each k-mer scafold sequences produced, at the end of each run. These are the files which we will be used to asses the quality of our assembly.  
 
