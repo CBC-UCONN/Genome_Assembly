@@ -802,13 +802,13 @@ To judge the score, you need to consider the type of sequence first. A model org
 In *full_table.tsv* file it will contain the detailed list of BUSCO genes and their predicted status in the genome. These files can be found in:   
 ```
 06_busco/
-├── SOAP_131
+├── SOAP_31
 │   └── run_bacteria_odb10
 │       └── full_table.tsv
-├── SOAP_135
+├── SOAP_71
 │   └── run_bacteria_odb10
 │       └── full_table.tsv
-├── SOAP_141
+├── SOAP_101
 │   └── run_bacteria_odb10
 │       └── full_table.tsv
 ├── SPAdes
