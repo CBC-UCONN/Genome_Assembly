@@ -214,24 +214,24 @@ Once the configuration file is ready, you can run the assembly job using the fol
 ```
 SOAPdenovo-127mer all \
         -s config_file \
-        -K 131 \
+        -K 31 \
         -p 8 \
         -R \
-        -o graph_Sample_131 1>ass131.log 2>ass131.err
+        -o graph_Sample_31 1>ass31.log 2>ass31.err 
 
 SOAPdenovo-127mer all \
         -s config_file \
-        -K 135 \
+        -K 71 \
         -p 8 \
         -R \
-        -o graph_Sample_135 1>ass135.log 2>ass135.err
+        -o graph_Sample_71 1>ass71.log 2>ass71.err 
 
 SOAPdenovo-127mer all \
         -s config_file \
-        -K 141 \
+        -K 101 \
         -p 8\
         -R \
-        -o graph_Sample_141 1>ass141.log 2>ass141.err
+        -o graph_Sample_101 1>ass101.log 2>ass101.err 
 ```
 
 SOAPdenovo assembly options:   
@@ -258,9 +258,9 @@ It will produce bunch of files, and we are interested in the each k-mer scafold 
 
 ```
 SOAP
-├── graph_Sample_131.scafSeq
-├── graph_Sample_135.scafSeq
-└── graph_Sample_141.scafSeq
+├── graph_Sample_31.scafSeq
+├── graph_Sample_71.scafSeq
+└── graph_Sample_101.scafSeq
 ```   
 
 
@@ -386,7 +386,7 @@ MEGA_READS_ONE_PASS=0
 LIMIT_JUMP_COVERAGE = 300
 #these are the additional parameters to Celera Assembler.  do not worry about performance, number or processors or batch sizes -- these are computed automatically. 
 #CABOG ASSEMBLY ONLY: set cgwErrorRate=0.25 for bacteria and 0.1<=cgwErrorRate<=0.15 for other organisms.
-CA_PARAMETERS =  cgwErrorRate=0.15
+CA_PARAMETERS =  cgwErrorRate=0.25
 #CABOG ASSEMBLY ONLY: whether to attempt to close gaps in scaffolds with Illumina  or long read data
 CLOSE_GAPS=1
 #auto-detected number of cpus to use, set this to the number of CPUs/threads per node you will be using
@@ -444,16 +444,16 @@ short_read_assembly/
 module load quast/5.0.2
 
 quast.py ../03_assembly/SOAP/graph_Sample_31.scafSeq \
-	--threads 8 \
-	-o SOAP_31
+        --threads 8 \
+        -o SOAP_31
 
-quast.py ../03_assembly/SOAP/graph_Sample_35.scafSeq \
-	--threads 8 \
-	-o SOAP_35
+quast.py ../03_assembly/SOAP/graph_Sample_71.scafSeq \
+        --threads 8 \
+        -o SOAP_71
 
-quast.py ../03_assembly/SOAP/graph_Sample_41.scafSeq \
-	--threads 8 \
-	-o SOAP_41
+quast.py ../03_assembly/SOAP/graph_Sample_101.scafSeq \
+        --threads 8 \
+        -o SOAP_101
 ```
 The full script is called [quast_SOAP.sh](short_read_assembly/04_quast/quast_SOAP.sh) and can be found in the 04_quast directory.  
 
@@ -495,39 +495,39 @@ Once executed these scripts using the `sbatch` command, you will end of with bas
 04_quast/
 ├── MaSuRCA
 │   └── report.txt
-├── SOAP_131
+├── SOAP_31
 │   └── report.txt
-├── SOAP_135
+├── SOAP_71
 │   └── report.txt
-├── SOAP_141
+├── SOAP_101
 │   └── report.txt
 └── SPAdes
     └── report.txt
 ```
 
  
-|             |  SOAP-131     |  SOAP-135     |  SOAP-141     |  SPAdes   |   MaSuRCA      |    
+|             |  SOAP-31     |  SOAP-71     |  SOAP-101     |  SPAdes   |   MaSuRCA      |    
  ------------ |:---------: | :---------: | ---------: | --------- | ---------- |  
- contigs (>= 0 bp)    | 438  | 438  |438   |101   | 86 | 
- contigs (>= 1000 bp) | 239   |  239  | 239   | 52   | 77 | 
- contigs (>= 5000 bp) | 148   |  148  | 148   | 41   | 69 | 
- contigs (>= 10000 bp) | 101  |  101  | 101   | 35   | 62 | 
- contigs (>= 25000 bp) | 25   |  25   | 25    | 27   | 40 | 
- contigs (>= 50000 bp) | 7    |  7   | 7    | 19   | 18 | 
- Total length (>= 0 bp)| 2906151 |  2906151 | 2906151 |  2885853 | 2825384 | 
- Total length (>= 1000 bp)| 2845923 | 2845923 | 2845923 | 2870111 | 2817661 | 
- Total length (>= 5000 bp)| 2606777 | 2606777 | 2606777 | 2843776 | 2796700 | 
- Total length (>= 10000 bp)| 2271580 | 2271580 | 2271580 | 2799884 | 2745806 | 
- Total length (>= 25000 bp)| 1064494 |  1064494 | 1064494 | 2664507 | 2388905 | 
- Total length (>= 50000 bp)| 478675 |  478675 | 478675 | 2373293 | 1610768 | 
- **no. of contigs**     |  269  | 269 | 269 | 60  | 86 | 
- Largest contig     | 96217 |  96217 | 96217 | 255651 | 220219 |
- Total length       | 2867099 |  2867099 | 2867099 | 2875218 | 2825384 | 
- GC (%)      | 32.63  |  32.63 | 32.63 | 32.65 | 32.75 | 
- **N50**         | 19693  |  19693 | 19693 | **149694** | 54020 |
- N75         | 11525  |  11525 | 11525 | 61620 | 32399 | 
- L50         |  42  |  42 | 42 | 8 | 15 | 
- L75         |  90  |  90 | 90 | 15 | 31 |  
+ contigs (>= 0 bp)    | 1507  | 4252  |893   |101   | 86 | 
+ contigs (>= 1000 bp) | 249   |  159  | 154   | 52   | 77 | 
+ contigs (>= 5000 bp) | 158   |  113  | 106   | 41   | 69 | 
+ contigs (>= 10000 bp) | 115  |  90  | 85   | 35   | 62 | 
+ contigs (>= 25000 bp) | 47   |  41   | 39    | 27   | 40 | 
+ contigs (>= 50000 bp) | 5    |  14   | 11    | 19   | 18 | 
+ Total length (>= 0 bp)| 3743924 |  3656745 | 3008494 |  2885853 | 2825384 | 
+ Total length (>= 1000 bp)| 3554783 | 3039213 | 2861233 | 2870111 | 2817661 | 
+ Total length (>= 5000 bp)| 3302110 | 2912904 | 2727264 | 2843776 | 2796700 | 
+ Total length (>= 10000 bp)| 2985682 | 2732622 | 2578612 | 2799884 | 2745806 | 
+ Total length (>= 25000 bp)| 1871285 |  1947727 | 1828836 | 2664507 | 2388905 | 
+ Total length (>= 50000 bp)| 371124 |  982749 | 814206 | 2373293 | 1610768 | 
+ **no. of contigs**     |  276  | 173 | 169 | 60  | 86 | 
+ Largest contig     | 103125 |  98502 | 173926 | 255651 | 220219 |
+ Total length       | 3574101 |  3049168 | 2871343 | 2875218 | 2825384 | 
+ GC (%)      | 32.44  |  32.55 | 32.62 | 32.65 | 32.75 | 
+ **N50**         | 26176  |  37961 | 36337 | 149694 | 54020 |
+ N75         | 14642  |  17093 | 18263 | 61620 | 32399 | 
+ L50         |  44  |  27 | 26 | 8 | 15 | 
+ L75         |  91  |  57 | 54 | 15 | 31 |  
 
 
 
@@ -1498,7 +1498,36 @@ ILLUMINA_DATA/
 ```
 
 ### Assembly
-We will be using two different read types to do our assembly. 
+We will be using Illumina reads and long read pacbio reads to construct a hybrid assembly using masurca. For masurca assembly we need a [configuration file](hybrid_assembly/masurca_assembly/config.txt) which directs to the short read and long reads. 
+
+```
+DATA
+PE = aa 150 50 ../ILLUMINA_DATA/XUMNS_20180703_K00134_IL100105003_S37_L007_R1.fastq.gz ../ILLUMINA_DATA/XUMNS_20180703_K00134_IL100105003_S37_L007_R2.fastq.gz
+PE = ab 150 50 ../ILLUMINA_DATA/XUMNS_20180703_K00134_IL100105003_S37_L008_R1.fastq.gz ../ILLUMINA_DATA/XUMNS_20180703_K00134_IL100105003_S37_L008_R2.fastq.gz
+PACBIO = /UCHC/PublicShare/CBC_Tutorials/Genome_Assembly/hybrid_assembly/Acer_negundo/Pacbio_DATA/acne_pb.fasta 
+END
+
+PARAMETERS
+EXTEND_JUMP_READS=0
+GRAPH_KMER_SIZE = auto
+USE_LINKING_MATES = 0
+USE_GRID=1
+GRID_ENGINE=SLURM
+GRID_QUEUE=general
+GRID_BATCH_SIZE=100000000
+LHE_COVERAGE=25
+MEGA_READS_ONE_PASS=0
+LIMIT_JUMP_COVERAGE = 300
+CA_PARAMETERS =  cgwErrorRate=0.15
+CLOSE_GAPS=1
+NUM_THREADS = 32
+JF_SIZE = 4500000000
+SOAP_ASSEMBLY=0
+FLYE_ASSEMBLY=0
+END
+```
+
+The full slurm script called [masurca.sh](hybrid_assembly/masurca_assembly/masurca.sh) is located in the `masurca_assembly` directory.
 
 ### References
 *   NanoPack: visualizing and processing long-read sequencing data, Bioinformatics, Volume 34, Issue 15, 01 August 2018, Pages 2666–2669. 
