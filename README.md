@@ -1492,6 +1492,71 @@ ILLUMINA_DATA/
 ```
 
 ### Assembly
+
+#### Illumina Assembly using Masurca
+In here we will assemble the short read illumina reads using masurca.
+Working directory:
+```
+hybrid_assembly/
+|---- masurca_Illumina_assembly/
+````
+config file will look like:  
+```
+DATA
+PE = aa 150 50 ../ILLUMINA_DATA/XUMNS_20180703_K00134_IL100105003_S37_L007_R1.fastq.gz ../ILLUMINA_DATA/XUMNS_20180703_K00134_IL100105003_S37_L007_R2.fastq.gz
+PE = ab 150 50 ../ILLUMINA_DATA/XUMNS_20180703_K00134_IL100105003_S37_L008_R1.fastq.gz ../ILLUMINA_DATA/XUMNS_20180703_K00134_IL100105003_S37_L008_R2.fastq.gz
+END
+
+PARAMETERS
+EXTEND_JUMP_READS=0
+GRAPH_KMER_SIZE = auto
+USE_LINKING_MATES = 0
+USE_GRID=1
+GRID_ENGINE=SLURM
+GRID_QUEUE=general
+GRID_BATCH_SIZE=100000000
+LHE_COVERAGE=25
+MEGA_READS_ONE_PASS=0
+LIMIT_JUMP_COVERAGE = 300
+CA_PARAMETERS =  cgwErrorRate=0.15
+CLOSE_GAPS=1
+NUM_THREADS = 32
+JF_SIZE = 4500000000
+SOAP_ASSEMBLY=0
+FLYE_ASSEMBLY=0
+END
+
+```
+
+The command we use is:
+```
+masurca config.txt 
+
+./assemble.sh
+```
+
+This will create the assembly using only the Illumina reads.  
+
+
+#### Pacbio Assembly using Canu
+In here we will be only using pacbio reads to do the assembly. 
+
+```
+module load gnuplot/5.2.2
+module load canu/2.1.1
+
+canu useGrid=true \
+        -p Acer_negundo -d canu_out \
+        genomeSize=4.5g \
+        -pacbio /UCHC/PublicShare/CBC_Tutorials/Genome_Assembly/hybrid_assembly/Acer_negundo/Pacbio_DATA/acne_pb.fasta gridOptions="--partition=himem --qos=himem  --mem-per-cpu=8000m --cpus-per-task=24"
+```  
+
+
+
+
+#### Hybrid assembly  
+
+
 We will be using Illumina reads and long read pacbio reads to construct a hybrid assembly using masurca. For masurca assembly we need a [configuration file](hybrid_assembly/masurca_assembly/config.txt) which directs to the short read and long reads. 
 
 ```
