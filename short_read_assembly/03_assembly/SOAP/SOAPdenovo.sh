@@ -20,25 +20,24 @@ module load SOAP-denovo/2.04
 
 SOAPdenovo-127mer all \
         -s config_file \
-        -K 131 \
+        -K 31 \
         -p 8 \
         -R \
-        -o graph_Sample_131 1>ass131.log 2>ass131.err
+        -o graph_Sample_31 1>ass31.log 2>ass31.err 
 
 SOAPdenovo-127mer all \
         -s config_file \
-        -K 135 \
+        -K 71 \
         -p 8 \
         -R \
-        -o graph_Sample_135 1>ass135.log 2>ass135.err
- 
- 
+        -o graph_Sample_71 1>ass71.log 2>ass71.err 
+
 SOAPdenovo-127mer all \
         -s config_file \
-        -K 141 \
+        -K 101 \
         -p 8\
         -R \
-        -o graph_Sample_141 1>ass141.log 2>ass141.err 
+        -o graph_Sample_101 1>ass101.log 2>ass101.err 
 
 module unload SOAP-denovo/2.04
 
