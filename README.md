@@ -210,30 +210,6 @@ The configuration file we created for this job is named as [config_file](short_r
 
 Once the configuration file is ready, you can run the assembly job using the following command:   
 
-```bash
-module load SOAP-denovo/2.04
-
-SOAPdenovo-127mer all \
-        -s config_file \
-        -K 131 \
-        -p 8 \
-        -R \
-        -o graph_Sample_131 1>ass131.log 2>ass131.err
-
-SOAPdenovo-127mer all \
-        -s config_file \
-        -K 135 \
-        -p 8 \
-        -R \
-        -o graph_Sample_135 1>ass135.log 2>ass135.err
-
-SOAPdenovo-127mer all \
-        -s config_file \
-        -K 141 \
-        -p 8\
-        -R \
-        -o graph_Sample_141 1>ass141.log 2>ass141.err
-```
 
 ```
 SOAPdenovo-127mer all \
@@ -282,9 +258,9 @@ It will produce bunch of files, and we are interested in the each k-mer scafold 
 
 ```
 SOAP
-├── graph_Sample_31.scafSeq
-├── graph_Sample_35.scafSeq
-└── graph_Sample_41.scafSeq
+├── graph_Sample_131.scafSeq
+├── graph_Sample_135.scafSeq
+└── graph_Sample_141.scafSeq
 ```   
 
 
@@ -371,7 +347,7 @@ In the DATA section:
 ```bash
 DATA
 #Illumina paired end reads supplied as <two-character prefix> <fragment mean> <fragment stdev> <forward_reads> <reverse_reads> 
-PE= pe 180 20  ../../01_raw_reads/Sample_R1.fastq ../../01_raw_reads/Sample_R2.fastq 
+PE= pe 480 20  ../../01_raw_reads/Sample_R1.fastq ../../01_raw_reads/Sample_R2.fastq 
 END
 ```   
 DATA section is where you should specify the input data for the assembler. Each library line should with the appropiate read type, `eg: PE, JUMP, OTHER`.  In the above DATA section we have specified Illumina paired end reads.  
@@ -414,9 +390,9 @@ CA_PARAMETERS =  cgwErrorRate=0.15
 #CABOG ASSEMBLY ONLY: whether to attempt to close gaps in scaffolds with Illumina  or long read data
 CLOSE_GAPS=1
 #auto-detected number of cpus to use, set this to the number of CPUs/threads per node you will be using
-NUM_THREADS = 16
+NUM_THREADS = 8
 #this is mandatory jellyfish hash size -- a safe value is estimated_genome_size*20
-JF_SIZE = 200000000
+JF_SIZE = 300000000
 #ILLUMINA ONLY. Set this to 1 to use SOAPdenovo contigging/scaffolding module.  Assembly will be worse but will run faster. Useful for very large (>=8Gbp) genomes from Illumina-only data
 SOAP_ASSEMBLY=0
 #Hybrid Illumina paired end + Nanopore/PacBio assembly ONLY.  Set this to 1 to use Flye assembler for final assembly of corrected mega-reads.  A lot faster than CABOG, at the expense of some contiguity. Works well even when MEGA_READS_ONE_PASS is set to 1.  DO NOT use if you have less than 15x coverage by long reads.
