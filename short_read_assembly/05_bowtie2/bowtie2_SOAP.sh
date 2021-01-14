@@ -18,39 +18,39 @@ date
 ##		Quality Assesment: bowtie2		##
 ##########################################################
 # SOAP
-mkdir -p SOAP_131_index SOAP_135_index SOAP_141_index
+mkdir -p SOAP_31_index SOAP_71_index SOAP_101_index
 
 module load bowtie2/2.3.5.1
 
-## SOAP_131
+## SOAP_31
 bowtie2-build \
         --threads 8 \
-        ../03_assembly/SOAP/graph_Sample_131.scafSeq SOAP_131_index/SOAP_131_index
+        ../03_assembly/SOAP/graph_Sample_31.scafSeq SOAP_31_index/SOAP_31_index
 
-bowtie2 -x SOAP_131_index/SOAP_131_index \
+bowtie2 -x SOAP_31_index/SOAP_31_index \
         -1 ../01_raw_reads/Sample_R1.fastq -2 ../01_raw_reads/Sample_R2.fastq \
-        -S SOAP_131.bowtie2.sam \
-        --threads 8 2>SOAP_131.err
+        -S SOAP_31.bowtie2.sam \
+        --threads 8 2>SOAP_31.err
 
-## SOAP_135
+## SOAP_71
 bowtie2-build \
         --threads 8 \
-        ../03_assembly/SOAP/graph_Sample_135.scafSeq SOAP_135_index/SOAP_135_index
+        ../03_assembly/SOAP/graph_Sample_71.scafSeq SOAP_71_index/SOAP_71_index
 
-bowtie2 -x SOAP_135_index/SOAP_135_index \
+bowtie2 -x SOAP_71_index/SOAP_71_index \
         -1 ../01_raw_reads/Sample_R1.fastq -2 ../01_raw_reads/Sample_R2.fastq \
-        -S SOAP_135.bowtie2.sam \
-        --threads 8 2>SOAP_135.err
+        -S SOAP_71.bowtie2.sam \
+        --threads 8 2>SOAP_71.err
 
-## SOAP_141 
+## SOAP_101 
 bowtie2-build \
         --threads 8 \
-        ../03_assembly/SOAP/graph_Sample_141.scafSeq SOAP_141_index/SOAP_141_index
+        ../03_assembly/SOAP/graph_Sample_101.scafSeq SOAP_101_index/SOAP_101_index
 
-bowtie2 -x SOAP_141_index/SOAP_141_index \
+bowtie2 -x SOAP_101_index/SOAP_101_index \
         -1 ../01_raw_reads/Sample_R1.fastq -2 ../01_raw_reads/Sample_R2.fastq \
-        -S SOAP_141.bowtie2.sam \
-        --threads 8 2>SOAP_141.err
+        -S SOAP_101.bowtie2.sam \
+        --threads 8 2>SOAP_101.err
 
 
 

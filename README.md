@@ -567,40 +567,39 @@ Since we are using three de novo methods to construct genomes, we will now try t
 
 *   SOAP   
 ```bash
-mkdir -p SOAP_131_index SOAP_135_index SOAP_141_index
+mkdir -p SOAP_31_index SOAP_71_index SOAP_101_index
 
 module load bowtie2/2.3.5.1
 
-## SOAP_131
+## SOAP_31
 bowtie2-build \
         --threads 8 \
-        ../03_assembly/SOAP/graph_Sample_131.scafSeq SOAP_131_index/SOAP_131_index
+        ../03_assembly/SOAP/graph_Sample_31.scafSeq SOAP_31_index/SOAP_31_index
 
-bowtie2 -x SOAP_131_index/SOAP_131_index \
+bowtie2 -x SOAP_31_index/SOAP_31_index \
         -1 ../01_raw_reads/Sample_R1.fastq -2 ../01_raw_reads/Sample_R2.fastq \
-        -S SOAP_131.bowtie2.sam \
-        --threads 8 2>SOAP_131.err
+        -S SOAP_31.bowtie2.sam \
+        --threads 8 2>SOAP_31.err
 
-## SOAP_135
+## SOAP_71
 bowtie2-build \
         --threads 8 \
-        ../03_assembly/SOAP/graph_Sample_135.scafSeq SOAP_135_index/SOAP_135_index
+        ../03_assembly/SOAP/graph_Sample_71.scafSeq SOAP_71_index/SOAP_71_index
 
-bowtie2 -x SOAP_135_index/SOAP_135_index \
+bowtie2 -x SOAP_71_index/SOAP_71_index \
         -1 ../01_raw_reads/Sample_R1.fastq -2 ../01_raw_reads/Sample_R2.fastq \
-        -S SOAP_135.bowtie2.sam \
-        --threads 8 2>SOAP_135.err 
+        -S SOAP_71.bowtie2.sam \
+        --threads 8 2>SOAP_71.err
 
-
-## SOAP_141 
+## SOAP_101 
 bowtie2-build \
         --threads 8 \
-        ../03_assembly/SOAP/graph_Sample_141.scafSeq SOAP_141_index/SOAP_141_index
+        ../03_assembly/SOAP/graph_Sample_101.scafSeq SOAP_101_index/SOAP_101_index
 
-bowtie2 -x SOAP_141_index/SOAP_141_index \
+bowtie2 -x SOAP_101_index/SOAP_101_index \
         -1 ../01_raw_reads/Sample_R1.fastq -2 ../01_raw_reads/Sample_R2.fastq \
-        -S SOAP_141.bowtie2.sam \
-        --threads 8 2>SOAP_141.err
+        -S SOAP_101.bowtie2.sam \
+        --threads 8 2>SOAP_101.err
 
 ```  
 
@@ -648,23 +647,23 @@ As shown for the SOAP_31: it will create the following files and folders for eac
 ```
 05_bowtie2/
 ├── SOAP_31_index/
-│   ├── SOAP_131_index.1.bt2
-│   ├── SOAP_131_index.2.bt2
-│   ├── SOAP_131_index.3.bt2
-│   ├── SOAP_131_index.4.bt2
-│   ├── SOAP_131_index.rev.1.bt2
-│   └── SOAP_131_index.rev.2.bt2
-├── SOAP_131.bowtie2.sam
-└── SOAP_131.err
+│   ├── SOAP_31_index.1.bt2
+│   ├── SOAP_31_index.2.bt2
+│   ├── SOAP_31_index.3.bt2
+│   ├── SOAP_31_index.4.bt2
+│   ├── SOAP_31_index.rev.1.bt2
+│   └── SOAP_31_index.rev.2.bt2
+├── SOAP_31.bowtie2.sam
+└── SOAP_31.err
 ``` 
 We have only shown the output directory and files for SOAP_131 case, as an example.   
 
 The alingment data will be in `*.err` files associated with each run.  
 ```
 05_bowtie2/
-├── SOAP_131.err
-├── SOAP_135.err
-├── SOAP_141.err
+├── SOAP_31.err
+├── SOAP_71.err
+├── SOAP_101.err
 ├── SPAdes.err
 └── MaSuRCA.err
 ```    
@@ -672,14 +671,14 @@ The alingment data will be in `*.err` files associated with each run.
 Following table summerizes the alignment results with bowtie2.  
 
 
-|             |  SOAP-131     |  SOAP-135     |  SOAP-41     |  SPAdes   |   MaSuRCA      |    
+|             |  SOAP-31     |  SOAP-71     |  SOAP-101     |  SPAdes   |   MaSuRCA      |    
  ------------ |:---------: | :---------: | ---------: | --------- | ---------- |   
-reads   |  504951  |   504951   |  504951  |  504951  |  1009902  |  
-paired   |  504951   |   504951   |  504951  |  504951  |  1009902  |  
-aligned concordantly 0 times  |  43.16%   |   43.16%  |  56.31% |  42.00%  |  17.51%  |  
-aligned concordantly exactly 1 time   |  56.31%   |  56.31%  |   56.31%  |  57.32%  |  79.14%  |   
-aligned concordantly >1 times   |   0.53%   |   0.53%  | 0.53% |  0.53%  |  3.35%  |  
-overall alignment rate   |  85.91%   |   85.91%  |  85.91% |  86.77%  |   82.49%  |  
+reads   |  504951  |   504951   |  504951  |  504951  |  504951  |  
+paired   |  504951   |   504951   |  504951  |  504951  |  504951  |  
+aligned concordantly 0 times  |  76.96%   |   59.41%  |  45.56% |  42.00%  |  43.80%  |  
+aligned concordantly exactly 1 time   |  23.04%   |  40.51%  |   54.09%  |  57.32%  |  53.84%  |   
+aligned concordantly >1 times   |   0.00%   |   0.09%  | 0.35% |  0.68%  |  2.36%  |  
+overall alignment rate   |  44.66%   |   66.63%  |  82.63% |  86.77%  |   83.89%  |  
 
 
 Between de-novo assemblies it shows that, assembly done with SPAdes have a good overall alignment rate, and higher number of reads would match exactly 1 time to the reference genome.    
