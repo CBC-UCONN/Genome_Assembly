@@ -705,22 +705,16 @@ Following will be the commands which will be used for evaluating SOAP, SPAdes, M
 *   SOAP:  
 
 ```bash  
-busco -i ../03_assembly/SOAP/graph_Sample_131.scafSeq \
-        -o SOAP_131 \
-		-l /isg/shared/databases/BUSCO/odb10/bacteria_odb10 \
-		-m genome
+busco -i ../03_assembly/SOAP/graph_Sample_31.scafSeq \
+        -o SOAP_31 -l /isg/shared/databases/BUSCO/odb10/bacteria_odb10 -m genome
 
 
-busco -i ../03_assembly/SOAP/graph_Sample_135.scafSeq \
-        -o SOAP_135 \
-		-l /isg/shared/databases/BUSCO/odb10/bacteria_odb10 \
-		-m genome
+busco -i ../03_assembly/SOAP/graph_Sample_71.scafSeq \
+        -o SOAP_71 -l /isg/shared/databases/BUSCO/odb10/bacteria_odb10 -m genome
 
 
-busco -i ../03_assembly/SOAP/graph_Sample_141.scafSeq \
-        -o SOAP_141 \
-		-l /isg/shared/databases/BUSCO/odb10/bacteria_odb10 \
-		-m genome
+busco -i ../03_assembly/SOAP/graph_Sample_101.scafSeq \
+        -o SOAP_101 -l /isg/shared/databases/BUSCO/odb10/bacteria_odb10 -m genome
 ```   
 
 The full script for evaluating the three SOAP assemblies is called, [busco_SOAP.sh](short_read_assembly/06_busco/busco_SOAP.sh) which can be found in `short_read_assembly/06_busco` folder.   
@@ -770,11 +764,11 @@ Once you have executed the above commands the BUSCO output will contain a printe
 ```
 06_busco/
 ├── SOAP_31/
-│   └── short_summary.specific.bacteria_odb10.SOAP_131.txt
-├── SOAP_35/
-│   └── short_summary.specific.bacteria_odb10.SOAP_135.txt
-├── SOAP_41/
-│   └── short_summary.specific.bacteria_odb10.SOAP_141.txt
+│   └── short_summary.specific.bacteria_odb10.SOAP_31.txt
+├── SOAP_71/
+│   └── short_summary.specific.bacteria_odb10.SOAP_71.txt
+├── SOAP_101/
+│   └── short_summary.specific.bacteria_odb10.SOAP_101.txt
 ├── SPAdes/
 │   └── short_summary.specific.bacteria_odb10.SPAdes.txt
 └── MaSuRCA/
@@ -783,14 +777,14 @@ Once you have executed the above commands the BUSCO output will contain a printe
 
 The the above output will contain:  
 ```
-SOAP_131
-C:100.0%[S:100.0%,D:0.0%],F:0.0%,M:0.0%,n:124
+SOAP_31
+C:45.2%[S:45.2%,D:0.0%],F:39.5%,M:15.3%,n:124
 
-SOAP_135
-C:100.0%[S:100.0%,D:0.0%],F:0.0%,M:0.0%,n:124 
+SOAP_71
+C:68.5%[S:68.5%,D:0.0%],F:26.6%,M:4.9%,n:124
 
-SOAP_141
-C:100.0%[S:100.0%,D:0.0%],F:0.0%,M:0.0%,n:124
+SOAP_101
+C:96.8%[S:96.8%,D:0.0%],F:3.2%,M:0.0%,n:124
 
 SPAdes
 C:100.0%[S:100.0%,D:0.0%],F:0.0%,M:0.0%,n:124
@@ -800,7 +794,8 @@ C:100.0%[S:100.0%,D:0.0%],F:0.0%,M:0.0%,n:124
 ```
 These BUSCO output will produce its output using a scoring scheme: 
 **C**:complete [**S**:single-copy, **D**:duplicated], **F**:fragmented, and **M**:missing and the total BUSCO genes are indicated in **n:**.   
-  
+
+![](images/busco_assesment_results2.png)  
 
 To judge the score, you need to consider the type of sequence first. A model organism with a reference genome often will reach a score of 95% or above  as a complete score and a non-model organisms can reach a score from 50% to 95% complete. This alone will not give an idea on how good the assembly is, as you need to look at the assembly and the annotation results together to make a judgement.   
 
