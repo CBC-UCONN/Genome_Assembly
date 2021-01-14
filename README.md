@@ -213,26 +213,26 @@ Once the configuration file is ready, you can run the assembly job using the fol
 ```bash
 module load SOAP-denovo/2.04
 
-SOAPdenovo-63mer all \
-	-s config_file \
-	-K 31 \
-	-p 8 \
-	-R \
-	-o graph_Sample_31 1>kmer31.log 2>kmer31.err 
+SOAPdenovo-127mer all \
+        -s config_file \
+        -K 131 \
+        -p 8 \
+        -R \
+        -o graph_Sample_131 1>ass131.log 2>ass131.err
 
-SOAPdenovo-63mer all \
-	-s config_file \
-	-K 35 \
-	-p 8 \
-	-R \
-	-o graph_Sample_35 1>kmer35.log 2>kmer35.err 
+SOAPdenovo-127mer all \
+        -s config_file \
+        -K 135 \
+        -p 8 \
+        -R \
+        -o graph_Sample_135 1>ass135.log 2>ass135.err
 
-SOAPdenovo-63mer all \
-	-s config_file \
-	-K 41 \
-	-p 8\
-	-R \
-	-o graph_Sample_41 1>kmer41.log 2>kmer41.err 
+SOAPdenovo-127mer all \
+        -s config_file \
+        -K 141 \
+        -p 8\
+        -R \
+        -o graph_Sample_141 1>ass141.log 2>ass141.err
 ```
 
 SOAPdenovo assembly options:   
