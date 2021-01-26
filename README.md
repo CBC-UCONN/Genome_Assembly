@@ -1365,18 +1365,52 @@ REQUIRED:
 *  ##### flye assembly purge:
 working directory:
 ```
-07_purge/
+08_purge/
 ├── flye/
+```  
+**Step1:**  
 ```
+purge_haplotigs readhist -b flye_aligned.bam -g ${ref} -t 16
+``` 
+
+**Step2:** 
+![](images/flye_aligned.bam.histogram.png)  
+```
+purge_haplotigs  contigcov -i flye_aligned.bam.gencov -l 3 -m 55 -h 195
+```
+
+**Step3:** 
+```
+purge_haplotigs purge -b flye_aligned.bam -g ${ref} -c coverage_stats.csv -d -a 60
+```
+
 Complete slurm script called [purge_haplotigs.sh](long_read_assembly/08_purge/flye/purge_haplotigs.sh) can be found in the `flye` directory. It will result in a final curated fasta file called *curated.fasta*.
 
 
 *  ##### shasta assembly purge:   
 working directory:
 ```
-07_purge/
+08_purge/
 ├── shasta/
+```  
+
+**Step1:**  
 ```
+purge_haplotigs readhist -b shasta_aligned.bam -g ${ref} -t 16
+```  
+
+**Step2:**
+![](images/shasta_aligned.bam.histogram.png)  
+```
+purge_haplotigs  contigcov -i shasta_aligned.bam.gencov -l 5 -m 34 -h 195
+```
+
+**Step3:**
+```
+purge_haplotigs purge -b shasta_aligned.bam -g ${ref} -c coverage_stats.csv -d -a 60
+```
+
+
 Complete slurm script called [purge_haplotigs.sh](long_read_assembly/08_purge/shasta/purge_haplotigs.sh) can be found in the `shasta` directory. It will result in a final curated fasta file called *curated.fasta*.  
 
 ## 3.8 Final assembly evaluation   
