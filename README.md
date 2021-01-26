@@ -1578,6 +1578,11 @@ Pacbio_DATA/
 └── acne_pb.fasta
 ```
 
+##### Preprocessing with PacBio CCS  
+CCS takes multiple subreads of the same molecule and combines them using a statistical model to produce one accurate consensus sequence (HiFi read), with base quality values. For more information, refer to the [PacBio](https://www.pacb.com/smrt-science/smrt-sequencing/hifi-reads-for-highly-accurate-long-read-sequencing/) Website. For more information on CCS please refer to [this](https://www.pacb.com/videos/tutorial-circular-consensus-sequence-analysis-application/) PacBio CCS Tutorial. And if you have a UConn PacBio account please refer to [this](https://bioinformatics.uconn.edu/resources-and-events/tutorials-2/pacbio-v7/) tutorial.  
+
+
+
 ##### Illumina Data
 The short reads that we are going to use in this assembly is located in the `ILLUMINA_DATA/` directory:
 ```
@@ -1758,7 +1763,7 @@ N50   |  1762694  |
 
 
 
-## Hybrid assembly  
+## C. Hybrid assembly  
 
 
 We will be using Illumina reads and long read pacbio reads to construct a hybrid assembly using masurca. For masurca assembly we need a [configuration file](hybrid_assembly/masurca_assembly/config.txt) which directs to the short read and long reads. 
