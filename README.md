@@ -7,9 +7,10 @@ This repository is a usable, publicly available tutorial. All steps have been pr
 1.   [Overview](#1-overview)  
 2.   [Short Read Genome Assembly](#2-short-read-genome-assembly)
       1.  [Quality Control](#21--quality-control-using-sickle)  
-	  2.  [Assembly](#22--assembly)   
-	  3.  [Quality Assesment](#23--quality-assesment)  
+      2.  [Assembly](#22--assembly)   
+      3.  [Quality Assesment](#23--quality-assesment)  
 3.   [Long Read Genome Assembly](#3-long-read-genome-assembly)  
+4.   [Hybrid Genome Assembly](#4-hybrid-genome-assembly)  
 
 
 ## 1. Overview   
@@ -1708,12 +1709,26 @@ flye --pacbio-raw ../Pacbio_DATA/acne_pb.fasta \
 The full slurm script called [flye.sh](hybrid_assembly/Acer_negundo/Long_Read_Assembly/01_flye_assembly/flye.sh) cam be found in *01_flye_assembly* directory.  
 
 
+#### Pacbio Assembly using Canu
+In here we will be only using pacbio reads to do the assembly. 
+
+```
+module load gnuplot/5.2.2
+module load canu/2.1.1
+
+canu useGrid=true \
+        -p Acer_negundo -d canu_out \
+        genomeSize=4.5g \
+        -pacbio /UCHC/PublicShare/CBC_Tutorials/Genome_Assembly/hybrid_assembly/Acer_negundo/Pacbio_DATA/acne_pb.fasta gridOptions="--partition=himem --qos=himem  --mem-per-cpu=8000m --cpus-per-task=24"
+```  
+
+
 ### B.2 Evaluation  
 Now we will evaluate the final assembly created by flye assembler.  
 
 Working directory:  
 ```
-Lhort_Read_Assembly/
+Long_Read_Assembly/
 ├── 02_evaluation/
 ```  
 
@@ -1743,25 +1758,7 @@ N50   |  1762694  |
 
 
 
-
-
-#### Pacbio Assembly using Canu
-In here we will be only using pacbio reads to do the assembly. 
-
-```
-module load gnuplot/5.2.2
-module load canu/2.1.1
-
-canu useGrid=true \
-        -p Acer_negundo -d canu_out \
-        genomeSize=4.5g \
-        -pacbio /UCHC/PublicShare/CBC_Tutorials/Genome_Assembly/hybrid_assembly/Acer_negundo/Pacbio_DATA/acne_pb.fasta gridOptions="--partition=himem --qos=himem  --mem-per-cpu=8000m --cpus-per-task=24"
-```  
-
-
-
-
-#### Hybrid assembly  
+## Hybrid assembly  
 
 
 We will be using Illumina reads and long read pacbio reads to construct a hybrid assembly using masurca. For masurca assembly we need a [configuration file](hybrid_assembly/masurca_assembly/config.txt) which directs to the short read and long reads. 
