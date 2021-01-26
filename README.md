@@ -1285,7 +1285,7 @@ C:69.4%[S:65.9%,D:3.5%],F:10.8%,M:19.8%,n:425
 Current working directory:  
 ```
 long_read_assembly/
-├── 07_purge
+├── 08_purge
 ```
 
 [Purge Haplotigs](https://bitbucket.org/mroachawri/purge_haplotigs/src/master/) is a pipeline to help with curating genome assemblies. It assures that there is not a combination of sequences between contigs and haplotigs. It uses a system that uses the mapped reads that you assembled and Minimap2 to assess which contigs should be kept in the assembly.
@@ -1368,7 +1368,7 @@ working directory:
 07_purge/
 ├── flye/
 ```
-Complete slurm script called [purge_haplotigs.sh](long_read_assembly/07_purge/flye/purge_haplotigs.sh) can be found in the `flye` directory. It will result in a final curated fasta file called *curated.fasta*.
+Complete slurm script called [purge_haplotigs.sh](long_read_assembly/08_purge/flye/purge_haplotigs.sh) can be found in the `flye` directory. It will result in a final curated fasta file called *curated.fasta*.
 
 
 *  ##### shasta assembly purge:   
@@ -1377,7 +1377,7 @@ working directory:
 07_purge/
 ├── shasta/
 ```
-Complete slurm script called [purge_haplotigs.sh](long_read_assembly/07_purge/shasta/purge_haplotigs.sh) can be found in the `shasta` directory. It will result in a final curated fasta file called *curated.fasta*.  
+Complete slurm script called [purge_haplotigs.sh](long_read_assembly/08_purge/shasta/purge_haplotigs.sh) can be found in the `shasta` directory. It will result in a final curated fasta file called *curated.fasta*.  
 
 ## 3.8 Final assembly evaluation   
 
