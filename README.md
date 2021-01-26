@@ -1508,26 +1508,26 @@ Statistics summary of flye and shasta assemblies:
 
 |             |  flye     |  shasta     |      
  ------------ |:---------: | :---------: |
- contigs (>= 0 bp)    | 6549  | 8729  |
- contigs (>= 1000 bp) | 6392   |  7791 | 
- contigs (>= 5000 bp) | 5919   |  6087 |  
- contigs (>= 10000 bp) | 5366  |  4695 |
- contigs (>= 25000 bp) | 3971   |  2315  |
- contigs (>= 50000 bp) | 2611    |  803 |
- Total length (>= 0 bp)| 492754620 |  214959113 | 
- Total length (>= 1000 bp)| 492661682 | 214572943 | 
- Total length (>= 5000 bp)| 491351568 | 209629332|
- Total length (>= 10000 bp)| 487138762| 199431576 |
- Total length (>= 25000 bp)| 463778615 |  160528824 |
- Total length (>= 50000 bp)| 414473760 |  107595270 |
- **no. of contigs**     |  6501  | 8109 | 
- Largest contig     | 6892258 |  4093867 |
- Total length       | 492739170 |  214803030 |
- GC (%)      | 38.43  |  44.85 | 
- **N50**         | 160624  |  50100 | 
- N75         | 72963  |  24761 |
- L50         |  719 |  800|
- L75         |  1872|  2339|
+ contigs (>= 0 bp)    | 6549  | 8119  |
+ contigs (>= 1000 bp) | 6392   |  7344 | 
+ contigs (>= 5000 bp) | 5919   |  6005 |  
+ contigs (>= 10000 bp) | 5366  |  4727 |
+ contigs (>= 25000 bp) | 3971   |  2437  |
+ contigs (>= 50000 bp) | 2611    |  887 |
+ Total length (>= 0 bp)| 492754620 |  212410761 | 
+ Total length (>= 1000 bp)| 492661682 | 212090599 | 
+ Total length (>= 5000 bp)| 491351568 | 208075243|
+ Total length (>= 10000 bp)| 487138762| 198692220 |
+ Total length (>= 25000 bp)| 463778615 |  161021099 |
+ Total length (>= 50000 bp)| 414473760 |  106478172 |
+ **no. of contigs**     |  6501  | 7587 | 
+ Largest contig     | 6892258 |  4089676 |
+ Total length       | 492739170 |  212267457 |
+ GC (%)      | 38.43  |  43.52 | 
+ **N50**         | 160624  |  50177 | 
+ N75         | 72963  |  25781 |
+ L50         |  719 |  881|
+ L75         |  1872|  2366|
 
 
 ### 3.9.3 Minimap2  
