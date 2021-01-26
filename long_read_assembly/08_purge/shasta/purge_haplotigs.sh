@@ -42,7 +42,7 @@ purge_haplotigs readhist -b shasta_aligned.bam -g ${ref} -t 16
 
 ## STEP-2
 ## purge_haplotigs  contigcov  -i aligned.bam.genecov  -l 30  -m 80  -h 145  [-o coverage_stats.csv -j 80  -s 80 ]
-purge_haplotigs  contigcov -i shasta_aligned.bam.gencov -l 5 -m 35 -h 195  
+purge_haplotigs  contigcov -i shasta_aligned.bam.gencov -l 5 -m 34 -h 195  
 
  
 ## STEP-3
