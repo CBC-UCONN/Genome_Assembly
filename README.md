@@ -1097,7 +1097,7 @@ shasta/
 
 ```
 
-### 3.5 Assembly Evaluation
+## 3.5 Assembly Evaluation
 In this section we will be evaluating the initial assembly created from the above assemblers. 
 Working directory:
 ```
@@ -1161,7 +1161,7 @@ Working directory:
 
 *  flye assembly :  
 ```
-quast.py ../04_assembly/flye/assembly.fasta \
+quast.py ../04_assembly/flye/Assembly.fasta \
         --threads 8 \
         -o quast_flye
 

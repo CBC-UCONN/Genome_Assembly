@@ -22,5 +22,5 @@ module load busco/4.0.2
 
 export AUGUSTUS_CONFIG_PATH=../../augustus/config 
 
-busco -i ../../04_assembly/flye/assembly.fasta \
+busco -i ../../04_assembly/flye/Assembly.fasta \
         -o busco_flye -l /isg/shared/databases/BUSCO/odb10/viridiplantae_odb10 -m genome

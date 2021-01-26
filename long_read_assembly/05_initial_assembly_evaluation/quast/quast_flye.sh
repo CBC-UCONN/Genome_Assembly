@@ -20,6 +20,6 @@ date
 
 module load quast/5.0.2
 
-quast.py ../../04_assembly/flye/assembly.fasta \
+quast.py ../../04_assembly/flye/Assembly.fasta \
         --threads 8 \
         -o quast_flye
