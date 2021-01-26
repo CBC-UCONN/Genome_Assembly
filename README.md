@@ -1070,7 +1070,7 @@ long_read_assembly/
 Command for running shasta assembly:  
 ```
 shasta --input ../../03_centrifuge/physcomitrellopsis_africana_rmv_contam.fasta \
-        --Reads.minReadLength 500 \
+        --Reads.minReadLength 1000 \
         --memoryMode anonymous \
         --memoryBacking 4K \
         --threads 32
