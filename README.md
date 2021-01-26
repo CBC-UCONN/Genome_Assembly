@@ -1413,21 +1413,21 @@ purge_haplotigs purge -b shasta_aligned.bam -g ${ref} -c coverage_stats.csv -d -
 
 Complete slurm script called [purge_haplotigs.sh](long_read_assembly/08_purge/shasta/purge_haplotigs.sh) can be found in the `shasta` directory. It will result in a final curated fasta file called *curated.fasta*.  
 
-## 3.8 Final assembly evaluation   
+## 3.9 Final assembly evaluation   
 
 Working directory:
 ```
 long_read_assembly/
-├── 08_final_assembly_evaluation/
+├── 09_final_assembly_evaluation/
 ```
 
-### 3.8.1 BUSCO 
+### 3.9.1 BUSCO 
 *  ##### BUSCO evaluation for flye assembly
 ```
-busco -i ../../07_purge/flye/curated.fasta \
+busco -i ../../08_purge/flye/curated.fasta \
         -o flye_curated_busco -l /isg/shared/databases/BUSCO/odb10/viridiplantae_odb10 -m genome
 ```
-complete slurm script called [busco_flye.sh](long_read_assembly/08_final_assembly_evaluation/busco/busco_flye.sh) can be found in the `busco` directory.
+complete slurm script called [busco_flye.sh](long_read_assembly/09_final_assembly_evaluation/busco/busco_flye.sh) can be found in the `busco` directory.
 
 The summary of the out will contain in:
 ```
@@ -1450,10 +1450,10 @@ C:80.2%[S:72.0%,D:8.2%],F:10.6%,M:9.2%,n:425
 
 *  ##### BUSCO evaluation for shasta assembly  
 ```
-busco -i ../../07_purge/shasta/curated.fasta \
+busco -i ../../08_purge/shasta/curated.fasta \
         -o shasta_curated_busco -l /isg/shared/databases/BUSCO/odb10/viridiplantae_odb10 -m genome
 ```
-complete slurm script called [busco_shasta.sh](long_read_assembly/08_final_assembly_evaluation/busco/busco_shasta.sh) can be found in the `busco` directory.
+complete slurm script called [busco_shasta.sh](long_read_assembly/09_final_assembly_evaluation/busco/busco_shasta.sh) can be found in the `busco` directory.
 
 The summary of the out will contain in:
 ```
@@ -1471,17 +1471,17 @@ C:66.9%[S:62.4%,D:4.5%],F:12.5%,M:20.6%,n:425
 425     Total BUSCO groups searched
 ```
 
-### 3.8.2 QUAST  
+### 3.9.2 QUAST  
 QUAST will be used to evaluate genome assemblies
 
 *  ##### QUAST evaluation for flye assembly  
 
 ```
-quast.py ../../07_purge/flye/curated.fasta \
+quast.py ../../08_purge/flye/curated.fasta \
         --threads 8 \
         -o quast_flye
 ```
-Complete slurm script called [quast_flye.sh](long_read_assembly/08_final_assembly_evaluation/quast/quast_flye.sh) can be found in the quast directory.
+Complete slurm script called [quast_flye.sh](long_read_assembly/09_final_assembly_evaluation/quast/quast_flye.sh) can be found in the quast directory.
 
 Summary of the statistics can be found in:
 ```
@@ -1492,11 +1492,11 @@ quast_flye
 *  ##### QUAST evaluation for shasta assembly 
 
 ```
-quast.py ../../07_purge/shasta/curated.fasta \
+quast.py ../../08_purge/shasta/curated.fasta \
         --threads 8 \
         -o quast_shasta
 ```
-Complete slurm script called [quast_shasta.sh](long_read_assembly/08_final_assembly_evaluation/quast/quast_shasta.sh) can be found in the quast directory.
+Complete slurm script called [quast_shasta.sh](long_read_assembly/09_final_assembly_evaluation/quast/quast_shasta.sh) can be found in the quast directory.
 
 Summary of the statistics can be found in:
 ```
@@ -1530,7 +1530,7 @@ Statistics summary of flye and shasta assemblies:
  L75         |  1872|  2339|
 
 
-### 3.8.2 Minimap2  
+### 3.9.3 Minimap2  
 
 In here we will be aligning our reads to the assembed genome to see the alignment rate. Mapping of the reads will be done using the minimap2 and the generated SAM file then will be sorted into BAM format file. 
 ```
@@ -1541,16 +1541,16 @@ bamtools stats -in  ${aligned.bam}
 
 ```
 
-*  Complete slrum script for aligning the reads to the flye assembly is called [minimap2_flye.sh](long_read_assembly/08_final_assembly_evaluation/minimap2/minimap2_flye.sh) can be found in the minimap2 directory.  
+*  Complete slrum script for aligning the reads to the flye assembly is called [minimap2_flye.sh](long_read_assembly/09_final_assembly_evaluation/minimap2/minimap2_flye.sh) can be found in the minimap2 directory.  
 
-*  Complete slrum script for aligning the reads to the flye assembly is called [minimap2_shasta.sh](long_read_assembly/08_final_assembly_evaluation/minimap2/minimap2_shasta.sh) can be found in the minimap2 directory. 
+*  Complete slrum script for aligning the reads to the flye assembly is called [minimap2_shasta.sh](long_read_assembly/09_final_assembly_evaluation/minimap2/minimap2_shasta.sh) can be found in the minimap2 directory. 
 
 |             |  flye     |  shasta     |      
  ------------ |:---------: | :---------: |
- Total reads    | 25964212  | 32019753  |
- Mapped reads | 22520313 (86.736%)   |  27387340 (85.5326%) | 
- Forward strand | 14787262 (56.9525%)   |  18753862 (58.5697%) |  
- Reverse strand | 11176950 (43.0475%)  |  13265891 (41.4303%) |
+ Total reads    | 25964212  | 26949492  |
+ Mapped reads | 22520313 (86.736%)   |  18231482 (67.6506%) | 
+ Forward strand | 14787262 (56.9525%)   |  17814705 (66.104%) |  
+ Reverse strand | 11176950 (43.0475%)  |  9134787 (33.896%) |
 
 
 ## 4. Hybrid Genome Assembly

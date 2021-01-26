@@ -1,8 +1,8 @@
 #!/bin/bash
-#SBATCH --job-name=quast_flye
+#SBATCH --job-name=busco_shasta
 #SBATCH -n 1
 #SBATCH -N 1
-#SBATCH -c 8
+#SBATCH -c 1
 #SBATCH --mem=5G
 #SBATCH --partition=general
 #SBATCH --qos=general
@@ -15,12 +15,12 @@ hostname
 date
 
 ##########################################################
-##              QUAST                                   ##
+##              BUSCO                                   ##      
 ##########################################################
 
-module load quast/5.0.2
+module load busco/4.0.2
 
-quast.py ../../07_purge/flye/curated.fasta \
-        --threads 8 \
-        -o quast_flye
-        
+export AUGUSTUS_CONFIG_PATH=../../augustus/config
+
+busco -i ../../08_purge/shasta/curated.fasta \
+        -o shasta_curated_busco -l /isg/shared/databases/BUSCO/odb10/viridiplantae_odb10 -m genome

@@ -20,7 +20,7 @@ date
 module load minimap2/2.15
 module load samtools/1.9
 
-ref="../../07_purge/flye/curated.fasta"
+ref="../../08_purge/flye/curated.fasta"
 read_file="../../03_centrifuge/physcomitrellopsis_africana_rmv_contam.fasta"
 
 minimap2 -t 16 -ax map-ont ${ref} ${read_file} \
