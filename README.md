@@ -57,6 +57,13 @@ Before beginning, we need to understand a few aspects of the Xanadu server. When
 
  ![](images/short_read_assembly-1.png)   
 
+ In this study we are using short reads produced by Illumina MiSeq instrument. This data refers to a paired end reads with a read length of 250bp. The Nextera preperation method is sensitive and can produce lots of small fragments, shorter than 500bp. This resutls in R1 and R2 actually overlaping each other.    
+
+ ![](images/Nextera_library.jpg)  
+
+This has a estimated genome size is 3Mb and a inital coverage of 84**X**. As a problem you can try to calculate the coverage of this data set. Check out on how to calculate the coverage [here](coverage.md).  
+
+
 ### 2.1  Quality Control using sickle  
 **working directory**  
 ```
@@ -115,7 +122,10 @@ Once you run the batch script using *sbatch* command, you will end up with the f
 ├── trim_Sample_R1.fastq
 ├── trim_Sample_R2.fastq
 └── sinlges.fastq
-```    
+```     
+
+After trimming the coverage will be ~74**X**  
+
 
 #### Quality Check of Reads using FASTQC  
 In here we will use the FASTQC package to check the quality of the reads before and after trimming.   
@@ -132,7 +142,8 @@ mkdir -p TRIMfastqc_OUT
 fastqc -o ./TRIMfastqc_OUT ./trim_Sample_R1.fastq ./trim_Sample_R2.fastq
 ```  
 
-FASTQC produces a HTML file with stats about your reads. You can download these HTML files to your local computer to view them using the `transfer.cam.uchc.edu` submit node, which facilitate file transfer.  
+FASTQC produces a HTML file with stats about your reads. You can download these HTML files to your local computer to view them using the `transfer.cam.uchc.edu` submit node, which facilitate file transfer.   
+
 
 
 
@@ -236,13 +247,13 @@ SOAPdenovo-127mer all \
 
 SOAPdenovo assembly options:   
 ```
- Usage: SOAPdenovo <command> [option]
+ Usage: SOAPdenovo-127mer <command> [option]
 
 all             do pregraph-contig-map-scaff in turn
 
   -s <string>    configFile: the config file
   
-  -K <int>       kmer(min 13, max 63): kmer size
+  -K <int>       kmer(min 13, max 127): kmer size
   -p <int>       n_cpu: number of cpu for use
   -R (optional)  resolve repeats by reads
   -o <string>    outputGraph: prefix of output graph file name     
@@ -897,6 +908,8 @@ NanoPlot --summary ../02_basecall_pass/sequencing_summary.txt \
 This will create a summary files and figures which can be found in the output directory specified in the command along with a HTML report. 
 ![](images/HistogramReadlength.png)  
 ![](images/LengthvsQualityScatterPlot_dot.png)
+![](images/LengthvsQualityScatterPlot_kde.png) 
+
 
 
 ### 3.3.1 Contaminant screening of long reads
