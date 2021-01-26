@@ -1231,6 +1231,43 @@ shasta_assembly/
 └── medaka.sh
 ```
 
+## 3.7 Evlaluation after error correction   
+
+In this section we will evaluate the assembly after error correction. 
+
+Working directory:  
+```
+long_read_assembly/
+├── 07_evaluation_after_error_correction/
+```
+
+### 3.7.1 BUSCO
+BUSCO evaluation:  
+```
+07_evaluation_after_error_correction/
+├── busco/
+```
+
+*  flye:  
+```
+export AUGUSTUS_CONFIG_PATH=../../augustus/config
+
+busco -i ../../06_error_correction/flye_assembly/consensus.fasta \
+        -o busco_flye -l /isg/shared/databases/BUSCO/odb10/viridiplantae_odb10 -m genome
+```
+Complete slurm script called [busco_flye.sh](long_read_assembly/07_evaluation_after_error_correction/busco_flye.sh) can be found in the busco directory.  
+
+* shasta:  
+```
+export AUGUSTUS_CONFIG_PATH=../../augustus/config
+busco -i ../../06_error_correction/shasta_assembly/consensus.fasta \
+        -o busco_shasta -l /isg/shared/databases/BUSCO/odb10/viridiplantae_odb10 -m genome
+```  
+
+Complete slurm script called [busco_shasta.sh](long_read_assembly/07_evaluation_after_error_correction/busco_shasta.sh) cam be found in the busco directory.  
+
+
+
 ## 3.7 Identifying and removing duplicate regions  
 
 Current working directory:  
