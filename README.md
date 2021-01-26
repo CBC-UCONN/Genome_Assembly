@@ -1266,9 +1266,21 @@ busco -i ../../06_error_correction/shasta_assembly/consensus.fasta \
 
 Complete slurm script called [busco_shasta.sh](long_read_assembly/07_evaluation_after_error_correction/busco_shasta.sh) cam be found in the busco directory.  
 
+Summary of the statistics:
+```
+flye assembly stats after error correction:
+C:82.4%[S:74.4%,D:8.0%],F:9.4%,M:8.2%,n:425  
+
+shasta assembly stats after error correction:
+C:69.4%[S:65.9%,D:3.5%],F:10.8%,M:19.8%,n:425
+```
+
+![](images/07_after_error_correction_busco_figure.png)  
 
 
-## 3.7 Identifying and removing duplicate regions  
+
+
+## 3.8 Identifying and removing duplicate regions  
 
 Current working directory:  
 ```
