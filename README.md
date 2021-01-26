@@ -1587,15 +1587,20 @@ ILLUMINA_DATA/
 └── XUMNS_20180703_K00134_IL100105003_S37_L008_R2.fastq.gz
 ```
 
-### Assembly
+## Assembly
 
-#### Illumina Assembly using Masurca
+## A. Short Read Assembly  
+
+### A.1 Illumina Short Read Assembly using Masurca
 In here we will assemble the short read illumina reads using masurca.
 Working directory:
 ```
 hybrid_assembly/
-|---- masurca_Illumina_assembly/
-````
+├── Acer_negundo/
+│   └── Short_Read_Assembly/
+│       └── 01_masurca_assembly/
+``` 
+
 config file will look like:  
 ```
 DATA
@@ -1607,7 +1612,7 @@ PARAMETERS
 EXTEND_JUMP_READS=0
 GRAPH_KMER_SIZE = auto
 USE_LINKING_MATES = 0
-USE_GRID=1
+USE_GRID=0
 GRID_ENGINE=SLURM
 GRID_QUEUE=general
 GRID_BATCH_SIZE=100000000
@@ -1630,8 +1635,114 @@ masurca config.txt
 
 ./assemble.sh
 ```
+The slurm script called [masurca_assembly.sh](hybrid_assembly/Acer_negundo/Short_Read_Assembly/01_masurca_assembly/masurca_assembly.sh) can be found in *01_masurca_assembly* directory.  
 
 This will create the assembly using only the Illumina reads.  
+Final assembly file will be in the **CA** directory:
+```
+01_masurca_assembly/
+├── CA/
+│   ├── final.genome.scf.fasta
+```
+
+###  A.2 Assembly Evaluation   
+
+Working directory:  
+```
+Short_Read_Assembly/
+├── 02_evaluation/
+```
+
+#### Quast evaluation  
+
+Final assembly evaluation was done using QUAST:
+```
+quast.py ../01_masurca_assembly/CA/final.genome.scf.fasta \
+        --threads 16 \
+        -o masurca_assembly
+```
+
+The full slurm script called [quast.sh](hybrid_assembly/Acer_negundo/Short_Read_Assembly/02_evaluation/quast.sh), can be found in the *02_evaluation* directory.   
+
+Resulting statistics on the assembly will be written to the *report.txt* file.  
+```
+masurca_assembly/
+├── report.txt
+```
+
+|             |  masurca     |
+------------ |:---------: |  
+Total length (>= 25000 bp)  |  3918573  |  
+contigs  |  164505   |  
+Largest contig  |  48777  |  
+Total length  |  426273303  |  
+N50   |  4487  |  
+
+  
+
+## B. Long Read Assembly  
+Working directory:
+
+```
+hybrid_assembly/
+├── Acer_negundo/
+│   └── Long_Read_Assembly/
+```
+
+### B.1 Pacbio long read assembly using flye  
+In this section we will assemble the pacbio long reads using flye assembler.  
+Working directory:
+```
+Long_Read_Assembly/
+├── 01_flye_assembly/
+```
+
+Command used:  
+```
+flye --pacbio-raw ../Pacbio_DATA/acne_pb.fasta \
+        --genome-size 300m \
+        --threads 32 \
+        --out-dir . 
+```
+
+The full slurm script called [flye.sh](hybrid_assembly/Acer_negundo/Long_Read_Assembly/01_flye_assembly/flye.sh) cam be found in *01_flye_assembly* directory.  
+
+
+### B.2 Evaluation  
+Now we will evaluate the final assembly created by flye assembler.  
+
+Working directory:  
+```
+Lhort_Read_Assembly/
+├── 02_evaluation/
+```  
+
+#### Quast evaluation  
+Quast command used: 
+```
+quast.py ../01_flye_assembly/assembly.fasta \
+        --threads 16 \
+        -o quast 
+```
+
+The full slurm script called [quast.sh](hybrid_assembly/Acer_negundo/Long_Read_Assembly/02_evaluation/quast.sh) can be found in *02_evaluation* directory.  
+
+Resulting statistics on the assembly will be written to the *report.txt* file.  
+```
+masurca_assembly/
+├── report.txt
+```
+
+|             |  flye     |
+------------ |:---------: |  
+Total length (>= 50000 bp)  |  441362208  |  
+contigs  |  1684  |  
+Largest contig  |  8254085  |  
+Total length  |  4451717887  |  
+N50   |  1762694  |  
+
+
+
 
 
 #### Pacbio Assembly using Canu
