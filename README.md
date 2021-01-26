@@ -1463,14 +1463,17 @@ shasta_curated_busco/
 ```
 This will contain the short summary of the evaluation which contains:
 ```
-C:66.9%[S:62.4%,D:4.5%],F:12.5%,M:20.6%,n:425
-284     Complete BUSCOs (C)
-265     Complete and single-copy BUSCOs (S)
-19      Complete and duplicated BUSCOs (D)
-53      Fragmented BUSCOs (F)
-88      Missing BUSCOs (M)
+C:68.5%[S:65.2%,D:3.3%],F:11.5%,M:20.0%,n:425
+291     Complete BUSCOs (C)
+277     Complete and single-copy BUSCOs (S)
+14      Complete and duplicated BUSCOs (D)
+49      Fragmented BUSCOs (F)
+85      Missing BUSCOs (M)
 425     Total BUSCO groups searched
-```
+```  
+
+![](images/09_final_assembly_evaluation_busco_figure.png)
+
 
 ### 3.9.2 QUAST  
 QUAST will be used to evaluate genome assemblies
