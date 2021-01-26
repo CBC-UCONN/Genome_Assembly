@@ -850,7 +850,7 @@ Other than the options we used there are many other options you can use dependin
 ![](images/longread_pipeline.jpg)
 
 
-### 3.1 Introduction 
+## 3.1 Introduction 
 Long read sequencing in general has the potential to overcome the limitations that short read sequencing methods process. Long read sequencing has few main advantages over the short read technologies today.  Notably, these long sequences are produced from single DNA molecules, and the sequencing happens in real time and both sequencing and library preparation does not need the PCR amplification, which reduces the PCR based errors. This reduce the downstream errors occurring from copy errors, sequences dependent biases. Since this keeps the DNA in its native state, this gives the opportunity to detect DNA modifications such as methylation modifications. Two of the most prominent long read sequencing methods are developed by [Pacific Biosciences (PacBio)](https://www.pacb.com/) and [Oxford Nanopore Technologies (ONT)](https://nanoporetech.com/). Both single  molecule real-time (SMRT) sequencing by PacBio and nanopore sequencing by ONT, use single molecule sequencing techniques.   
 
 In this tutorial we will focus on long reads produced by the **nanopore sequencer** (**ONT**). The basic concept of the method was developed, on the basis of understanding the change of potential patterns, when ions passes though a channel with a potential gradient. The method was developed, to identify the signal when a single DNA molecule is passed through a very narrow channel. In a sequencing run, when a DNA molecule is passed through the channel, the signal generated reflect the modulation of the ionic current in the pore. The signals produced, are stored in ‘FAST5’ format, a specialization of the HDF5 format.   
@@ -888,7 +888,7 @@ This raw fasta file is located in the following directory:
 
 This will be the fasta file we will be using to demonstrate the assembling of long reads.   
 
-### 3.3 Quality Report
+## 3.3 Quality Report
 In here we use [nanoplot](https://github.com/wdecoster/NanoPlot) a tool developed to evaluate the statistics of long read data of Oxford Nanopore Technologies and Pacific Biosciences. 
 
 Working directory:
@@ -1007,7 +1007,7 @@ After Kraken filtering = 11X
 
 
 
-### 3.4 Assembly  
+## 3.4 Assembly  
 In this step we will be using two asseblers Flye and Shasta on the base called ONT data.   
 
 Working directory: 
@@ -1022,9 +1022,9 @@ Flye assembler takes data from Pacbio or Oxford Nanopore technologies sequencers
 Command for running flye assembly:
 ```
 flye --nano-raw ../../03_centrifuge/physcomitrellopsis_africana_rmv_contam.fasta \
-        --genome-size 1g \
+        --genome-size 500m \
         --threads 32 \
-        --out-dir /UCHC/PublicShare/CBC_Tutorials/Genome_Assembly/long_read_assembly/03_assembly/flye_t
+        --out-dir /UCHC/PublicShare/CBC_Tutorials/Genome_Assembly/long_read_assembly/04_assembly/flye
 ```
 
 Useage information:  
