@@ -1058,6 +1058,50 @@ flye/
 └── scaffolds.fasta
 ```
 
+### 3.4.1 Flye Assembly with Polish 
+In this section we will use flye assembly with 3 polishing iterations.  
+
+```
+flye --nano-raw ../../02_basecall_pass/5074_test_LSK109_30JAN19-reads-pass.fasta \
+        --genome-size 500m \
+        --threads 32 \
+        --iterations 3 \
+        --out-dir .
+```
+
+Flye usage:
+```
+usage: flye ( --nano-raw ) file1 [file_2 ...] [options]
+
+optional arguments:
+--nano-raw path [path ...]   ONT raw reads
+--genome-size size           estimated genome size (for example, 5m or 2.6g)
+--out-dir path               Output directory
+--iterations int             number of polishing iterations
+--threads int                number of parallel threads
+```
+
+The full slurm script is called [flye.sh](long_read_assembly/04_assembly/flye_polish/flye.sh). 
+
+The output will contain:
+```
+flye_polish/
+├── 00-assembly
+├── 10-consensus
+├── 20-repeat
+├── 21-trestle
+├── 30-contigger
+├── 40-polishing
+├── assembly.fasta
+├── assembly_graph.gfa
+├── assembly_graph.gv
+├── assembly_info.txt
+├── flye.log
+├── flye.sh
+├── params.json
+└── scaffolds.fasta --> [full-path]/assembly.fasta
+```
+
 
 ### 3.4.2 Shasta Assembly  
 [Shasta](https://github.com/chanzuckerberg/shasta) assembler is developed keeping in mind to produce a rapid and accurate assembly and polishing. More information on the shastar assembler can be found over [here](https://www.nature.com/articles/s41587-020-0503-6). Here we are using the Shasta assembler for the ONT reads.  
@@ -1127,7 +1171,15 @@ Complete slurm script called [busco_flye.sh](long_read_assembly/05_initial_assem
 busco -i ../04_assembly/shasta/ShastaRun/Assembly.fasta \
         -o busco_shasta -l /isg/shared/databases/BUSCO/odb10/viridiplantae_odb10 -m genome
 ```
-Complete slurm script called [busco_shasta.sh](long_read_assembly/05_initial_assembly_evaluation/busco/busco_shasta.sh) can be found in the busco directory.
+Complete slurm script called [busco_shasta.sh](long_read_assembly/05_initial_assembly_evaluation/busco/busco_shasta.sh) can be found in the busco directory.  
+
+*   flye with polish:  
+```
+busco -i ../../04_assembly/flye_polish/assembly.fasta \
+        -o busco_flye_polish -l /isg/shared/databases/BUSCO/odb10/viridiplantae_odb10 -m genome
+```
+Complete slurm script called [busco_flye_polish.sh](long_read_assembly/05_initial_assembly_evaluation/busco/busco_flye_polish.sh) can be found in the busco directory. 
+
 
 **NOTE:** When running busco you need to copy the augustus config directory to a location which you have the permision to write to and the path to the augustus config directory should be exported beforehand.  
 
@@ -1147,7 +1199,8 @@ The command options we will be using:
 					- prot or proteins, for annotated gene sets (protein)
 ```
 
-
+Summary of the inital assembly assesment using BUSCO: 
+![](images/long_read_inital_assembly_busco_figure.png)
 
 
 
@@ -1176,6 +1229,42 @@ quast.py ../../04_assembly/shasta/ShastaRun/Assembly.fasta \
         -o quast_shasta
 ```
 Complete slurm script called [quast_shasta.sh](long_read_assembly/05_initial_assembly_evaluation/quast/quast_shasta.sh) can be found in the quast directory.
+
+*  flye assembly with polish:
+```
+quast.py ../../04_assembly/flye_polish/assembly.fasta \
+        --threads 16 \
+        -o quast_flye_polish
+```
+Complete slurm script called [quast_flye_polish.sh](long_read_assembly/05_initial_assembly_evaluation/quast/quast_flye_polish.sh) can be found in the quast directory.
+
+
+Summary of the inital assembly assesment using quast:  
+
+|             |  Flye     |  Shasta     |  Flye with Polish     |  
+ ------------ |:---------: | :---------: | ---------: 
+ contigs (>= 0 bp)    | 9835  | 10134  | 9874  |
+ contigs (>= 1000 bp) | 9397  |  7942  | 9562  | 
+ contigs (>= 5000 bp) | 7671  |  6278 | 7991   | 
+ contigs (>= 10000 bp) | 6395 |  4826 | 6643  |
+ contigs (>= 25000 bp) | 4292 |  2463 | 4346  |
+ contigs (>= 50000 bp) | 2747  |  904 | 2706   |
+ Total length (>= 0 bp)| 539643975 |  220312440 | 507805683 |
+ Total length (>= 1000 bp)| 539340131 | 219821137 | 507598179 |
+ Total length (>= 5000 bp)| 534538564 | 214920226 | 503143942 |
+ Total length (>= 10000 bp)| 525247378 | 204318472 | 493296072 |
+ Total length (>= 25000 bp)| 491112867 |  165543884 | 456093461 |
+ Total length (>= 50000 bp)| 435500086 |  110696715 | 396803705 |
+ **no. of contigs**     |  9806  | 8261 | 9828 |
+ Largest contig     | 6909730 |  4103446 | 6326904 |
+ Total length       | 539633067 |  220054765 | 507788936 |
+ GC (%)      | 38.13  |  43.63 | 38.00 |
+ **N50**         | 152392  |  50297 | 128968 |
+ N75         | 646489  |  25268 | 56203  |
+ L50         |  823 |  891 | 910 |
+ L75         |  2207 |  2443 | 2406 |  
+
+
 
 
 ## 3.6 Error correction   
@@ -1681,13 +1770,40 @@ masurca_assembly/
 
 |             |  masurca     |
 ------------ |:---------: |  
-Total length (>= 25000 bp)  |  3918573  |  
-contigs  |  164505   |  
-Largest contig  |  48777  |  
-Total length  |  426273303  |  
-N50   |  4487  |  
+Total length (>= 50000 bp)  |  51091  |  
+contigs  |  162899   |  
+Largest contig  |  51091  |  
+Total length  |  426302651  |  
+N50   |  4563  |  
 
   
+#### BUSCO evaluation  
+BUSCO evaluation:  
+```
+busco -i  ../01_masurca_assembly/CA/final.genome.scf.fasta \
+        -o busco -l /isg/shared/databases/BUSCO/odb10/viridiplantae_odb10 -m genome
+```
+
+The full slurm script is called [busco.sh](hybrid_assembly/Acer_negundo/Short_Read_Assembly/02_evaluation/busco.sh). 
+
+
+The summary of the out will contain in:
+```
+busco/
+└── short_summary.specific.viridiplantae_odb10.busco.txt
+```
+This will contain the short summary of the evaluation which contains:
+```
+C:79.0%[S:77.4%,D:1.6%],F:18.4%,M:2.6%,n:425
+336     Complete BUSCOs (C)
+329     Complete and single-copy BUSCOs (S)
+7       Complete and duplicated BUSCOs (D)
+78      Fragmented BUSCOs (F)
+11      Missing BUSCOs (M)
+425     Total BUSCO groups searched
+```  
+
+
 
 ## B. Long Read Assembly  
 Working directory:
@@ -1764,6 +1880,31 @@ Largest contig  |  8254085  |
 Total length  |  4451717887  |  
 N50   |  1762694  |  
 
+#### BUSCO evaluation  
+BUSCO evaluation:  
+```
+busco -i  ../01_flye_assembly/assembly.fasta \
+        -o busco -l /isg/shared/databases/BUSCO/odb10/viridiplantae_odb10 -m genome
+```
+
+The full slurm script is called [busco.sh](hybrid_assembly/Acer_negundo/Long_Read_Assembly/02_evaluation/busco.sh). 
+
+
+The summary of the out will contain in:
+```
+busco/
+└── short_summary.specific.viridiplantae_odb10.busco.txt
+```
+This will contain the short summary of the evaluation which contains:
+```
+C:98.1%[S:95.5%,D:2.6%],F:1.2%,M:0.7%,n:425
+417     Complete BUSCOs (C)
+406     Complete and single-copy BUSCOs (S)
+11       Complete and duplicated BUSCOs (D)
+5      Fragmented BUSCOs (F)
+3       Missing BUSCOs (M)
+425     Total BUSCO groups searched
+```
 
 
 ## C. Hybrid assembly  
