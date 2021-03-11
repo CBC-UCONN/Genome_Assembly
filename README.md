@@ -1909,6 +1909,21 @@ C:98.1%[S:95.5%,D:2.6%],F:1.2%,M:0.7%,n:425
 
 ## C. Hybrid assembly  
 
+Working directory:
+
+```
+hybrid_assembly/
+├── Acer_negundo/
+│   └── Hybrid_Assembly/
+```
+
+### C.1  Assembly using Masurca  
+
+Working directory:
+```
+Hybrid_Assembly/
+├── 01_masurca_assembly/
+```
 
 We will be using Illumina reads and long read pacbio reads to construct a hybrid assembly using masurca. For masurca assembly we need a [configuration file](hybrid_assembly/masurca_assembly/config.txt) which directs to the short read and long reads. 
 
@@ -1940,6 +1955,75 @@ END
 ```
 
 The full slurm script called [masurca.sh](hybrid_assembly/masurca_assembly/masurca.sh) is located in the `masurca_assembly` directory.
+
+Final assembly file will be in the CA directory:
+```
+01_masurca_assembly/
+├── CA.mr.41.17.20.0.02/
+│   ├── final.genome.scf.fasta
+```
+
+### C.2 Evaluation   
+
+Working directory:
+```
+Hybrid_Assembly/
+├── 02_evaluation/
+```
+
+#### Quast evaluation  
+Quast command used: 
+```
+quast.py ../01_masurca_assembly/CA.mr.41.17.20.0.02/final.genome.scf.fasta \
+        --threads 16 \
+        -o masurca_assembly
+```
+  
+
+he full slurm script called [quast.sh](hybrid_assembly/Acer_negundo/Hybrid_Assembly/02_evaluation/quast.sh) can be found in *02_evaluation* directory.  
+
+Resulting statistics on the assembly will be written to the *report.txt* file.  
+```
+masurca_assembly/
+├── report.txt
+```  
+
+|             |  masurca     |
+------------ |:---------: |  
+Total length (>= 50000 bp)  |  485855121  |  
+contigs  |  1993  |  
+Largest contig  |  6444170  |  
+Total length  |  509195518  |  
+N50   |  143  |  
+
+
+#### BUSCO evaluation  
+BUSCO evaluation:  
+```
+busco -i  ../01_masurca_assembly/CA.mr.41.17.20.0.02/final.genome.scf.fasta \
+        -o busco -l /isg/shared/databases/BUSCO/odb10/viridiplantae_odb10 -m genome
+```
+
+The full slurm script is called [busco.sh](hybrid_assembly/Acer_negundo/Hybrid_Assembly/02_evaluation/busco.sh). 
+
+
+The summary of the out will contain in:
+```
+busco/
+└── short_summary.specific.viridiplantae_odb10.busco.txt
+```
+This will contain the short summary of the evaluation which contains:
+```
+C:98.6%[S:90.6%,D:8.0%],F:0.7%,M:0.7%,n:425
+419     Complete BUSCOs (C)
+385     Complete and single-copy BUSCOs (S)
+34       Complete and duplicated BUSCOs (D)
+3      Fragmented BUSCOs (F)
+3       Missing BUSCOs (M)
+425     Total BUSCO groups searched
+```
+
+
 
 ### References
 *   NanoPack: visualizing and processing long-read sequencing data, Bioinformatics, Volume 34, Issue 15, 01 August 2018, Pages 2666–2669. 
