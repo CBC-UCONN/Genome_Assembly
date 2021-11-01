@@ -19,20 +19,20 @@ echo "Start Time: `date`"
 ## quality control                                      ##
 ##########################################################
 
-module load sickle/1.33
+module load Trimmomatic/0.39
 
-sickle pe \
-        -f ../01_raw_reads/Sample_R1.fastq \
-        -r ../01_raw_reads/Sample_R2.fastq \
-        -t sanger \
-        -o trim_Sample_R1.fastq \
-        -p trim_Sample_R2.fastq \
-        -s sinlges.fastq \
-        -q 30 \
-        -l 45
+java -jar $Trimmomatic PE -threads 4 \
+        ../01_raw_reads/Sample_R1.fastq \
+        ../01_raw_reads/Sample_R2.fastq \
+        trim_Sample_R1.fastq trim_Sample_R1_singles.fastq \
+        trim_Sample_R2.fastq trim_Sample_R2_singles.fastq \
+        ILLUMINACLIP:NexteraPE-PE.fa:2:30:10 \
+        SLIDINGWINDOW:4:25 MINLEN:45
 
-module unload sickle/1.33
-echo "End Time: `date`"
+
+module unload Trimmomatic/0.39
+echo "End of trimming: `date`"
+
 
 ##########################################################
 ## FASTQC Raw Reads                                     ##
