@@ -175,7 +175,7 @@ max_rd_len=250
 #Library
 [LIB]
 #average insert size
-avg_ins=550
+avg_ins=470
 #if sequence needs to be reversed in our case its; forward-reverse
 reverse_seq=0
 #both contig and scaffold assembly parts of the reads are used
@@ -191,7 +191,6 @@ map_len=32
 #PATH to FASTQ reads 
 q1=../../02_quality_control/trim_Sample_R1.fastq
 q2=../../02_quality_control/trim_Sample_R2.fastq
-q=../../02_quality_control/sinlges.fastq
 ```
 
 The configuration file we created for this job is named as [config_file](short_read_assembly/03_assembly/SOAP/config_file) and can be found in the **SOAP/** folder.   
