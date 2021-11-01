@@ -65,67 +65,7 @@ Before beginning, we need to understand a few aspects of the Xanadu server. When
 This has a estimated genome size is 3Mb and a inital coverage of 84**X**. As a problem you can try to calculate the coverage of this data set. Check out on how to calculate the coverage [here](coverage.md).  
 
 
-### 2.1  Quality Control using sickle  
-**working directory**  
-```
-Genome_Assembly/
-├── short_read_assembly/
-       ├── 02_quality_control/
-``` 
-Sickle takes raw reads and outputs data with the 3’ and 5’ ends trimmed to assure that the quality of the read is high enough for assembly, it will also trim low quality reads.  
-
-```bash
-module load sickle/1.33
-
-module load sickle/1.33
-
-sickle pe \
-	-f ../01_raw_reads/Sample_R1.fastq \
-	-r ../01_raw_reads/Sample_R2.fastq \
-	-t sanger \
-	-o trim_Sample_R1.fastq \
-	-p trim_Sample_R2.fastq \
-	-s sinlges.fastq \
-	-q 30 \
-	-l 45 
-
-module unload sickle/1.33
-```  
-The useage information on the sickle program:  
-```
-Usage: sickle pe [options] -f <paired-end forward fastq file> 
-	-r <paired-end reverse fastq file> 
-	-t <quality type> 
-	-o <trimmed PE forward file> 
-	-p <trimmed PE reverse file> 
-	-s <trimmed singles file>    
-
-Options:
--f, --pe-file1, Input paired-end forward fastq file
--r, --pe-file2, Input paired-end reverse fastq file
--o, --output-pe1, Output trimmed forward fastq file
--p, --output-pe2, Output trimmed reverse fastq file
--s                Singles files
-
-Global options:
--t, --qual-type, Type of quality values
-                solexa (CASAVA < 1.3)
-                illumina (CASAVA 1.3 to 1.7)
-                sanger (which is CASAVA >= 1.8)
--s, --output-single, Output trimmed singles fastq file
--l, --length-threshold, Threshold to keep a read based on length after trimming. Default 20
--q, --qual-threshold, Threshold for trimming based on average quality in a window. Default 20
-```  
-The full slurm script is called [sr_quality_control.sh](short_read_assembly/02_quality_control/sr_quality_control.sh) which can be found in the *02_quality_control/* folder.
-Once you run the batch script using *sbatch* command, you will end up with the following files:   
-```
-02_quality_control/
-├── trim_Sample_R1.fastq
-├── trim_Sample_R2.fastq
-└── sinlges.fastq
-```     
-
-After trimming the coverage will be ~74**X**  
+### 2.1  Quality Control  
 
 
 #### Quality Check of Reads using FASTQC  
@@ -137,7 +77,43 @@ mkdir -p RAWfastqc_OUT
 fastqc -o ./RAWfastqc_OUT ../01_raw_reads/Sample_R1.fastq ../01_raw_reads/Sample_R2.fastq
 ```  
 
-Quality check of trimmed reads:  
+Quality check of the reads show a adapter contamination of the reads from Nextera sequences, which need to be removed.  
+
+#### Trimming of reads using Trimmomatic  
+
+**working directory**  
+```
+Genome_Assembly/
+├── short_read_assembly/
+       ├── 02_quality_control/
+```  
+
+Trimmomatic is used to remove low quality and adapter sequences. The program can be used on single end as well as paired end sequences. Since we have identified the raw reads have Nextera sequences present we have the option to give specific sequences for the program to trim using the `ILLUMINACLIP` command. More information on the specific options can be found in [Trimmomatic website](http://www.usadellab.org/cms/?page=trimmomatic). 
+
+```
+java -jar $Trimmomatic PE -threads 4 \
+        ../01_raw_reads/Sample_R1.fastq \
+        ../01_raw_reads/Sample_R2.fastq \
+        trim_Sample_R1.fastq trim_Sample_R1_singles.fastq \
+        trim_Sample_R2.fastq trim_Sample_R2_singles.fastq \
+        ILLUMINACLIP:NexteraPE-PE.fa:2:30:10 \
+        SLIDINGWINDOW:4:25 MINLEN:45
+```  
+
+The complete slurm scrip is called [sr_quality_control.sh](short_read_assembly/02_quality_control/sr_quality_control.sh). It will produce four fastq files, where two will contain trimmed reads of forward and reverse sequences and two files of single fastq sequences where only one sequence (forward or reverse) pass the filtering criteria.   
+
+```
+02_quality_control/
+├── trim_Sample_R1.fastq
+├── trim_Sample_R1_singles.fastq
+├── trim_Sample_R2.fastq
+└── trim_Sample_R2_singles.fastq
+```  
+
+fter trimming the coverage will be ~80**X** 
+
+
+#### Quality check of trimmed reads:  
 ```
 mkdir -p TRIMfastqc_OUT
 fastqc -o ./TRIMfastqc_OUT ./trim_Sample_R1.fastq ./trim_Sample_R2.fastq
