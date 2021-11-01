@@ -23,7 +23,6 @@ module load SPAdes/3.13.0
 spades.py \
 	-1 ../../02_quality_control/trim_Sample_R1.fastq \
 	-2 ../../02_quality_control/trim_Sample_R2.fastq \
-	-s ../../02_quality_control/sinlges.fastq \
 	--careful \
 	--threads 8 \
 	--memory 30 \
