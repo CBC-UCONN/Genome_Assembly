@@ -660,7 +660,7 @@ Following table summerizes the alignment results with bowtie2.
 
 |             |  SOAP-31     |  SOAP-71     |  SOAP-101     |  SPAdes   |   MaSuRCA      |    
  ------------ |:---------: | :---------: | ---------: | --------- | ---------- |   
-reads   |  504951  |   504951   |  504951  |  504951  |  504951  |  
+reads   |  1009902  |   1009902   |  1009902  |  1009902  |  1009902  |  
 paired   |  504951   |   504951   |  504951  |  504951  |  504951  |  
 aligned concordantly 0 times  |  76.96%   |   59.41%  |  45.56% |  42.00%  |  43.80%  |  
 aligned concordantly exactly 1 time   |  23.04%   |  40.51%  |   54.09%  |  57.32%  |  53.84%  |   
@@ -765,13 +765,13 @@ Once you have executed the above commands the BUSCO output will contain a printe
 The the above output will contain:  
 ```
 SOAP_31
-C:45.2%[S:45.2%,D:0.0%],F:39.5%,M:15.3%,n:124
+C:86.3%[S:86.3%,D:0.0%],F:8.9%,M:4.8%,n:124
 
 SOAP_71
-C:68.5%[S:68.5%,D:0.0%],F:26.6%,M:4.9%,n:124
+C:91.1%[S:91.1%,D:0.0%],F:8.1%,M:0.8%,n:124
 
 SOAP_101
-C:96.8%[S:96.8%,D:0.0%],F:3.2%,M:0.0%,n:124
+C:98.4%[S:98.4%,D:0.0%],F:1.6%,M:0.0%,n:124
 
 SPAdes
 C:100.0%[S:100.0%,D:0.0%],F:0.0%,M:0.0%,n:124
