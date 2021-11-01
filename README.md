@@ -110,7 +110,7 @@ The complete slurm scrip is called [sr_quality_control.sh](short_read_assembly/0
 └── trim_Sample_R2_singles.fastq
 ```  
 
-fter trimming the coverage will be ~80**X** 
+after trimming the coverage will be around ~80**X** 
 
 
 #### Quality check of trimmed reads:  
