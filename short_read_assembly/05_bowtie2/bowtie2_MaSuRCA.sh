@@ -4,8 +4,8 @@
 #SBATCH -N 1
 #SBATCH -c 8
 #SBATCH --mem=5G
-#SBATCH --partition=general
-#SBATCH --qos=general
+#SBATCH --partition=mcbstudent
+#SBATCH --qos=mcbstudent
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=firs.name@uconn.edu
 #SBATCH -o %x_%A.out
@@ -27,9 +27,9 @@ bowtie2-build \
 	../03_assembly/MaSuRCA/CA/final.genome.scf.fasta MaSuRCA_index/MaSuRCA_index
 
 bowtie2 -x MaSuRCA_index/MaSuRCA_index \
-        -1 ../01_raw_reads/Sample_R1.fastq -2 ../01_raw_reads/Sample_R2.fastq \
-        -S MaSuRCA.bowtie2.sam \
-        --threads 8 2>MaSuRCA.err
+	-1 ../02_quality_control/trim_Sample_R1.fastq -2 ../02_quality_control/trim_Sample_R2.fastq \
+	-S MaSuRCA.bowtie2.sam \
+	--threads 8 2>MaSuRCA.err
 
 
 module unload bowtie2/2.3.5.1
