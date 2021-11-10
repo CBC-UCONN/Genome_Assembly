@@ -660,12 +660,12 @@ Following table summerizes the alignment results with bowtie2.
 
 |             |  SOAP-31     |  SOAP-71     |  SOAP-101     |  SPAdes   |   MaSuRCA      |    
  ------------ |:---------: | :---------: | ---------: | --------- | ---------- |   
-reads   |  504951  |   504951   |  504951  |  504951  |  504951  |  
-paired   |  504951   |   504951   |  504951  |  504951  |  504951  |  
-aligned concordantly 0 times  |  54.54%   |   47.41%  |  44.08% |  42.04%  |  43.80%  |  
-aligned concordantly exactly 1 time   |  45.45%   |  52.44%  |   55.51%  |  57.28%  |  53.84%  |   
-aligned concordantly >1 times   |   0.01%   |   0.15% | 0.41% |  0.69%  |  2.36%  |  
-overall alignment rate   |  72.36%   |   80.61%  |  84.36% |  86.75%  |   83.89%  |  
+reads   |  305418  |   305418   |  305418  |  305418  |  305418  |  
+paired   |  305418   |   305418   |  305418  |  305418  |  305418  |  
+aligned concordantly 0 times  |  36.59%   |   26.66%  |  22.01% |  19.22%  |  21.67%  |  
+aligned concordantly exactly 1 time   |  63.41%   |  73.05%  |   77.33%  |  79.73%  |  75.02%  |   
+aligned concordantly >1 times   |   0.01%   |   0.30% | 0.66% |  1.04%  |  3.31%  |  
+overall alignment rate   |  84.96%   |   93.98%  |  98.10% |  99.83%  |   96.49%  |  
 
 
 Between de-novo assemblies it shows that, assembly done with SPAdes have a good overall alignment rate, and higher number of reads would match exactly 1 time to the reference genome.    
