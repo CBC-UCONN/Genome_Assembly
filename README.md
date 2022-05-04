@@ -1998,7 +1998,7 @@ C:98.6%[S:90.6%,D:8.0%],F:0.7%,M:0.7%,n:425
 425     Total BUSCO groups searched
 ```
 
-
+starting on version2
 
 ### References
 *   NanoPack: visualizing and processing long-read sequencing data, Bioinformatics, Volume 34, Issue 15, 01 August 2018, Pages 2666–2669. 
