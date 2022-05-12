@@ -10,17 +10,16 @@
 #SBATCH --mail-user=neranjan.perera@uconn.edu
 #SBATCH -o %x_%j.out
 #SBATCH -e %x_%j.err
-
-hostname
-date
-
+#SBATCH --exclude=xanadu-[01-50]
 
 module load singularity/3.1.1
 module load MaSuRCA/3.5.0
 module load perl/5.30.1
 
-masurca config.txt
+
+masurca config.txt 
 
 ./assemble.sh
+
 
 
