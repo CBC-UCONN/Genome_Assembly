@@ -25,4 +25,3 @@ flye --pacbio-raw ../Pacbio_DATA/acne_pb.fasta \
         --threads 32 \
         --out-dir . 
 
-
