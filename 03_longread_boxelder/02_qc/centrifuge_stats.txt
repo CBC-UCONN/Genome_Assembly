@@ -1,0 +1,6 @@
+Long Read Coverage (taking genome size 300Mb) 
+Before centrifuge coverage =  216X
+
+
+Post centrifuge coverage =  202X
+
