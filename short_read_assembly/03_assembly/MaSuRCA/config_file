@@ -1,7 +1,7 @@
 #MaSuRCA configuration file
 DATA
 #Illumina paired end reads supplied as <two-character prefix> <fragment mean> <fragment stdev> <forward_reads> <reverse_reads> 
-PE= pe 480 20  ../../01_raw_reads/Sample_R1.fastq ../../01_raw_reads/Sample_R2.fastq 
+PE= pe 480 20  ../../02_quality_control/trim_SRR8776799_1.fastq ../../02_quality_control/trim_SRR8776799_2.fastq
 END
 
 PARAMETERS
