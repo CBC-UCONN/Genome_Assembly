@@ -21,8 +21,8 @@ date
 module load SPAdes/3.13.0
 
 spades.py \
-	-1 ../../02_quality_control/trim_Sample_R1.fastq \
-	-2 ../../02_quality_control/trim_Sample_R2.fastq \
+	-1 ../../02_quality_control/trim_SRR8776799_1.fastq \
+	-2 ../../02_quality_control/trim_SRR8776799_2.fastq \
 	--careful \
 	--threads 8 \
 	--memory 30 \

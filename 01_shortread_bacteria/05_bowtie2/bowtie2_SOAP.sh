@@ -28,7 +28,7 @@ bowtie2-build \
 	../03_assembly/SOAP/graph_Sample_31.scafSeq SOAP_31_index/SOAP_31_index
 
 bowtie2 -x SOAP_31_index/SOAP_31_index \
-	-1 ../02_quality_control/trim_Sample_R1.fastq -2 ../02_quality_control/trim_Sample_R2.fastq \	
+	-1 ../02_quality_control/trim_SRR8776799_1.fastq -2 ../02_quality_control/trim_SRR8776799_2.fastq \	
 	-S SOAP_31.bowtie2.sam \
 	--threads 8 2>SOAP_31.err
 
@@ -38,7 +38,7 @@ bowtie2-build \
         ../03_assembly/SOAP/graph_Sample_71.scafSeq SOAP_71_index/SOAP_71_index
 
 bowtie2 -x SOAP_71_index/SOAP_71_index \
-        -1 ../02_quality_control/trim_Sample_R1.fastq -2 ../02_quality_control/trim_Sample_R2.fastq \
+        -1 ../02_quality_control/trim_SRR8776799_1.fastq -2 ../02_quality_control/trim_SRR8776799_2.fastq \
         -S SOAP_71.bowtie2.sam \
         --threads 8 2>SOAP_71.err
 
@@ -48,7 +48,7 @@ bowtie2-build \
 	../03_assembly/SOAP/graph_Sample_101.scafSeq SOAP_101_index/SOAP_101_index
 
 bowtie2 -x SOAP_101_index/SOAP_101_index \
-	-1 ../02_quality_control/trim_Sample_R1.fastq -2 ../02_quality_control/trim_Sample_R2.fastq \
+	-1 ../02_quality_control/trim_SRR8776799_1.fastq -2 ../02_quality_control/trim_SRR8776799_2.fastq \
         -S SOAP_101.bowtie2.sam \
 	--threads 8 2>SOAP_101.err
 

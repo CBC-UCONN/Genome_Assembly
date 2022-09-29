@@ -27,7 +27,7 @@ bowtie2-build \
 	../03_assembly/SPAdes/scaffolds.fasta SPAdes_index/SPAdes_index
 
 bowtie2 -x SPAdes_index/SPAdes_index \
-	-1 ../02_quality_control/trim_Sample_R1.fastq -2 ../02_quality_control/trim_Sample_R2.fastq \
+	-1 ../02_quality_control/trim_SRR8776799_1.fastq -2 ../02_quality_control/trim_SRR8776799_2.fastq \
 	-S SPAdes.bowtie2.sam \
 	--threads 8 2>SPAdes.err
 
