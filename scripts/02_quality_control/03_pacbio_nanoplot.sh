@@ -18,7 +18,7 @@ module load NanoPlot/1.33.0
 
 NanoPlot --fastq ../../data/pacbio/SRR15654800.fastq.gz \
         --loglength \
-        -o  ../../results/02_quality_control/pacbio \
+        -o  ../../results/02_quality_control/pacbio/NanoPlot \
         -t 10
 
 date

@@ -22,13 +22,13 @@ module load seqtk/1.2
 
 OUTDIR=../../results/02_quality_control/nanopore/centrifuge
 mkdir -p $OUTDIR
-RAW=../../../../data/nanopore/SRR9696346.fastq
+RAW=../../../../data/nanopore/SRR10190639_40.fastq
 
 
 cd $OUTDIR
 
-awk '$6 < 5000' classification.txt | cut -f 1 >names.txt
+awk '($6/($7+1)) < 0.2' classification.txt | cut -f 1 >names.txt
 
-seqtk subseq $RAW names.txt >nanopore_filtered.fastq
+seqtk subseq $RAW names.txt >SRR10190639_40.fastq
 
-chmod +x nanopore_filtered.fastq
+

@@ -26,6 +26,7 @@ centrifuge -q \
 	--report-file $OUTDIR/report.tsv \
 	--quiet \
 	--min-hitlen 50 \
+       	-k 1 \
 	-U ../../data/pacbio/SRR15654800.fastq.gz \
 	--un $OUTDIR \
         >${OUTDIR}/classification.txt

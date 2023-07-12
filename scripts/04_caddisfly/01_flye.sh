@@ -20,7 +20,7 @@ date
 
 module load flye/2.9.1
 
-OUTDIR=../../results/04_caddisfly
+OUTDIR=../../results/04_caddisfly/flye
 mkdir -p $OUTDIR
 
 flye --pacbio-hifi ../../results/02_quality_control/pacbio/centrifuge/pacbio_filtered.fastq \

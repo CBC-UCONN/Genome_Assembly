@@ -16,10 +16,11 @@ echo "Start Time: `date`"
 
 module load NanoPlot/1.33.0
 
-NanoPlot --fastq ../../data/nanopore/SRR9696346.fastq \
+INDIR=../../data/nanopore
+
+
+NanoPlot --fastq $INDIR/SRR10190639_40.fastq \
         --loglength \
-        -o  ../../results/02_quality_control/nanopore \
+        -o  ../../results/02_quality_control/nanopore/NanoPlot \
         -t 10
 
-date
-module list

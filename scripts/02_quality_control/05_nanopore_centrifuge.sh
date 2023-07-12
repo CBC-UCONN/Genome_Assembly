@@ -26,7 +26,8 @@ centrifuge -q \
 	--report-file $OUTDIR/report.tsv \
 	--quiet \
 	--min-hitlen 50 \
-	-U ../../data/nanopore/SRR9696346.fastq \
+        -k 1 \
+	-U ../../data/nanopore/SRR10190639_40.fastq \
 	--un $OUTDIR \
         >${OUTDIR}/classification.txt
 

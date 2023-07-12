@@ -30,4 +30,3 @@ awk '$6 < 5000' classification.txt | cut -f 1 >names.txt
 
 seqtk subseq $RAW names.txt >pacbio_filtered.fastq
 
-chmod +x pacbio_filtered.fastq

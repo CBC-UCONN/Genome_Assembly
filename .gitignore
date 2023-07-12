@@ -6,3 +6,5 @@
 *.gz
 **/data
 **/results
+**/busco_downloads/
+busco_downloads/

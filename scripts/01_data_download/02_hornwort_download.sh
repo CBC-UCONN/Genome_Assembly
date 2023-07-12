@@ -34,7 +34,7 @@ date
 
 
 # load software
-module load sratoolkit/3.0.2
+module load sratoolkit/3.0.5
 
 # output directory, create if it doesn't exist
 
@@ -43,7 +43,7 @@ mkdir -p ${OUTDIR}
 
 cd ${OUTDIR}
 
-fastq-dump --split-files --gzip SRR10250248
+fasterq-dump SRR10250248
 
 
 # nanopore outdir

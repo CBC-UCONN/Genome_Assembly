@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=testflye_pacbio
+#SBATCH --job-name=flye_nanopore
 #SBATCH -n 1
 #SBATCH -N 1
 #SBATCH -c 32
@@ -20,12 +20,11 @@ date
 
 module load flye/2.9.1
 
-OUTDIR=../../results/04_caddisfly/test
+OUTDIR=../../results/05_hornwort_ONT/flye
 mkdir -p $OUTDIR
 
-flye --pacbio-hifi ../../data/pacbio/SRR15654800.fastq.gz \
+flye --nano-raw ../../results/02_quality_control/nanopore/centrifuge/SRR10190639_40.fastq \
      --scaffold \
-     --genome-size 350m \
      --threads 32 \
      --out-dir $OUTDIR
 
