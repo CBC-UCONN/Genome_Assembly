@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=minimap
+#SBATCH --job-name=minimap_polca
 #SBATCH -N 1
 #SBATCH -n 1
 #SBATCH -c 15
@@ -22,10 +22,10 @@ module load samtools/1.16.1
 # input/output files, directories
 ONT=../../data/nanopore/SRR10190639_40.fastq
 
-OUTDIR=../../results/05_hornwort_ONT/alignment
+OUTDIR=../../results/05_hornwort_ONT/evaluation/polca/alignment/minimap
     mkdir -p ${OUTDIR}
 
-GENOME=../../results/05_hornwort_ONT/flye/assembly.fasta
+GENOME=../../results/05_hornwort_ONT/polca/assembly.fasta.PolcaCorrected.fa
 
 OUTROOT=SRR10190639_40
 

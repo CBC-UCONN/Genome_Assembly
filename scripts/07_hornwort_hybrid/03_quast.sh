@@ -21,7 +21,7 @@ date
 module load quast/5.2.0
 
 GENOME=../../results/07_hornwort_hybrid/masurca/CA.mr.99.17.15.0.02/primary.genome.scf.fasta
-OUTDIR=../../results/07_hornwort_hybrid/evaluation/quast
+OUTDIR=../../results/07_hornwort_hybrid/evaluation/masurca/quast
     mkdir -p ${OUTDIR}
 
 quast.py ${GENOME} \

@@ -20,7 +20,7 @@ date
 
 module load busco/5.4.5
 
-OUTDIR="../../results/04_caddisfly/evaluation/busco"
+OUTDIR="../../results/04_caddisfly/evaluation/flye/busco"
     mkdir -p ${OUTDIR}
 GENOME="../../results/04_caddisfly/flye/assembly.fasta"
 DATABASE="/isg/shared/databases/BUSCO/odb10/lineages/insecta_odb10"

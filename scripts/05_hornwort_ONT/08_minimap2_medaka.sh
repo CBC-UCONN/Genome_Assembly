@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=minimap_pb
+#SBATCH --job-name=minimap_medaka
 #SBATCH -N 1
 #SBATCH -n 1
 #SBATCH -c 15
@@ -20,18 +20,18 @@ module load minimap2/2.24
 module load samtools/1.16.1
 
 # input/output files, directories
-PACBIO=../../data/pacbio/SRR15654800.fastq.gz
+ONT=../../data/nanopore/SRR10190639_40.fastq
 
-OUTDIR=../../results/04_caddisfly/evaluation/flye/alignment
+OUTDIR=../../results/05_hornwort_ONT/evaluation/medaka/alignment/minimap
     mkdir -p ${OUTDIR}
 
-GENOME=../../results/04_caddisfly/flye/assembly.fasta
+GENOME=../../results/05_hornwort_ONT/medaka/consensus.fasta
 
-OUTROOT=SRR15654800
+OUTROOT=SRR10190639_40
 
 
 # run minimap
-minimap2 -c --MD -ax map-hifi -t 15 ${GENOME} ${PACBIO} | \
+minimap2 -c --MD -ax map-ont -t 15 ${GENOME} ${ONT} | \
 samtools sort -@ 5 -T ${OUTDIR}/${OUTROOT}.temp -O BAM \
 >${OUTDIR}/${OUTROOT}.bam
 

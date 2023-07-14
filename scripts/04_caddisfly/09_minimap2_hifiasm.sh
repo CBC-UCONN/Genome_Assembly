@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=minimap_pb
+#SBATCH --job-name=minimap_hifiasm
 #SBATCH -N 1
 #SBATCH -n 1
 #SBATCH -c 15
@@ -22,10 +22,10 @@ module load samtools/1.16.1
 # input/output files, directories
 PACBIO=../../data/pacbio/SRR15654800.fastq.gz
 
-OUTDIR=../../results/04_caddisfly/evaluation/flye/alignment
+OUTDIR=../../results/04_caddisfly/evaluation/hifiasm/alignment
     mkdir -p ${OUTDIR}
 
-GENOME=../../results/04_caddisfly/flye/assembly.fasta
+GENOME=../../results/04_caddisfly/hifiasm/hifiasm.fa
 
 OUTROOT=SRR15654800
 

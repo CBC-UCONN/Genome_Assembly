@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=busco
+#SBATCH --job-name=busco_medaka
 #SBATCH -n 1
 #SBATCH -N 1
 #SBATCH -c 8
@@ -20,9 +20,9 @@ date
 
 module load busco/5.4.5
 
-OUTDIR="../../results/07_hornwort_hybrid/evaluation/masurca/busco"
+OUTDIR="../../results/05_hornwort_ONT/evaluation/medaka/busco"
     mkdir -p ${OUTDIR}
-GENOME=../../results/07_hornwort_hybrid/masurca/CA.mr.99.17.15.0.02/primary.genome.scf.fasta
+GENOME="../../results/05_hornwort_ONT/medaka/consensus.fasta"
 DATABASE="/isg/shared/databases/BUSCO/odb10/lineages/viridiplantae_odb10"
 
 busco \
@@ -32,4 +32,3 @@ busco \
     -m genome \
     -c 8 \
     -f
-

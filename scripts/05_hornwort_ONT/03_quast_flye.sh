@@ -21,7 +21,7 @@ date
 module load quast/5.2.0
 
 GENOME=../../results/05_hornwort_ONT/flye/assembly.fasta
-OUTDIR=../../results/05_hornwort_ONT/evaluation/quast
+OUTDIR=../../results/05_hornwort_ONT/evaluation/flye_raw/quast
     mkdir -p ${OUTDIR}
 
 quast.py ${GENOME} \

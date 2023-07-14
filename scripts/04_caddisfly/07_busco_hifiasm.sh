@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=busco
+#SBATCH --job-name=busco_hifiasm
 #SBATCH -n 1
 #SBATCH -N 1
 #SBATCH -c 8
@@ -20,10 +20,10 @@ date
 
 module load busco/5.4.5
 
-OUTDIR="../../results/05_hornwort_ONT/evaluation/busco"
+OUTDIR="../../results/04_caddisfly/evaluation/hifiasm/busco"
     mkdir -p ${OUTDIR}
-GENOME="../../results/05_hornwort_ONT/flye/assembly.fasta"
-DATABASE="/isg/shared/databases/BUSCO/odb10/lineages/viridiplantae_odb10"
+GENOME="../../results/04_caddisfly/hifiasm/hifiasm.fa"
+DATABASE="/isg/shared/databases/BUSCO/odb10/lineages/insecta_odb10"
 
 busco \
     -i ${GENOME} \
