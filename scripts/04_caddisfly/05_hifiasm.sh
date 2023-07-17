@@ -3,7 +3,7 @@
 #SBATCH -N 1
 #SBATCH -n 1
 #SBATCH -c 30
-#SBATCH --mem=400G
+#SBATCH --mem=500G
 #SBATCH --partition=himem
 #SBATCH --qos=himem
 #SBATCH --mail-type=ALL
