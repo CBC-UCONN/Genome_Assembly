@@ -20,9 +20,11 @@ module load centrifuge/1.0.4-beta
 OUTDIR=../../results/02_Quality_Control/centrifuge
 mkdir -p $OUTDIR
 
+DATABASE=../../results/02_Quality_Control/Build_Centrifuge/abv
+
 centrifuge -q \
   -p 12 \
-  -x /isg/shared/databases/centrifuge/b+a+v+h/p_compressed+h+v \
+  -x ../../results/02_Quality_Control/Build_Centrifuge/abv \
   --report-file $OUTDIR/report.tsv \
   --quiet \
   --min-hitlen 50 \
