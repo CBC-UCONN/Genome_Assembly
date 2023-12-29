@@ -19,10 +19,9 @@ module load jellyfish/2.2.6
 
 # files/directories
 
-OUTDIR=../../../results/03_Genome_Size
+OUTDIR=../../results/03_Genome_Size
     mkdir -p ${OUTDIR}
-    cd ${OUTDIR}
 
-INDIR=../../data
+INDIR=../../results/02_Quality_Control/centrifuge
 
-jellyfish count -t 30 -C -m 21 -s 100G -o $OUTDIR/21mer_out <(zcat $INDIR/SRR15654800.fastq.gz)
+jellyfish count -t 30 -C -m 21 -s 100G -o $OUTDIR/21mer_out $INDIR/pacbio_filtered.fastq

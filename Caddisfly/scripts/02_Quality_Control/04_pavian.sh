@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=Japanese_walnut_pavian_report
+#SBATCH --job-name=pavian_report
 #SBATCH -N 1
 #SBATCH -n 1
 #SBATCH -c 1
@@ -16,11 +16,9 @@ hostname
 date
 
 module load centrifuge/1.0.4-beta
-
 index=/core/labs/Wegrzyn/IngaGenome/Contam/longReads/f+b+a+v
 outdir=../../results/02_Quality_Control/centrifuge
 
 cd $outdir
 
 centrifuge-kreport -x $index/abv report.tsv > pavian_report
-

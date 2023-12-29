@@ -20,7 +20,7 @@
 module load seqtk/1.2
 
 
-OUTDIR=../../results/02_Quality_Control/Centrifuge
+OUTDIR=../../results/02_Quality_Control/centrifuge
 mkdir -p $OUTDIR
 RAW=../../../data/SRR15654800.fastq.gz
 
