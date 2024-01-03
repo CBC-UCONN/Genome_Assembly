@@ -6,7 +6,7 @@
 #SBATCH --partition=general
 #SBATCH --qos=general      
 #SBATCH --mail-type=ALL    
-#SBATCH --mem=35G          
+#SBATCH --mem=65G          
 #SBATCH --mail-user=
 #SBATCH -o %x_%j.out                       
 #SBATCH -e %x_%j.err 
@@ -18,7 +18,7 @@ hostname
 date
 
 INDIR=../../results/02_Quality_Control/centrifuge
-OUTDIR=../../results/03_Assembly/Canu_Assembly
+OUTDIR=../../results/03_Assembly/Canu
 mkdir -p $OUTDIR
 
 canu -p canu -d $OUTDIR \

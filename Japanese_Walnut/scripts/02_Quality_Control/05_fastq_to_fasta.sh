@@ -6,13 +6,18 @@
 #SBATCH --partition=general        
 #SBATCH --qos=general                
 #SBATCH --mail-type=END             
-#SBATCH --mem=10G                   
+#SBATCH --mem=50G                   
 #SBATCH --mail-user=stefan.wnuk@uconn.edu                
 #SBATCH -o %x_%j.out              
 #SBATCH -e %x_%j.err
 
-module load seqkit/2.2.0
+hostname
+date
+
+module load seqtk/1.3
 
 outdir=../../results/02_Quality_Control/centrifuge
+
+cd $outdir
 
 seqtk seq -a Juglans_ailantifolia_filtered.fastq > filtered_Juglans_ailanthifolia.fasta
