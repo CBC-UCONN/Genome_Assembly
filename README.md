@@ -19,7 +19,7 @@ Follow the scripts in 01_data_download to obtain the publically available data. 
 
 ## 2. Quality Control
 
-Follow the scripts in the 02_quality_control directory to characterize the reads with NanoPlot and FastQC. In here we also trim the illumina data and filter all the reads for contamination.
+Follow the scripts in the 02_quality_control directory to characterize the reads with NanoPlot and FastQC. Here we also trim the illumina data and filter all the reads for contamination.
 
 
 ## 3. Genome Size Estimation
