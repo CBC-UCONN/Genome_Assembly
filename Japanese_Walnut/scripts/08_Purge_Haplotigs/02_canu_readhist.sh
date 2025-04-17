@@ -26,6 +26,6 @@ module load purge_haplotigs/1.1.2
 module load R/4.2.2
 
 ## STEP-1: you just created a histogram; look at it and find high, med, and low cutoffs for next step :)
-purge_haplotigs readhist -b canu_aligned.bam -g ${ref} -t 16 -d 300
+purge_haplotigs hist -b canu_aligned.bam -g ${ref} -t 16
 
 

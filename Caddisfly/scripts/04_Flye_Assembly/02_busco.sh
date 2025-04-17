@@ -32,3 +32,6 @@ busco \
     -m genome \
     -c 8 \
     -f
+
+# -l, --lineage 
+# -f rewrite existing

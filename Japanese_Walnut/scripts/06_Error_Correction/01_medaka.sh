@@ -16,5 +16,8 @@ module load medaka/1.7.1
 OUTDIR=../../results/06_Error_Correction
 mkdir -p $OUTDIR
 
-medaka_consensus -t 32 -i ../../results/02_Quality_Control/centrifuge/filtered_Juglans_ailantifolia.fasta -d ../../results/04_Assembly/Flye/assembly.fasta -o $OUTDIR/medaka
+medaka_consensus -t 32 \
+  -i ../../results/02_Quality_Control/centrifuge/filtered_Juglans_ailantifolia.fasta \
+  -d ../../results/04_Assembly/Flye/assembly.fasta \
+  -o $OUTDIR/medaka
 

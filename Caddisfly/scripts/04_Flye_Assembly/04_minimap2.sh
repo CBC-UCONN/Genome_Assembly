@@ -31,10 +31,15 @@ OUTROOT=SRR15654800
 
 
 # run minimap
-minimap2 -c --MD -ax map-hifi -t 15 ${GENOME} ${PACBIO} | \
+minimap2 -c --MD -a -x map-hifi -t 15 ${GENOME} ${PACBIO} | \
 samtools sort -@ 5 -T ${OUTDIR}/${OUTROOT}.temp -O BAM \
 >${OUTDIR}/${OUTROOT}.bam
 
 samtools index ${OUTDIR}/${OUTROOT}.bam
 
 samtools stats ${OUTDIR}/${OUTROOT}.bam >${OUTDIR}/${OUTROOT}.stats
+
+# -c output CIGAR in PAF
+# --MD  output the MD tag
+# -a output in sam format
+# -x type of reads

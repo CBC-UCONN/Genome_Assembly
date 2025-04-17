@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=caddisfly_download
+#SBATCH --job-name=walnut_download
 #SBATCH -N 1
 #SBATCH -n 1
 #SBATCH -c 6
@@ -13,3 +13,5 @@
 
 hostname
 date
+
+# Data not yet publicly available

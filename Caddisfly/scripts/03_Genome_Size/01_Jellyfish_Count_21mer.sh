@@ -25,3 +25,6 @@ OUTDIR=../../results/03_Genome_Size
 INDIR=../../results/02_Quality_Control/centrifuge
 
 jellyfish count -t 30 -C -m 21 -s 100G -o $OUTDIR/21mer_out $INDIR/pacbio_filtered.fastq
+
+# -C, --canonical, count both strands
+# -m, --mer-size, size of the k-mer

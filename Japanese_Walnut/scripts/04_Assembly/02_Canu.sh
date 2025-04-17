@@ -22,7 +22,7 @@ OUTDIR=../../results/03_Assembly/Canu
 mkdir -p $OUTDIR
 
 canu -p canu -d $OUTDIR \
-        genomeSize=600m \
+        -genomeSize=600m \
         -minReadLength=10000 \
         -gridOptions="--partition=general --qos=general" canuIteration=1 \
         -nanopore $INDIR/filtered_Juglans_ailanthifolia.fasta  
